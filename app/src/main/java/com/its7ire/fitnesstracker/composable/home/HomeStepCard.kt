@@ -14,57 +14,66 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DirectionsWalk
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.screen.AccentLime
-import com.its7ire.fitnesstracker.screen.CardDark
-import com.its7ire.fitnesstracker.screen.TextGray
-import com.its7ire.fitnesstracker.screen.TrackGray
 
 @Composable
-fun HomeStepCard(steps: Int, goal: Int) {
-    val progress = (steps.toFloat() / goal.toFloat()).coerceIn(0f, 1f)
+fun HomeStepCard(
+    steps: Int,
+    goal: Int,
+    modifier: Modifier = Modifier
+) {
+    val progress = if (goal > 0) {
+        (steps.toFloat() / goal.toFloat()).coerceIn(0f, 1f)
+    } else {
+        0f
+    }
+
+    val cardStartColor = MaterialTheme.colorScheme.surfaceContainerHigh
+    val cardEndColor = MaterialTheme.colorScheme.surfaceContainer
+    val primaryColor = MaterialTheme.colorScheme.primary
+    val trackColor = MaterialTheme.colorScheme.surfaceContainerHighest
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .aspectRatio(1.05f)
             .clip(RoundedCornerShape(24.dp))
             .background(
                 Brush.verticalGradient(
-                    listOf(CardDark, Color(0xFF14150F))
+                    listOf(cardStartColor, cardEndColor)
                 )
             ),
         contentAlignment = Alignment.Center
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxSize(0.62f),
+            modifier = Modifier.fillMaxSize(0.62f),
             contentAlignment = Alignment.Center
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val strokeWidth = 22.dp.toPx()
                 val diameter = size.minDimension - strokeWidth
-                val topLeft = androidx.compose.ui.geometry.Offset(
+                val topLeft = Offset(
                     (size.width - diameter) / 2f,
                     (size.height - diameter) / 2f
                 )
                 val arcSize = Size(diameter, diameter)
 
-
+                // Progress Arc Track
                 drawArc(
-                    color = TrackGray,
+                    color = trackColor,
                     startAngle = -90f,
                     sweepAngle = 360f,
                     useCenter = false,
@@ -73,8 +82,9 @@ fun HomeStepCard(steps: Int, goal: Int) {
                     style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                 )
 
+                // Active Progress Arc
                 drawArc(
-                    color = AccentLime,
+                    color = primaryColor,
                     startAngle = -90f,
                     sweepAngle = 360f * progress,
                     useCenter = false,
@@ -87,20 +97,20 @@ fun HomeStepCard(steps: Int, goal: Int) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
                     imageVector = Icons.Filled.DirectionsWalk,
-                    contentDescription = "Steps",
-                    tint = AccentLime,
+                    contentDescription = "Steps walk icon",
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(22.dp)
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = "%,d".format(steps),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "/ %,d steps".format(goal),
-                    color = TextGray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 13.sp
                 )
             }

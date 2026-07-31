@@ -11,41 +11,44 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.screen.LogoutColor
 
 @Composable
 fun LogoutButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
+    val buttonShape = RoundedCornerShape(10.dp)
+    val logoutColor = MaterialTheme.colorScheme.error
+
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(52.dp)
             .border(
                 width = 1.dp,
-                color = Color(0xFF3C3F3C),
-                shape = RoundedCornerShape(10.dp)
+                color = MaterialTheme.colorScheme.outline,
+                shape = buttonShape
             )
-            .clickable{
-                onClick()
-            },
+            .clip(buttonShape)
+            .clickable(onClick = onClick),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = Icons.Default.Logout,
-            contentDescription = null,
-            tint = LogoutColor,
+            imageVector = Icons.AutoMirrored.Filled.Logout,
+            contentDescription = "Logout icon",
+            tint = logoutColor,
             modifier = Modifier.size(20.dp)
         )
 
@@ -53,7 +56,7 @@ fun LogoutButton(
 
         Text(
             text = "Logout",
-            color = LogoutColor,
+            color = logoutColor,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold
         )

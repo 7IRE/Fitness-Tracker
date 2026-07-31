@@ -110,15 +110,15 @@ val surfaceContainerLightHighContrast = Color(0xFFDDE3E6)
 val surfaceContainerHighLightHighContrast = Color(0xFFCFD5D8)
 val surfaceContainerHighestLightHighContrast = Color(0xFFC1C7CA)
 
-val primaryDark = Color(0xFFC0F0FF)
+val primaryDark = Color(0xFFC6F135)
 val onPrimaryDark = Color(0xFF003641)
 val primaryContainerDark = Color(0xFF49DDFF)
 val onPrimaryContainerDark = Color(0xFF005F70)
-val secondaryDark = Color(0xFF9FCEDC)
+val secondaryDark = Color(0xFFC9946B)
 val onSecondaryDark = Color(0xFF003641)
 val secondaryContainerDark = Color(0xFF1B4D59)
 val onSecondaryContainerDark = Color(0xFF8EBCCB)
-val tertiaryDark = Color(0xFFF4E2FF)
+val tertiaryDark = Color(0xFFFF6B4A)
 val onTertiaryDark = Color(0xFF3E2458)
 val tertiaryContainerDark = Color(0xFFE1BFFF)
 val onTertiaryContainerDark = Color(0xFF664A81)
@@ -218,6 +218,14 @@ val surfaceContainerDarkHighContrast = Color(0xFF2B3134)
 val surfaceContainerHighDarkHighContrast = Color(0xFF363C3F)
 val surfaceContainerHighestDarkHighContrast = Color(0xFF41484A)
 
+
+
+private val BgBlack = Color(0xFF0A0A0A)
+val CardDarker = Color(0xFF151513)
+val Lime = Color(0xFFC6F135)
+val TextWhite = Color(0xFFF5F5F0)
+val OrangeMuted = Color(0xFFC9946B)
+val BarInactive = Color(0xFF2A2A26)
 
 
 

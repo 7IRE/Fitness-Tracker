@@ -1,7 +1,9 @@
 package com.its7ire.fitnesstracker.composable.profile
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
@@ -12,27 +14,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProfileStatSection() {
+fun ProfileStatSection(
+    modifier: Modifier = Modifier,
+    streakDays: String = "14",
+    totalVolumeK: String = "12"
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(108.dp),
+            .height(IntrinsicSize.Min),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         ProfileStatCard(
             title = "STREAK",
-            value = "14",
+            value = streakDays,
             suffix = "days",
             icon = Icons.Default.LocalFireDepartment,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
         )
 
         ProfileStatCard(
             title = "TOTAL VOL.",
-            value = "12",
+            value = totalVolumeK,
             suffix = "k",
             icon = Icons.Default.WorkOutline,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
         )
     }
 }

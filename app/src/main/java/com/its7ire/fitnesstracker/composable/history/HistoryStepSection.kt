@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,20 +22,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.screen.CardDark
-import com.its7ire.fitnesstracker.screen.Lime
-import com.its7ire.fitnesstracker.screen.OrangeMuted
-import com.its7ire.fitnesstracker.screen.TextWhite
 
 @Composable
-fun HistoryStepSection(steps: String, changePercent: String) {
+fun HistoryStepSection(
+    steps: String,
+    changePercent: String,
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "THIS WEEK",
-            color = OrangeMuted,
+            color = MaterialTheme.colorScheme.secondary,
             fontSize = 12.sp,
             letterSpacing = 1.sp,
             fontWeight = FontWeight.Medium
@@ -43,14 +44,14 @@ fun HistoryStepSection(steps: String, changePercent: String) {
         Row(verticalAlignment = Alignment.Bottom) {
             Text(
                 text = steps,
-                color = TextWhite,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(Modifier.width(6.dp))
             Text(
                 text = "steps",
-                color = Lime,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(bottom = 6.dp)
@@ -60,20 +61,20 @@ fun HistoryStepSection(steps: String, changePercent: String) {
         Row(
             modifier = Modifier
                 .clip(RoundedCornerShape(20.dp))
-                .background(CardDark)
+                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
                 .padding(horizontal = 14.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = Icons.Filled.TrendingUp,
-                contentDescription = null,
-                tint = Lime,
+                contentDescription = "Trending up icon",
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(14.dp)
             )
             Spacer(Modifier.width(4.dp))
             Text(
                 text = "$changePercent vs last week",
-                color = Lime,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium
             )

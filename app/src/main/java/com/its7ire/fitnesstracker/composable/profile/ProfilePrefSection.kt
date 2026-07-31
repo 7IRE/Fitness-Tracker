@@ -2,7 +2,6 @@ package com.its7ire.fitnesstracker.composable.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,33 +12,35 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.screen.BorderColor
-import com.its7ire.fitnesstracker.screen.CardColor
-import com.its7ire.fitnesstracker.screen.SecondaryText
 
 @Composable
 fun ProfilePrefSec(
     onAppearanceClick: () -> Unit,
     onNotificationsClick: () -> Unit,
-    onPrivacyClick: () -> Unit
+    onPrivacyClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
+    val cardShape = RoundedCornerShape(12.dp)
+    val borderColor = MaterialTheme.colorScheme.outlineVariant
+
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = CardColor,
-                shape = RoundedCornerShape(12.dp)
-            )
+            .clip(cardShape)
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
             .border(
                 width = 1.dp,
-                color = BorderColor,
-                shape = RoundedCornerShape(12.dp)
+                color = borderColor,
+                shape = cardShape
             )
             .padding(
                 horizontal = 16.dp,
@@ -48,9 +49,10 @@ fun ProfilePrefSec(
     ) {
         Text(
             text = "PREFERENCES",
-            color = SecondaryText,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 12.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 0.5.sp
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -61,12 +63,10 @@ fun ProfilePrefSec(
             onClick = onAppearanceClick
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 50.dp)
-                .height(1.dp)
-                .background(BorderColor)
+        HorizontalDivider(
+            modifier = Modifier.padding(start = 50.dp),
+            thickness = 1.dp,
+            color = borderColor
         )
 
         ProfilePrefItem(
@@ -75,12 +75,10 @@ fun ProfilePrefSec(
             onClick = onNotificationsClick
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 50.dp)
-                .height(1.dp)
-                .background(BorderColor)
+        HorizontalDivider(
+            modifier = Modifier.padding(start = 50.dp),
+            thickness = 1.dp,
+            color = borderColor
         )
 
         ProfilePrefItem(

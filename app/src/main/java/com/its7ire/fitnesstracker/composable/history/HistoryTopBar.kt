@@ -1,6 +1,7 @@
 package com.its7ire.fitnesstracker.composable.history
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,16 +21,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.screen.CardDark
-import com.its7ire.fitnesstracker.screen.Lime
-import com.its7ire.fitnesstracker.screen.TextGray
-import com.its7ire.fitnesstracker.screen.TextWhite
-
 
 @Composable
-fun HistoryTopBar() {
+fun HistoryTopBar(
+    modifier: Modifier = Modifier,
+    onProfileClick: () -> Unit = {},
+    onSettingsClick: () -> Unit = {}
+) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -36,27 +37,34 @@ fun HistoryTopBar() {
             modifier = Modifier
                 .size(36.dp)
                 .clip(CircleShape)
-                .background(CardDark),
+                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                .clickable(onClick = onProfileClick),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Filled.Person,
                 contentDescription = "Profile",
-                tint = TextGray,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(20.dp)
             )
         }
         Text(
             text = "Performance",
-            color = Lime,
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
-        Icon(
-            imageVector = Icons.Filled.Settings,
-            contentDescription = "Settings",
-            tint = TextWhite,
-            modifier = Modifier.size(24.dp)
-        )
+        Box(
+            modifier = Modifier
+                .clip(CircleShape)
+                .clickable(onClick = onSettingsClick)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Settings,
+                contentDescription = "Settings",
+                tint = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.size(24.dp)
+            )
+        }
     }
 }

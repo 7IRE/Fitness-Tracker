@@ -5,16 +5,11 @@ plugins {
 
 android {
     namespace = "com.its7ire.fitnesstracker"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.its7ire.fitnesstracker"
         minSdk = 26
-        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

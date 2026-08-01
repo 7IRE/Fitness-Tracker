@@ -8,13 +8,13 @@ A modern, sleek, and intuitive Android Fitness Tracker application built nativel
 
 ## 🚧 Development Status
 
-| Module | Status | Description |
-| :--- | :---: | :--- |
-| **UI Design & Layouts** | 🟡 **In Progress** | Single page UI screens completed for Home, History, and Profile. Refactoring to Material 3 design tokens underway. |
-| **Navigation** | 🔴 **Planned** | Bottom Navigation Bar & Jetpack NavGraph implementation. |
-| **MVVM Architecture** | 🔴 **Planned** | ViewModels, StateFlow, and UI state management (Unidirectional Data Flow). |
-| **Room Database** | 🔴 **Planned** | Local offline persistence for step logs, workouts, and user streak data. |
-| **Gemini AI Integration** | 🔴 **Planned** | AI-driven fitness insights, diet suggestions, and custom workout plans. |
+| Module |      Status       | Description |
+| :--- |:-----------------:| :--- |
+| **UI Design & Layouts** | 🟢  **Completed** | Single page UI screens completed for Home, History, and Profile. Refactoring to Material 3 design tokens underway. |
+| **Navigation** |   🟢  **Completed**   | Bottom Navigation Bar & Jetpack NavGraph implementation. |
+| **MVVM Architecture** |  🔴 **Planned**   | ViewModels, StateFlow, and UI state management (Unidirectional Data Flow). |
+| **Room Database** |  🔴 **Planned**   | Local offline persistence for step logs, workouts, and user streak data. |
+| **Gemini AI Integration** |  🔴 **Planned**   | AI-driven fitness insights, diet suggestions, and custom workout plans. |
 
 ---
 

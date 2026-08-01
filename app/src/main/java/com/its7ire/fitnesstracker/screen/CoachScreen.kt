@@ -1,5 +1,6 @@
 package com.its7ire.fitnesstracker.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,9 +26,8 @@ import com.its7ire.fitnesstracker.composable.coach.GreetingCard
 import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
 import com.its7ire.fitnesstracker.composable.coach.TypingIndicator
 import com.its7ire.fitnesstracker.composable.coach.UserMessageBubble
+import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
-
-@Preview
 @Composable
 fun CoachScreen() {
 
@@ -52,130 +52,78 @@ fun CoachScreen() {
 
 
     Scaffold(
-
         containerColor = MaterialTheme.colorScheme.background,
-
         bottomBar = {
-
             ChatInputBar(
-
                 value = input,
-
                 onValueChange = {
-
                     input = it
-
                 },
-
                 onSend = {
-
                     if (input.isNotBlank()) {
-
                         messages.add(
-
                             CoachChatMessageData(
-
                                 message = input,
-
                                 isUser = true,
-
                                 time = "Now"
-
                             )
-
                         )
-
                         input = ""
-
                     }
-
                 }
-
             )
-
         }
-
     ) { padding ->
-
         Column(
-
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .padding(horizontal = 20.dp)
 
         ) {
-
             Spacer(modifier = Modifier.height(16.dp))
-
             CoachTopBar()
-
             Spacer(modifier = Modifier.height(20.dp))
-
             GreetingCard()
-
             Spacer(modifier = Modifier.height(20.dp))
-
             if (messages.size == 1) {
-
                 EmptyState()
-
             } else {
-
                 LazyColumn(
-
                     modifier = Modifier.weight(1f),
-
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-
                     contentPadding = PaddingValues(bottom = 16.dp)
-
                 ) {
-
                     items(messages) { message ->
-
                         if (message.isUser) {
-
                             UserMessageBubble(message)
-
                         } else {
-
                             CoachMessageBubble(message)
-
                         }
-
                     }
-
                     if (isTyping) {
-
                         item {
-
                             TypingIndicator()
-
                         }
-
                     }
-
                 }
-
             }
-
             Spacer(modifier = Modifier.height(12.dp))
-
             SuggestionChips(
-
                 onChipClick = {
-
                     input = it
-
                 }
-
             )
-
             Spacer(modifier = Modifier.height(16.dp))
-
         }
-
     }
+}
 
+@Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+private fun PerformanceScreenPreview() {
+    AppTheme(dynamicColor = false) {
+        CoachScreen()
+    }
 }

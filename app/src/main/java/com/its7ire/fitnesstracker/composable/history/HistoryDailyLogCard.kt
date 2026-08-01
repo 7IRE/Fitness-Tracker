@@ -14,77 +14,94 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DirectionsWalk
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.screen.CardDarker
 import com.its7ire.fitnesstracker.screen.DailyLogEntry
-import com.its7ire.fitnesstracker.screen.Lime
-import com.its7ire.fitnesstracker.screen.TextGray
-import com.its7ire.fitnesstracker.screen.TextWhite
 
 @Composable
-fun HistoryDailyLogCard(entry: DailyLogEntry) {
+fun HistoryDailyLogCard(
+    entry: DailyLogEntry,
+    modifier: Modifier = Modifier
+) {
+    val cardBackground = MaterialTheme.colorScheme.surfaceContainerLow
+    val activeColor = MaterialTheme.colorScheme.primary
+    val trackColor = MaterialTheme.colorScheme.surfaceContainerHighest
+
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(18.dp))
-            .background(CardDarker)
+            .background(cardBackground)
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Step Icon with Progress Ring Indicator
         Box(
             modifier = Modifier
                 .size(44.dp)
                 .clip(CircleShape)
                 .background(
                     Brush.sweepGradient(
-                        listOf(Lime, Lime, Color(0xFF2A2A26), Color(0xFF2A2A26))
+                        if (entry.goalReached) {
+                            listOf(activeColor, activeColor)
+                        } else {
+                            listOf(activeColor, trackColor, trackColor)
+                        }
                     )
                 )
                 .padding(3.dp)
                 .clip(CircleShape)
-                .background(CardDarker),
+                .background(cardBackground),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Outlined.DirectionsWalk,
-                contentDescription = null,
-                tint = TextWhite,
+                contentDescription = "Steps walk icon",
+                tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.size(20.dp)
             )
         }
+
         Spacer(Modifier.width(14.dp))
+
+        // Day Label & Date
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = entry.dayLabel,
-                color = TextWhite,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 text = entry.date,
-                color = TextGray,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp
             )
         }
+
+        // Step Count & Goal Status
         Column(horizontalAlignment = Alignment.End) {
             Text(
                 text = "%,d".format(entry.steps),
-                color = TextWhite,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 text = entry.statusText,
-                color = if (entry.goalReached) Lime else TextGray,
+                color = if (entry.goalReached) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.outline
+                },
                 fontSize = 13.sp
             )
         }

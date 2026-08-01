@@ -14,8 +14,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.screen.CardDark
-import com.its7ire.fitnesstracker.screen.TextWhite
+import com.its7ire.fitnesstracker.ui.theme.TextWhite
+import com.its7ire.fitnesstracker.ui.theme.backgroundDark
 
 @Composable
 fun HistoryPrevWeekButton(onClick: () -> Unit) {
@@ -23,7 +23,7 @@ fun HistoryPrevWeekButton(onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(CardDark)
+            .background(backgroundDark)
             .padding(vertical = 16.dp)
             .then(Modifier),
         contentAlignment = Alignment.Center

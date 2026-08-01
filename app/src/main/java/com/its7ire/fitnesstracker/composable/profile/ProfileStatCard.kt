@@ -6,24 +6,22 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.screen.BorderColor
-import com.its7ire.fitnesstracker.screen.CardColor
-import com.its7ire.fitnesstracker.screen.PrimaryGreen
-import com.its7ire.fitnesstracker.screen.SecondaryText
 
 @Composable
 fun ProfileStatCard(
@@ -33,17 +31,16 @@ fun ProfileStatCard(
     icon: ImageVector,
     modifier: Modifier = Modifier
 ) {
+    val cardShape = RoundedCornerShape(12.dp)
+
     Column(
         modifier = modifier
-            .fillMaxHeight()
-            .background(
-                color = CardColor,
-                shape = RoundedCornerShape(12.dp)
-            )
+            .clip(cardShape)
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
             .border(
                 width = 1.dp,
-                color = BorderColor,
-                shape = RoundedCornerShape(12.dp)
+                color = MaterialTheme.colorScheme.outlineVariant,
+                shape = cardShape
             )
             .padding(16.dp),
         verticalArrangement = Arrangement.SpaceBetween
@@ -54,26 +51,29 @@ fun ProfileStatCard(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = SecondaryText,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(17.dp)
             )
 
             Spacer(modifier = Modifier.width(8.dp))
 
             Text(
-                text = title,
-                color = SecondaryText,
+                text = title.uppercase(),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 11.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 0.5.sp
             )
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
 
         Row(
             verticalAlignment = Alignment.Bottom
         ) {
             Text(
                 text = value,
-                color = PrimaryGreen,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -82,7 +82,7 @@ fun ProfileStatCard(
 
             Text(
                 text = suffix,
-                color = SecondaryText,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(bottom = 7.dp)

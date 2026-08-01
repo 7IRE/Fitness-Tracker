@@ -1,21 +1,18 @@
- package com.its7ire.fitnesstracker.screen
+package com.its7ire.fitnesstracker.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,14 +21,8 @@ import com.its7ire.fitnesstracker.composable.history.HistoryDailyLogCard
 import com.its7ire.fitnesstracker.composable.history.HistoryPrevWeekButton
 import com.its7ire.fitnesstracker.composable.history.HistoryStepSection
 import com.its7ire.fitnesstracker.composable.history.HistoryTopBar
-
- private val BgBlack = Color(0xFF0A0A0A)
-
-val CardDarker = Color(0xFF151513)
-val Lime = Color(0xFFC6F135)
-val TextWhite = Color(0xFFF5F5F0)
-val OrangeMuted = Color(0xFFC9946B)
-val BarInactive = Color(0xFF2A2A26)
+import android.content.res.Configuration
+import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
 data class DailyLogEntry(
     val dayLabel: String,
@@ -42,11 +33,15 @@ data class DailyLogEntry(
     val isToday: Boolean = false
 )
 
-data class BarData(val label: String, val heightFraction: Float, val isHighlighted: Boolean)
+data class BarData(
+    val label: String,
+    val heightFraction: Float,
+    val isHighlighted: Boolean
+)
 
 
 @Composable
-fun PerformanceScreen(
+fun PerformanceScreen1(
     weeklySteps: String = "68,420",
     weeklyChangePercent: String = "+12%",
     dailyAverage: String = "774",
@@ -56,44 +51,46 @@ fun PerformanceScreen(
     onLoadPreviousWeek: () -> Unit = {}
 ) {
     Scaffold(
-        containerColor = BgBlack,
-        bottomBar = {        }
+        containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(BgBlack)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(padding)
                 .padding(horizontal = 20.dp)
         ) {
             Spacer(Modifier.height(12.dp))
             HistoryTopBar()
+
             Spacer(Modifier.height(24.dp))
             HistoryStepSection(weeklySteps, weeklyChangePercent)
+
             Spacer(Modifier.height(20.dp))
             HistoryAvgCard(dailyAverage, dailyAverageBadge, bars)
+
             Spacer(Modifier.height(28.dp))
             Text(
                 text = "DAILY LOG",
-                color = OrangeMuted,
+                color = MaterialTheme.colorScheme.secondary,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.SemiBold,
                 letterSpacing = 1.sp
             )
+
             Spacer(Modifier.height(12.dp))
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                logEntries.forEach { entry -> HistoryDailyLogCard(entry) }
+                logEntries.forEach { entry ->
+                    HistoryDailyLogCard(entry)
+                }
             }
-            Spacer(Modifier.height(16.dp))
+
+            Spacer(Modifier.height(10.dp))
             HistoryPrevWeekButton(onLoadPreviousWeek)
             Spacer(Modifier.height(12.dp))
         }
     }
 }
- 
-
-
-
 
 private fun defaultBars(): List<BarData> = listOf(
     BarData("M", 0.35f, false),
@@ -112,3 +109,12 @@ private fun defaultLogEntries(): List<DailyLogEntry> = listOf(
     DailyLogEntry("Wednesday", "Wed, Oct 11", 7840, "78% of goal", goalReached = false)
 )
 
+
+@Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+private fun PerformanceScreenPreview() {
+    AppTheme(dynamicColor = false) {
+        PerformanceScreen1()
+    }
+}

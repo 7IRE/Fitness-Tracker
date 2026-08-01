@@ -1,0 +1,25 @@
+# Built application files & caches
+*.apk
+*.aar
+*.aab
+.gradle/
+build/
+/*/build/
+.kotlin/
+
+# Local configuration files
+local.properties
+
+# Android Studio & IntelliJ IDEA workspace files
+.idea/
+*.iml
+.externalNativeBuild/
+.cxx/
+captures/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log

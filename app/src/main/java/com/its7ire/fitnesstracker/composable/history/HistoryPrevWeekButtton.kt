@@ -18,7 +18,8 @@ import com.its7ire.fitnesstracker.ui.theme.TextWhite
 import com.its7ire.fitnesstracker.ui.theme.backgroundDark
 
 @Composable
-fun HistoryPrevWeekButton(onClick: () -> Unit) {
+fun HistoryPrevWeekButton(onClick: () -> Unit,
+                          modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

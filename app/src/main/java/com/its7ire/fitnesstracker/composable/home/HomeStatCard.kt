@@ -1,6 +1,7 @@
 package com.its7ire.fitnesstracker.composable.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,6 +36,7 @@ fun HomeStatCard(
 ) {
     Column(
         modifier = modifier
+            .clickable{ }
             .heightIn(min = 120.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)

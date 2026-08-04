@@ -1,6 +1,7 @@
 package com.its7ire.fitnesstracker.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.its7ire.fitnesstracker.composable.home.HomeCaloriesCard
 import com.its7ire.fitnesstracker.composable.home.HomeCreateWorkoutButton
-import com.its7ire.fitnesstracker.composable.home.HomeExerciseCard
+import com.its7ire.fitnesstracker.composable.home.HomeBMICard
 import com.its7ire.fitnesstracker.composable.home.HomeStepCard
 import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
@@ -69,7 +70,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                HomeExerciseCard(minutes = 45, modifier = Modifier.weight(1f))
+                HomeBMICard(index = 20.8,  modifier = Modifier.weight(1f))
                 HomeCaloriesCard(kcal = 320, modifier = Modifier.weight(1f))
             }
 

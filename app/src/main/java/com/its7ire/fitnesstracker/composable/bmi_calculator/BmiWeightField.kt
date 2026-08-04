@@ -4,23 +4,25 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
 fun BmiWeightField(
+    weight: String,
+    onWeightChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val weight = remember { mutableStateOf("") }
 
     TextField(
-        value = weight.value,
-        onValueChange = { weight.value = it },
+        value = weight,
+        onValueChange = onWeightChange,
         singleLine = true,
         label = { Text("Weight (Kg)") },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        ),
         modifier = modifier
     )
+
 }

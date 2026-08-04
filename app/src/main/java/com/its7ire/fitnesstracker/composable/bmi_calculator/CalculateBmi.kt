@@ -1,10 +1,23 @@
 package com.its7ire.fitnesstracker.composable.bmi_calculator
 
-import android.R.attr.height
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.font.FontVariation.weight
 
-@Composable
-fun Calculatebmi(Weight: Double, Height: Double): Double {
-    return Weight / (height * height)
+
+
+fun CalculateBmi(
+   height: String,
+   weight: String
+): Double? {
+
+   val h = height.toDoubleOrNull()
+   val w = weight.toDoubleOrNull()
+
+   if (h == null || w == null) {
+      return null
+   }
+
+   if (h <= 0.0 || w <= 0.0) {
+      return null
+   }
+
+   return w / (h * h)
 }

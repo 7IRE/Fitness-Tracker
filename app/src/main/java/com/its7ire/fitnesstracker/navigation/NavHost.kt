@@ -1,4 +1,8 @@
 package com.its7ire.fitnesstracker.navigation
+
+import android.content.Context
+import android.content.ContextWrapper
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -17,37 +21,58 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.its7ire.fitnesstracker.screen.BMIScreen
 import com.its7ire.fitnesstracker.screen.BottomNavItem
 import com.its7ire.fitnesstracker.screen.CoachScreen
 import com.its7ire.fitnesstracker.screen.HomeScreen
 import com.its7ire.fitnesstracker.screen.PerformanceScreen1
 import com.its7ire.fitnesstracker.screen.ProfileScreen
+import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 
-
-
-enum class AppScreen(val label: String, val icon: ImageVector) {
-    Home("Home", Icons.Default.Home),
-    Coach("Coach", Icons.Default.Star),
-    History("History", Icons.AutoMirrored.Filled.List),
-    Profile("Profile", Icons.Default.Person)
+enum class BottomNavScreen(val route: String, val label: String, val icon: ImageVector) {
+    Home("home", "Home", Icons.Default.Home),
+    Coach("coach", "Coach", Icons.Default.Star),
+    History("history", "History", Icons.AutoMirrored.Filled.List),
+    Profile("profile", "Profile", Icons.Default.Person)
 }
 
+object Routes {
+    const val HOME = "home"
+    const val COACH = "coach"
+    const val HISTORY = "history"
+    const val PROFILE = "profile"
+    const val BMI = "bmi"
+}
+
+
+fun Context.findActivity(): ComponentActivity? {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is ComponentActivity) return context
+        context = context.baseContext
+    }
+    return null
+}
 @Composable
 fun FitnessApp(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = AppScreen.entries.firstOrNull {
-        it.name == backStackEntry?.destination?.route
-    } ?: AppScreen.Home
+    val currentRoute = backStackEntry?.destination?.route ?: Routes.HOME
+    val context = LocalContext.current
+    val activity = context.findActivity()
+        ?: error("FitnessApp must be hosted inside a ComponentActivity")
+    val sharedBmiViewModel: BmiViewModel = viewModel(activity)
 
     Scaffold(
         bottomBar = {
@@ -62,15 +87,15 @@ fun FitnessApp(
                     horizontalArrangement = Arrangement.SpaceAround,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    AppScreen.entries.forEach { screen ->
+                    BottomNavScreen.entries.forEach { screen ->
                         BottomNavItem(
                             icon = screen.icon,
                             label = screen.label,
-                            selected = currentScreen == screen,
+                            selected = currentRoute == screen.route,
                             modifier = Modifier
                                 .weight(1f)
                                 .clickable {
-                                    navController.navigate(screen.name) {
+                                    navController.navigate(screen.route) {
                                         popUpTo(navController.graph.findStartDestination().id) {
                                             saveState = true
                                         }
@@ -86,20 +111,29 @@ fun FitnessApp(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = AppScreen.Home.name,
+            startDestination = Routes.HOME,
             modifier = modifier.padding(innerPadding)
         ) {
-            composable(route = AppScreen.Home.name) {
-                HomeScreen(modifier)
+            composable(route = Routes.HOME) {
+                HomeScreen(
+                    onNavigateToBmi = { navController.navigate(Routes.BMI) },
+                    bmiViewModel = sharedBmiViewModel
+                )
             }
-            composable(route = AppScreen.Coach.name) {
+            composable(route = Routes.COACH) {
                 CoachScreen()
             }
-            composable(route = AppScreen.History.name) {
+            composable(route = Routes.HISTORY) {
                 PerformanceScreen1()
             }
-            composable(route = AppScreen.Profile.name) {
+            composable(route = Routes.PROFILE) {
                 ProfileScreen()
+            }
+            composable(route = Routes.BMI) {
+                BMIScreen(
+                    viewModel = sharedBmiViewModel,
+                    onNavigateBack = { navController.popBackStack() }
+                )
             }
         }
     }

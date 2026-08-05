@@ -71,7 +71,6 @@ fun HomeStepCard(
                 )
                 val arcSize = Size(diameter, diameter)
 
-                // Progress Arc Track
                 drawArc(
                     color = trackColor,
                     startAngle = -90f,
@@ -82,7 +81,6 @@ fun HomeStepCard(
                     style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                 )
 
-                // Active Progress Arc
                 drawArc(
                     color = primaryColor,
                     startAngle = -90f,

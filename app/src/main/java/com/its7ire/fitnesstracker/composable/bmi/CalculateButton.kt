@@ -1,4 +1,4 @@
-package com.its7ire.fitnesstracker.composable.bmi_calculator
+package com.its7ire.fitnesstracker.composable.bmi
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text

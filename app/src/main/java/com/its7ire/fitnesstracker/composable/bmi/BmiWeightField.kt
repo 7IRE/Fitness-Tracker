@@ -1,26 +1,28 @@
-package com.its7ire.fitnesstracker.composable.bmi_calculator
+package com.its7ire.fitnesstracker.composable.bmi
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
-fun BmiAgeField(
+fun BmiWeightField(
+    weight: String,
+    onWeightChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val age = remember { mutableStateOf("") }
 
     TextField(
-        value = age.value,
-        onValueChange = { age.value = it },
+        value = weight,
+        onValueChange = onWeightChange,
         singleLine = true,
-        label = { Text("Age") },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        label = { Text("Weight (Kg)") },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        ),
         modifier = modifier
     )
+
 }

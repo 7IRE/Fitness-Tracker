@@ -1,7 +1,6 @@
 package com.its7ire.fitnesstracker.screen
 
 import android.content.res.Configuration
-import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,23 +15,48 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.its7ire.fitnesstracker.composable.home.HomeCaloriesCard
 import com.its7ire.fitnesstracker.composable.home.HomeCreateWorkoutButton
 import com.its7ire.fitnesstracker.composable.home.HomeBMICard
 import com.its7ire.fitnesstracker.composable.home.HomeStepCard
 import com.its7ire.fitnesstracker.composable.home.HomeTopBar
+import com.its7ire.fitnesstracker.composable.steps.StepSensor
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val viewModel: StepViewModel = viewModel()
+    val steps by viewModel.steps.collectAsState()
+    val stepSensor = remember {
+        StepSensor(context) { steps ->
+            viewModel.updateSteps(steps)
+        }
+    }
+
+    DisposableEffect(Unit) {
+
+        stepSensor.startListening()
+
+        onDispose {
+            stepSensor.stopListening()
+        }
+    }
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -63,7 +87,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             )
 
             Spacer(modifier = Modifier.height(20.dp))
-            HomeStepCard(steps = 8432, goal = 10000)
+
+            HomeStepCard(steps = steps, goal = 10000)
 
             Spacer(modifier = Modifier.height(16.dp))
             Row(

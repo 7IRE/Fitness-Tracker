@@ -21,11 +21,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.composable.bmi_calculator.BmiAgeField
-import com.its7ire.fitnesstracker.composable.bmi_calculator.BmiHeightField
-import com.its7ire.fitnesstracker.composable.bmi_calculator.BmiTopBar
-import com.its7ire.fitnesstracker.composable.bmi_calculator.BmiWeightField
-import com.its7ire.fitnesstracker.composable.bmi_calculator.CalculateButton
+import com.its7ire.fitnesstracker.composable.bmi.BmiAgeField
+import com.its7ire.fitnesstracker.composable.bmi.BmiHeightField
+import com.its7ire.fitnesstracker.composable.bmi.BmiTopBar
+import com.its7ire.fitnesstracker.composable.bmi.BmiWeightField
+import com.its7ire.fitnesstracker.composable.bmi.CalculateButton
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
 @Composable

@@ -32,6 +32,7 @@ fun HomeStatCard(
     label: String,
     value: String,
     unit: String,
+    onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -40,7 +41,8 @@ fun HomeStatCard(
             .heightIn(min = 120.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            .padding(16.dp),
+            .padding(16.dp)
+            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

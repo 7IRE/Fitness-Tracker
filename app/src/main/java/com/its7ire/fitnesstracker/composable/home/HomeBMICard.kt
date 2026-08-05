@@ -8,16 +8,23 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun HomeBMICard(
-    index: Double,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit ={}
+    index: Double?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
+
+    val formattedValue = if (index != null) {
+        "%.1f".format(index)
+    } else {
+        "--"
+    }
     HomeStatCard(
         icon = Icons.Filled.Speed,
         iconTint = MaterialTheme.colorScheme.primary,
         label = "BMI",
-        value = index.toString(),
-        unit = "Body Mass Index ",
+        value = formattedValue,
+        unit = "Body Mass Index",
+        onClick = onClick,
         modifier = modifier
     )
 }

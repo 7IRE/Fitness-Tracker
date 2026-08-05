@@ -16,7 +16,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,35 +27,57 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.its7ire.fitnesstracker.composable.home.HomeBMICard
 import com.its7ire.fitnesstracker.composable.home.HomeCaloriesCard
 import com.its7ire.fitnesstracker.composable.home.HomeCreateWorkoutButton
-import com.its7ire.fitnesstracker.composable.home.HomeBMICard
 import com.its7ire.fitnesstracker.composable.home.HomeStepCard
 import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.composable.steps.StepSensor
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    onNavigateToBmi: () -> Unit,
+    modifier: Modifier = Modifier,
+    stepViewModel: StepViewModel = viewModel(),
+    bmiViewModel: BmiViewModel = viewModel()
+) {
     val context = LocalContext.current
-    val viewModel: StepViewModel = viewModel()
-    val steps by viewModel.steps.collectAsState()
+    val steps by stepViewModel.steps.collectAsStateWithLifecycle()
+    val bmiUiState by bmiViewModel.uiState.collectAsStateWithLifecycle()
+
     val stepSensor = remember {
-        StepSensor(context) { steps ->
-            viewModel.updateSteps(steps)
+        StepSensor(context) { newSteps ->
+            stepViewModel.updateSteps(newSteps)
         }
     }
 
     DisposableEffect(Unit) {
-
         stepSensor.startListening()
-
         onDispose {
             stepSensor.stopListening()
         }
     }
+
+    HomeScreenContent(
+        steps = steps,
+        bmiIndex = bmiUiState.bmi,
+        onNavigateToBmi = onNavigateToBmi,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun HomeScreenContent(
+    steps: Int,
+    bmiIndex: Double?,
+    onNavigateToBmi: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -95,8 +116,15 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                HomeBMICard(index = 20.8,  modifier = Modifier.weight(1f))
-                HomeCaloriesCard(kcal = 320, modifier = Modifier.weight(1f))
+                HomeBMICard(
+                    index = bmiIndex,
+                    onClick = onNavigateToBmi,
+                    modifier = Modifier.weight(1f)
+                )
+                HomeCaloriesCard(
+                    kcal = 320,
+                    modifier = Modifier.weight(1f)
+                )
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -145,6 +173,10 @@ fun BottomNavItem(
 @Composable
 private fun HomeScreenPreview() {
     AppTheme(dynamicColor = false) {
-        HomeScreen()
+        HomeScreenContent(
+            steps = 6420,
+            bmiIndex = 22.4,
+            onNavigateToBmi = {}
+        )
     }
 }

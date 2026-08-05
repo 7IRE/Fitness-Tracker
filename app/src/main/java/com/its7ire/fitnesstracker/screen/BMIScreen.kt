@@ -12,36 +12,51 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.its7ire.fitnesstracker.composable.bmi.BmiAgeField
 import com.its7ire.fitnesstracker.composable.bmi.BmiHeightField
 import com.its7ire.fitnesstracker.composable.bmi.BmiTopBar
 import com.its7ire.fitnesstracker.composable.bmi.BmiWeightField
 import com.its7ire.fitnesstracker.composable.bmi.CalculateButton
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+import com.its7ire.fitnesstracker.viewmodel.BmiUiState
+import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 
 @Composable
-fun BMIScreen(modifier: Modifier =
-                       Modifier.safeContentPadding()) {
-    var height by rememberSaveable {
-        mutableStateOf("")
-    }
+fun BMIScreen(
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier.safeContentPadding(),
+    viewModel: BmiViewModel = viewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    var weight by rememberSaveable {
-        mutableStateOf("")
-    }
+    BMIScreenContent(
+        uiState = uiState,
+        onHeightChange = viewModel::onHeightChange,
+        onWeightChange = viewModel::onWeightChange,
+        onCalculateBmi = {
+            viewModel.onCalculateBmi()
+            onNavigateBack()
+        },
+        modifier = modifier
+    )
+}
 
-    var bmi by rememberSaveable {
-        mutableStateOf<Double?>(null)
-    }
+@Composable
+fun BMIScreenContent(
+    uiState: BmiUiState,
+    onHeightChange: (String) -> Unit,
+    onWeightChange: (String) -> Unit,
+    onCalculateBmi: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -49,8 +64,7 @@ fun BMIScreen(modifier: Modifier =
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 20.dp)
-                ,
+                .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(20.dp))
@@ -62,56 +76,61 @@ fun BMIScreen(modifier: Modifier =
             Spacer(modifier = Modifier.height(60.dp))
 
             BmiWeightField(
-                weight = weight,
-                onWeightChange = {
-                    weight = it
-                }
+                weight = uiState.weight,
+                onWeightChange = onWeightChange
             )
 
             Spacer(modifier = Modifier.height(60.dp))
 
             BmiHeightField(
-                height = height,
-                onHeightChange = {
-                    height = it
-                }
+                height = uiState.height,
+                onHeightChange = onHeightChange
             )
 
             Spacer(modifier = Modifier.height(40.dp))
 
             CalculateButton(
-                height = height,
-                weight = weight
-            ) { result ->
-
-                bmi = result
-
+                height = uiState.height,
+                weight = uiState.weight
+            ) {
+                onCalculateBmi()
             }
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            Text(
-                text = if (bmi == null) {
-                    "Invalid Input"
-                } else {
-                    "BMI: %.2f".format(bmi)
-                },
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold
-            )
+            val resultText = when {
+                !uiState.isCalculated -> ""
+                uiState.bmi == null -> "Invalid Input"
+                else -> "BMI: %.2f".format(uiState.bmi)
+            }
+
+            if (resultText.isNotEmpty()) {
+                Text(
+                    text = resultText,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }
 
-
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-private fun PerformanceScreenPreview() {
+private fun BMIScreenPreview() {
     AppTheme(dynamicColor = false) {
-        BMIScreen()
+        BMIScreenContent(
+            uiState = BmiUiState(
+                height = "180",
+                weight = "75",
+                bmi = 23.15,
+                isCalculated = true
+            ),
+            onHeightChange = {},
+            onWeightChange = {},
+            onCalculateBmi = {}
+        )
     }
 }
-
-

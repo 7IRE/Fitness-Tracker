@@ -5,36 +5,20 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.its7ire.fitnesstracker.viewmodel.BMIViewModel
 
 @Composable
 fun CalculateButton(
     height: String,
     weight: String,
-    viewModel: BMIViewModel,
     onCalculate: (Double?) -> Unit
 ) {
-
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-            viewModel.saveBMI()
-
-            val bmi = CalculateBmi(
-                height = height,
-                weight = weight
-            )
-
-
+            val bmi = CalculateBmi(height = height, weight = weight)
             onCalculate(bmi)
-
         }
     ) {
-
-        Text(
-            text = "Calculate BMI"
-        )
-
+        Text(text = "Calculate BMI")
     }
-
 }

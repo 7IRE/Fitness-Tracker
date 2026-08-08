@@ -1,4 +1,4 @@
-package com.its7ire.fitnesstracker.composable.bmi
+package com.its7ire.fitnesstracker.composable.home.bmi
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,7 +24,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun BmiTopBar(
     modifier: Modifier = Modifier,
-    onProfileClick: () -> Unit = {},
+    onBackClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
     Row(
@@ -33,18 +32,18 @@ fun BmiTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Profile Button
+        // Back Button
         Box(
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                .clickable(onClick = onProfileClick),
+                .clickable(onClick = onBackClick),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Filled.AccountCircle,
-                contentDescription = "Profile",
+                imageVector = Icons.Filled.ArrowBackIosNew,
+                contentDescription = "Back",
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(24.dp)
             )
@@ -63,16 +62,9 @@ fun BmiTopBar(
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
                 .clickable(onClick = onSettingsClick),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = Icons.Filled.Settings,
-                contentDescription = "Settings",
-                tint = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.size(20.dp)
-            )
-        }
+                   }
     }
 }

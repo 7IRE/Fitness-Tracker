@@ -1,8 +1,7 @@
-package com.its7ire.fitnesstracker.data
+package com.its7ire.fitnesstracker.data.stepdata
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Timestamp
 
 
 @Entity (tableName = "Steps")

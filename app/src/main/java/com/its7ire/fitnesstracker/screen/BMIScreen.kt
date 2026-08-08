@@ -43,8 +43,8 @@ fun BMIScreen(
         onWeightChange = viewModel::onWeightChange,
         onCalculateBmi = {
             viewModel.onCalculateBmi()
-            onNavigateBack()
         },
+        onNavigateBackHome = onNavigateBack,
         modifier = modifier
     )
 }
@@ -55,6 +55,7 @@ fun BMIScreenContent(
     onHeightChange: (String) -> Unit,
     onWeightChange: (String) -> Unit,
     onCalculateBmi: () -> Unit,
+    onNavigateBackHome: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -68,7 +69,9 @@ fun BMIScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(20.dp))
-            BmiTopBar()
+            BmiTopBar(
+                onBackClick = onNavigateBackHome
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
             BmiAgeField()
@@ -130,7 +133,8 @@ private fun BMIScreenPreview() {
             ),
             onHeightChange = {},
             onWeightChange = {},
-            onCalculateBmi = {}
+            onCalculateBmi = {},
+            onNavigateBackHome = {}
         )
     }
 }

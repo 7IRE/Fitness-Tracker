@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun BmiTopBar(
     modifier: Modifier = Modifier,
-    onProfileClick: () -> Unit = {},
+    onBackClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
     Row(
@@ -38,12 +38,12 @@ fun BmiTopBar(
                 .size(40.dp)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                .clickable(onClick = onProfileClick),
+                .clickable(onClick = onBackClick),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Filled.ArrowBackIosNew,
-                contentDescription = "Profile",
+                contentDescription = "Back",
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(24.dp)
             )

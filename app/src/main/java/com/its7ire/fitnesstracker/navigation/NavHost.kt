@@ -143,7 +143,11 @@ fun FitnessApp(
             composable(route = Routes.BMI) {
                 BMIScreen(
                     viewModel = sharedBmiViewModel,
-                    onNavigateBack = { navController.popBackStack() }
+                    onNavigateBack = { navController.navigate("home") {
+                        popUpTo("bmi") {
+                            inclusive = true
+                        }
+                    } }
                 )
             }
         }

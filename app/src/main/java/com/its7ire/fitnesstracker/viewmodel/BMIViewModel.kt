@@ -2,8 +2,8 @@ package com.its7ire.fitnesstracker.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.its7ire.fitnesstracker.bmidata.BMIRepository
-import com.its7ire.fitnesstracker.bmidata.BMI_Data
+import com.its7ire.fitnesstracker.data.bmidata.BMIRepository
+import com.its7ire.fitnesstracker.data.bmidata.BMI_Data
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

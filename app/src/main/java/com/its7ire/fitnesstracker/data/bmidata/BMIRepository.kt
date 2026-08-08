@@ -1,4 +1,4 @@
-package com.its7ire.fitnesstracker.bmidata
+package com.its7ire.fitnesstracker.data.bmidata
 
 class BMIRepository(
 

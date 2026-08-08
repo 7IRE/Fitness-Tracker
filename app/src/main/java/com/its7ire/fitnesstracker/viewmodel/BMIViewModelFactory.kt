@@ -2,7 +2,7 @@ package com.its7ire.fitnesstracker.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.its7ire.fitnesstracker.bmidata.BMIRepository
+import com.its7ire.fitnesstracker.data.bmidata.BMIRepository
 
 class BmiViewModelFactory(
     private val repository: BMIRepository

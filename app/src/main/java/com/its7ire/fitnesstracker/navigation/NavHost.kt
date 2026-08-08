@@ -37,9 +37,8 @@ import com.its7ire.fitnesstracker.screen.HomeScreen
 import com.its7ire.fitnesstracker.screen.PerformanceScreen1
 import com.its7ire.fitnesstracker.screen.ProfileScreen
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.its7ire.fitnesstracker.bmidata.BMIRepository
-import com.its7ire.fitnesstracker.bmidata.AppDatabase
+import com.its7ire.fitnesstracker.data.bmidata.BMIRepository
+import com.its7ire.fitnesstracker.data.bmidata.AppDatabase
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModelFactory
 
 enum class BottomNavScreen(val route: String, val label: String, val icon: ImageVector) {

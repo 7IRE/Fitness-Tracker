@@ -1,5 +1,4 @@
-package com.its7ire.fitnesstracker.bmidata
-
+package com.its7ire.fitnesstracker.data.bmidata
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -1,4 +1,4 @@
-package com.its7ire.fitnesstracker.composable.bmi
+package com.its7ire.fitnesstracker.composable.home.bmi
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
@@ -7,19 +7,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 
-
 @Composable
-fun BmiHeightField(
-    height: String,
-    onHeightChange: (String) -> Unit,
+fun BmiWeightField(
+    weight: String,
+    onWeightChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     TextField(
-        value = height,
-        onValueChange = onHeightChange,
+        value = weight,
+        onValueChange = onWeightChange,
         singleLine = true,
-        label = { Text("Height (Cm)") },
+        label = { Text("Weight (Kg)") },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number
         ),
@@ -27,4 +26,3 @@ fun BmiHeightField(
     )
 
 }
-

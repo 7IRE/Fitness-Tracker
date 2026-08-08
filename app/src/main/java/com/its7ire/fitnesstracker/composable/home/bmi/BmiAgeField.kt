@@ -1,4 +1,4 @@
-package com.its7ire.fitnesstracker.composable.bmi
+package com.its7ire.fitnesstracker.composable.home.bmi
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text

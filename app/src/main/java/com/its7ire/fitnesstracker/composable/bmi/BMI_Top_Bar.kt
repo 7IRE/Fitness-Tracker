@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +34,7 @@ fun BmiTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Profile Button
+        // Back Button
         Box(
             modifier = Modifier
                 .size(40.dp)
@@ -43,7 +44,7 @@ fun BmiTopBar(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Filled.AccountCircle,
+                imageVector = Icons.Filled.ArrowBackIosNew,
                 contentDescription = "Profile",
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(24.dp)

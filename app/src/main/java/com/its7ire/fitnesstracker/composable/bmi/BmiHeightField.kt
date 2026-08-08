@@ -19,7 +19,7 @@ fun BmiHeightField(
         value = height,
         onValueChange = onHeightChange,
         singleLine = true,
-        label = { Text("Height (Meter)") },
+        label = { Text("Height (Cm)") },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number
         ),

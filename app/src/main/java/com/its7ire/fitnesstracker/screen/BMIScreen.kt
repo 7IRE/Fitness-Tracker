@@ -26,6 +26,7 @@ import com.its7ire.fitnesstracker.composable.bmi.BmiTopBar
 import com.its7ire.fitnesstracker.composable.bmi.BmiWeightField
 import com.its7ire.fitnesstracker.composable.bmi.CalculateButton
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+import com.its7ire.fitnesstracker.viewmodel.BMIViewModel
 import com.its7ire.fitnesstracker.viewmodel.BmiUiState
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 
@@ -91,7 +92,8 @@ fun BMIScreenContent(
 
             CalculateButton(
                 height = uiState.height,
-                weight = uiState.weight
+                weight = uiState.weight,
+                viewModel = BMIViewModel
             ) {
                 onCalculateBmi()
             }

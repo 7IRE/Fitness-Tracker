@@ -1,4 +1,4 @@
-package com.its7ire.fitnesstracker.data
+package com.its7ire.fitnesstracker.data.stepdata
 
 import android.content.Context
 import androidx.room.Room

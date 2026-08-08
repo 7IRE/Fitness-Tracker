@@ -37,6 +37,10 @@ import com.its7ire.fitnesstracker.screen.HomeScreen
 import com.its7ire.fitnesstracker.screen.PerformanceScreen1
 import com.its7ire.fitnesstracker.screen.ProfileScreen
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.its7ire.fitnesstracker.bmidata.BMIRepository
+import com.its7ire.fitnesstracker.bmidata.AppDatabase
+import com.its7ire.fitnesstracker.viewmodel.BmiViewModelFactory
 
 enum class BottomNavScreen(val route: String, val label: String, val icon: ImageVector) {
     Home("home", "Home", Icons.Default.Home),
@@ -72,7 +76,15 @@ fun FitnessApp(
     val context = LocalContext.current
     val activity = context.findActivity()
         ?: error("FitnessApp must be hosted inside a ComponentActivity")
-    val sharedBmiViewModel: BmiViewModel = viewModel(activity)
+    val database = AppDatabase.getDatabase(context)
+
+    val repository = BMIRepository(
+        database.bmiDao()
+    )
+
+    val sharedBmiViewModel: BmiViewModel = viewModel(
+        factory = BmiViewModelFactory(repository)
+    )
 
     Scaffold(
         bottomBar = {

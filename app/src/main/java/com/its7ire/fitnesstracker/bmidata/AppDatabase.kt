@@ -9,46 +9,28 @@ import androidx.room.RoomDatabase
     entities = [BMI_Data::class],
     version = 1
 )
-
-abstract class BMIDataBase: RoomDatabase(){
-
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun bmiDao(): BMIDao
 
-
-    companion object{
-
+    companion object {
 
         @Volatile
-        private var INSTANCE: BMIDataBase? = null
+        private var INSTANCE: AppDatabase? = null
 
+        fun getDatabase(context: Context): AppDatabase {
 
-        fun getDatabase(context: Context): BMIDataBase{
-
-
-            return INSTANCE ?: synchronized(this){
-
+            return INSTANCE ?: synchronized(this) {
 
                 val instance = Room.databaseBuilder(
-
                     context.applicationContext,
-
-                    BMIDataBase::class.java,
-
-                    "bmi_database"
-
+                    AppDatabase::class.java,
+                    "fitness_database"
                 ).build()
 
-
                 INSTANCE = instance
-
                 instance
-
             }
-
-
         }
-
     }
-
 }

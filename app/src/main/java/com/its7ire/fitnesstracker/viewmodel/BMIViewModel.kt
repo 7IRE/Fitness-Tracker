@@ -63,4 +63,29 @@ class BmiViewModel(
             repository.saveBMI(profile)
         }
     }
+
+    init {
+        loadBMI()
+    }
+
+
+    private fun loadBMI() {
+
+        viewModelScope.launch {
+
+            val savedBMI = repository.getBMI()
+
+            if (savedBMI != null) {
+
+                _uiState.update {
+                    it.copy(
+                        height = savedBMI.height.toString(),
+                        weight = savedBMI.weight.toString(),
+                        bmi = savedBMI.bmi.toDouble(),
+                        isCalculated = true
+                    )
+                }
+            }
+        }
+    }
 }

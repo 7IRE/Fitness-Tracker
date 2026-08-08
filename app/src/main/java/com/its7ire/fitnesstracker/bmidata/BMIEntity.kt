@@ -2,12 +2,10 @@ package com.its7ire.fitnesstracker.bmidata
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
-
 @Entity(tableName = "BMI_table")
 data class BMI_Data(
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 1,
 
     val age: Int,

@@ -37,6 +37,8 @@ import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.composable.home.calories.calculateCaloriesFromSteps
 import com.its7ire.fitnesstracker.composable.steps.StepSensor
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+import com.its7ire.fitnesstracker.utils.DateUtils.getCurrentDate
+import com.its7ire.fitnesstracker.utils.DateUtils.getCurrentDay
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 
@@ -104,7 +106,14 @@ fun HomeScreenContent(
 
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Sun, Oct 24",
+                text = getCurrentDate(),
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                text = getCurrentDay(),
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold

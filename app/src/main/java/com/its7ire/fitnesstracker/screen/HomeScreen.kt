@@ -1,6 +1,11 @@
 package com.its7ire.fitnesstracker.screen
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +20,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+<<<<<<< Updated upstream
+=======
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+>>>>>>> Stashed changes
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -23,15 +36,110 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+<<<<<<< Updated upstream
+=======
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.its7ire.fitnesstracker.composable.home.HomeBMICard
+>>>>>>> Stashed changes
 import com.its7ire.fitnesstracker.composable.home.HomeCaloriesCard
 import com.its7ire.fitnesstracker.composable.home.HomeCreateWorkoutButton
 import com.its7ire.fitnesstracker.composable.home.HomeExerciseCard
 import com.its7ire.fitnesstracker.composable.home.HomeStepCard
 import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+<<<<<<< Updated upstream
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
+=======
+import com.its7ire.fitnesstracker.utils.DateUtils
+import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
+import com.its7ire.fitnesstracker.viewmodel.StepViewModel
+import androidx.compose.runtime.setValue
+
+
+
+@Composable
+fun HomeScreen(
+    onNavigateToBmi: () -> Unit,
+    modifier: Modifier = Modifier,
+    stepViewModel: StepViewModel = viewModel(),
+    bmiViewModel: BmiViewModel = viewModel()
+) {
+    val context = LocalContext.current
+
+    val steps by stepViewModel.steps.collectAsStateWithLifecycle()
+
+    val bmiUiState by bmiViewModel.uiState.collectAsStateWithLifecycle()
+
+    var hasPermission by remember {
+        mutableStateOf(
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ||
+                    ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.ACTIVITY_RECOGNITION
+                    ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
+
+        hasPermission = granted
+    }
+
+
+    LaunchedEffect(Unit) {
+
+        if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            !hasPermission
+        ) {
+            permissionLauncher.launch(
+                Manifest.permission.ACTIVITY_RECOGNITION
+            )
+        }
+    }
+
+    val stepSensor = remember {
+        StepSensor(context) { newSteps ->
+            stepViewModel.updateSteps(newSteps)
+        }
+    }
+
+    DisposableEffect(hasPermission) {
+
+        if (hasPermission) {
+            stepSensor.startListening()
+        }
+
+        onDispose {
+            stepSensor.stopListening()
+        }
+    }
+
+    HomeScreenContent(
+        steps = steps,
+        bmiIndex = bmiUiState.bmi,
+        weight = bmiUiState.weight,
+        onNavigateToBmi = onNavigateToBmi,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun HomeScreenContent(
+    steps: Int,
+    bmiIndex: Double?,
+    weight: String,
+    onNavigateToBmi: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+>>>>>>> Stashed changes
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -55,7 +163,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Sun, Oct 24",
+                text = DateUtils.getCurrentDateShort(),
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold

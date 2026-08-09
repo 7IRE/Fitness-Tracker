@@ -33,7 +33,6 @@ fun HomeTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Profile Button
         Box(
             modifier = Modifier
                 .size(40.dp)
@@ -50,7 +49,6 @@ fun HomeTopBar(
             )
         }
 
-        // Title
         Text(
             text = "Performance",
             color = MaterialTheme.colorScheme.onBackground,
@@ -58,7 +56,6 @@ fun HomeTopBar(
             fontWeight = FontWeight.Bold
         )
 
-        // Settings Button
         Box(
             modifier = Modifier
                 .size(40.dp)

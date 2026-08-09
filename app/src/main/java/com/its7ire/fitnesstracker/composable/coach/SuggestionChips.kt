@@ -16,13 +16,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SuggestionChips(
-
     onChipClick: (String) -> Unit = {}
-
 ) {
 
     val suggestions = listOf(
-
         "Plan Workout",
         "Gain Muscle",
         "Lose Fat",
@@ -31,51 +28,30 @@ fun SuggestionChips(
         "Stretching",
         "Home Workout",
         "Improve Stamina"
-
     )
 
     Row(
-
         modifier = Modifier
             .horizontalScroll(rememberScrollState())
             .padding(vertical = 8.dp),
-
         horizontalArrangement = Arrangement.spacedBy(10.dp)
-
     ) {
 
         suggestions.forEach { suggestion ->
 
             AssistChip(
-
                 onClick = {
-
                     onChipClick(suggestion)
-
                 },
-
                 label = {
-
-                    Text(
-                        text = suggestion
-                    )
-
+                    Text(text = suggestion)
                 },
-
                 shape = RoundedCornerShape(50),
-
                 colors = AssistChipDefaults.assistChipColors(
-
                     containerColor = MaterialTheme.colorScheme.surfaceContainer,
-
                     labelColor = MaterialTheme.colorScheme.onSurface
-
                 )
-
             )
-
         }
-
     }
-
 }

@@ -36,6 +36,15 @@ android {
 
 dependencies {
     implementation("androidx.compose.material:material-icons-extended")
+<<<<<<< Updated upstream
+=======
+    implementation("androidx.navigation:navigation-compose:2.8.8")
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.ui)
+    ksp(libs.androidx.room.compiler)
+>>>>>>> Stashed changes
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

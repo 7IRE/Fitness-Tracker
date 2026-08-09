@@ -64,8 +64,16 @@ fun HomeScreen(
     val bmiUiState by bmiViewModel.uiState.collectAsStateWithLifecycle()
 
     val stepSensor = remember {
-        StepSensor(context) { newSteps ->
-            stepViewModel.updateSteps(newSteps)
+
+        StepSensor(context) { sensorValue ->
+
+            stepViewModel.initializeSteps(sensorValue)
+
+            val todaySteps =
+                stepViewModel.calculateTodaySteps(sensorValue)
+
+            stepViewModel.updateSteps(todaySteps)
+
         }
     }
     var hasPermission by remember {

@@ -10,4 +10,7 @@ class StepRepository(
         dao.insert(update)
     }
 
+    suspend fun getLastStep(): StepsEntity? {
+        return dao.getLastStep()
+    }
 }

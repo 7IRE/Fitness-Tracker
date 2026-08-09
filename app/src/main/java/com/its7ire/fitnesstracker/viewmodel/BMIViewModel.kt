@@ -1,10 +1,14 @@
 package com.its7ire.fitnesstracker.viewmodel
+
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.its7ire.fitnesstracker.data.bmidata.BMIRepository
+import com.its7ire.fitnesstracker.data.bmidata.BMI_Data
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-
+import kotlinx.coroutines.launch
 
 data class BmiUiState(
     val height: String = "",
@@ -13,7 +17,9 @@ data class BmiUiState(
     val isCalculated: Boolean = false
 )
 
-class BmiViewModel : ViewModel() {
+class BmiViewModel(
+    private val repository: BMIRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BmiUiState())
     val uiState: StateFlow<BmiUiState> = _uiState.asStateFlow()
@@ -38,10 +44,48 @@ class BmiViewModel : ViewModel() {
         }
 
         _uiState.update {
-            it.copy(
-                bmi = calculatedBmi,
-                isCalculated = true
+            it.copy(bmi = calculatedBmi, isCalculated = true)
+        }
+
+        if (calculatedBmi != null && heightVal != null && weightVal != null) {
+            saveBmi(heightVal, weightVal, calculatedBmi)
+        }
+    }
+
+    private fun saveBmi(height: Double, weight: Double, bmi: Double) {
+        viewModelScope.launch {
+            val profile = BMI_Data(
+                age = 0, // wire up an actual age field later if needed
+                height = height.toFloat(),
+                weight = weight.toFloat(),
+                bmi = bmi.toFloat()
             )
+            repository.saveBMI(profile)
+        }
+    }
+
+    init {
+        loadBMI()
+    }
+
+
+    private fun loadBMI() {
+
+        viewModelScope.launch {
+
+            val savedBMI = repository.getBMI()
+
+            if (savedBMI != null) {
+
+                _uiState.update {
+                    it.copy(
+                        height = savedBMI.height.toString(),
+                        weight = savedBMI.weight.toString(),
+                        bmi = savedBMI.bmi.toDouble(),
+                        isCalculated = true
+                    )
+                }
+            }
         }
     }
 }

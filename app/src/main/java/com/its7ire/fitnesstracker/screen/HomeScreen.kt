@@ -34,6 +34,7 @@ import com.its7ire.fitnesstracker.composable.home.HomeCaloriesCard
 import com.its7ire.fitnesstracker.composable.home.HomeCreateWorkoutButton
 import com.its7ire.fitnesstracker.composable.home.HomeStepCard
 import com.its7ire.fitnesstracker.composable.home.HomeTopBar
+import com.its7ire.fitnesstracker.composable.home.calories.calculateCaloriesFromSteps
 import com.its7ire.fitnesstracker.composable.steps.StepSensor
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
@@ -66,6 +67,7 @@ fun HomeScreen(
     HomeScreenContent(
         steps = steps,
         bmiIndex = bmiUiState.bmi,
+        weight = bmiUiState.weight,
         onNavigateToBmi = onNavigateToBmi,
         modifier = modifier
     )
@@ -75,6 +77,7 @@ fun HomeScreen(
 fun HomeScreenContent(
     steps: Int,
     bmiIndex: Double?,
+    weight: String,
     onNavigateToBmi: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -122,7 +125,10 @@ fun HomeScreenContent(
                     modifier = Modifier.weight(1f)
                 )
                 HomeCaloriesCard(
-                    kcal = 320,
+                    kcal = calculateCaloriesFromSteps(
+                        steps = steps,
+                        weightKg = weight.toDoubleOrNull() ?: 0.0
+                    ),
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -176,6 +182,7 @@ private fun HomeScreenPreview() {
         HomeScreenContent(
             steps = 6420,
             bmiIndex = 22.4,
+            weight = "68",
             onNavigateToBmi = {}
         )
     }

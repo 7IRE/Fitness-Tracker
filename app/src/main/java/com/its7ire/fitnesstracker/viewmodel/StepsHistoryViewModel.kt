@@ -2,8 +2,8 @@ package com.its7ire.fitnesstracker.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.its7ire.fitnesstracker.data.StepRepository
-import com.its7ire.fitnesstracker.data.StepsEntity
+import com.its7ire.fitnesstracker.data.stepdata.StepRepository
+import com.its7ire.fitnesstracker.data.stepdata.StepsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 

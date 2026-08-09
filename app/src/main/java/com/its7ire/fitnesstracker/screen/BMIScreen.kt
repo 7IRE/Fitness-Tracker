@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.its7ire.fitnesstracker.composable.bmi.BmiAgeField
-import com.its7ire.fitnesstracker.composable.bmi.BmiHeightField
-import com.its7ire.fitnesstracker.composable.bmi.BmiTopBar
-import com.its7ire.fitnesstracker.composable.bmi.BmiWeightField
-import com.its7ire.fitnesstracker.composable.bmi.CalculateButton
+import com.its7ire.fitnesstracker.composable.home.bmi.BmiAgeField
+import com.its7ire.fitnesstracker.composable.home.bmi.BmiHeightField
+import com.its7ire.fitnesstracker.composable.home.bmi.BmiTopBar
+import com.its7ire.fitnesstracker.composable.home.bmi.BmiWeightField
+import com.its7ire.fitnesstracker.composable.home.bmi.CalculateButton
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 import com.its7ire.fitnesstracker.viewmodel.BmiUiState
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
@@ -43,8 +43,8 @@ fun BMIScreen(
         onWeightChange = viewModel::onWeightChange,
         onCalculateBmi = {
             viewModel.onCalculateBmi()
-            onNavigateBack()
         },
+        onNavigateBackHome = onNavigateBack,
         modifier = modifier
     )
 }
@@ -55,6 +55,7 @@ fun BMIScreenContent(
     onHeightChange: (String) -> Unit,
     onWeightChange: (String) -> Unit,
     onCalculateBmi: () -> Unit,
+    onNavigateBackHome: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -68,7 +69,9 @@ fun BMIScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(20.dp))
-            BmiTopBar()
+            BmiTopBar(
+                onBackClick = onNavigateBackHome
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
             BmiAgeField()
@@ -91,7 +94,7 @@ fun BMIScreenContent(
 
             CalculateButton(
                 height = uiState.height,
-                weight = uiState.weight
+                weight = uiState.weight,
             ) {
                 onCalculateBmi()
             }
@@ -130,7 +133,8 @@ private fun BMIScreenPreview() {
             ),
             onHeightChange = {},
             onWeightChange = {},
-            onCalculateBmi = {}
+            onCalculateBmi = {},
+            onNavigateBackHome = {}
         )
     }
 }

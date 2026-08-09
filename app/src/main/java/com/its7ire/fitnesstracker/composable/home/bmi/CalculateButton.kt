@@ -1,4 +1,5 @@
-package com.its7ire.fitnesstracker.composable.bmi
+package com.its7ire.fitnesstracker.composable.home.bmi
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -11,25 +12,13 @@ fun CalculateButton(
     weight: String,
     onCalculate: (Double?) -> Unit
 ) {
-
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-
-            val bmi = CalculateBmi(
-                height = height,
-                weight = weight
-            )
-
+            val bmi = CalculateBmi(height = height, weight = weight)
             onCalculate(bmi)
-
         }
     ) {
-
-        Text(
-            text = "Calculate BMI"
-        )
-
+        Text(text = "Calculate BMI")
     }
-
 }

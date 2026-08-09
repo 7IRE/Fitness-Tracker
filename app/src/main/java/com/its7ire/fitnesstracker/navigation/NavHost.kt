@@ -40,6 +40,10 @@ import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 import com.its7ire.fitnesstracker.data.bmidata.BMIRepository
 import com.its7ire.fitnesstracker.data.bmidata.AppDatabase
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModelFactory
+import com.its7ire.fitnesstracker.data.stepdata.DatabaseProvider
+import com.its7ire.fitnesstracker.data.stepdata.StepRepository
+import com.its7ire.fitnesstracker.viewmodel.StepViewModel
+import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
 
 enum class BottomNavScreen(val route: String, val label: String, val icon: ImageVector) {
     Home("home", "Home", Icons.Default.Home),
@@ -76,13 +80,21 @@ fun FitnessApp(
     val activity = context.findActivity()
         ?: error("FitnessApp must be hosted inside a ComponentActivity")
     val database = AppDatabase.getDatabase(context)
+    val stepDatabase = DatabaseProvider.getDatabase(context)
 
     val repository = BMIRepository(
         database.bmiDao()
     )
+    val stepRepository = StepRepository(
+        stepDatabase.stepDao()
+    )
 
     val sharedBmiViewModel: BmiViewModel = viewModel(
         factory = BmiViewModelFactory(repository)
+    )
+
+    val stepViewModel: StepViewModel = viewModel(
+        factory = StepViewModelFactory(stepRepository)
     )
 
     Scaffold(
@@ -128,7 +140,8 @@ fun FitnessApp(
             composable(route = Routes.HOME) {
                 HomeScreen(
                     onNavigateToBmi = { navController.navigate(Routes.BMI) },
-                    bmiViewModel = sharedBmiViewModel
+                    bmiViewModel = sharedBmiViewModel,
+                    stepViewModel = stepViewModel
                 )
             }
             composable(route = Routes.COACH) {

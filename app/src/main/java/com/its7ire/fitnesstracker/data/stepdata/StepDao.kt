@@ -13,4 +13,7 @@ interface StepDao {
 
     @Query("SELECT * FROM Steps ORDER BY timestamp DESC")
     fun getAllUpdates(): Flow<List<StepsEntity>>
+
+    @Query("SELECT * FROM Steps ORDER BY timestamp DESC LIMIT 1")
+    suspend fun getLastStep(): StepsEntity?
 }

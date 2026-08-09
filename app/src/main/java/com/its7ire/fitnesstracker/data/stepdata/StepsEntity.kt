@@ -4,11 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity (tableName = "Steps")
+@Entity(tableName = "Steps")
 data class StepsEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0 ,
+    val id: Int = 0,
     val day: String,
+    val sensorStart: Int    ,
     val timestamp: Long,
     val steps: Int
 )

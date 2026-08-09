@@ -1,6 +1,11 @@
 package com.its7ire.fitnesstracker.screen
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +21,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.its7ire.fitnesstracker.composable.home.HomeBMICard
@@ -37,6 +46,7 @@ import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.composable.home.calories.calculateCaloriesFromSteps
 import com.its7ire.fitnesstracker.composable.steps.StepSensor
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+import com.its7ire.fitnesstracker.utils.DateUtils
 import com.its7ire.fitnesstracker.utils.DateUtils.getCurrentDate
 import com.its7ire.fitnesstracker.utils.DateUtils.getCurrentDay
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
@@ -56,6 +66,32 @@ fun HomeScreen(
     val stepSensor = remember {
         StepSensor(context) { newSteps ->
             stepViewModel.updateSteps(newSteps)
+        }
+    }
+    var hasPermission by remember {
+        mutableStateOf(
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ||
+                    ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.ACTIVITY_RECOGNITION
+                    ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
+
+        hasPermission = granted
+    }
+    LaunchedEffect(Unit) {
+
+        if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            !hasPermission
+        ) {
+            permissionLauncher.launch(
+                Manifest.permission.ACTIVITY_RECOGNITION
+            )
         }
     }
 
@@ -106,14 +142,7 @@ fun HomeScreenContent(
 
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = getCurrentDate(),
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = getCurrentDay(),
+                text = DateUtils.getCurrentDateShort(),
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold

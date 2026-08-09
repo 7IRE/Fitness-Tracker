@@ -44,6 +44,12 @@ object DateUtils {
             Locale.getDefault()
         ).format(Date(timestamp))
     }
+    fun getCurrentDateShort(): String {
+        return SimpleDateFormat(
+            "EEE, MMM dd",
+            Locale.getDefault()
+        ).format(Date())
+    }
 
     fun formatTime(timestamp: Long): String {
         return SimpleDateFormat(

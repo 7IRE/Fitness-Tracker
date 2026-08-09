@@ -16,7 +16,9 @@ object DatabaseProvider {
                 context.applicationContext,
                 StepDatabase::class.java,
                 "steps_database"
-            ).build()
+            )
+                .fallbackToDestructiveMigration(true)
+                .build()
 
             INSTANCE = instance
 

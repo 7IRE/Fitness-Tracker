@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
+import android.widget.Space
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -40,7 +43,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.its7ire.fitnesstracker.composable.home.HomeBMICard
 import com.its7ire.fitnesstracker.composable.home.HomeCaloriesCard
-import com.its7ire.fitnesstracker.composable.home.HomeCreateWorkoutButton
 import com.its7ire.fitnesstracker.composable.home.HomeStepCard
 import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.composable.home.calories.calculateCaloriesFromSteps
@@ -109,7 +111,9 @@ fun HomeScreen(
     }
 
     HomeScreenContent(
-        steps = steps,
+        steps = steps
+
+        ,
         bmiIndex = bmiUiState.bmi,
         weight = bmiUiState.weight,
         onNavigateToBmi = onNavigateToBmi,
@@ -129,57 +133,59 @@ fun HomeScreenContent(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 20.dp)
         ) {
-            Spacer(modifier = Modifier.height(20.dp))
-            HomeTopBar()
 
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "TODAY",
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = 1.sp
-            )
+            item {
+                Spacer(modifier = Modifier.height(20.dp))
+                HomeTopBar()
+            }
 
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = DateUtils.getCurrentDateShort(),
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
-            )
+            item {
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(
+                    text = "TODAY",
+                    color = MaterialTheme.colorScheme.primary,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = 1.sp
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = DateUtils.getCurrentDateShort(),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            item {
+                Spacer(modifier = Modifier.height(20.dp))
+                HomeStepCard(steps = steps, goal = 10000)
+            }
 
-            HomeStepCard(steps = steps, goal = 10000)
-
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
                 HomeBMICard(
                     index = bmiIndex,
-                    onClick = onNavigateToBmi,
-                    modifier = Modifier.weight(1f)
+                    onClick = onNavigateToBmi
                 )
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
                 HomeCaloriesCard(
                     kcal = calculateCaloriesFromSteps(
                         steps = steps,
                         weightKg = weight.toDoubleOrNull() ?: 0.0
-                    ),
-                    modifier = Modifier.weight(1f)
+                    )
                 )
+                Spacer(modifier = Modifier.height(20.dp))
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-            HomeCreateWorkoutButton()
-            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
@@ -199,7 +205,7 @@ fun BottomNavItem(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+
     ) {
         Icon(
             imageVector = icon,

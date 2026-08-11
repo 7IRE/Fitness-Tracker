@@ -43,6 +43,7 @@ fun BMIScreen(
         onWeightChange = viewModel::onWeightChange,
         onCalculateBmi = {
             viewModel.onCalculateBmi()
+            onNavigateBack()
         },
         onNavigateBackHome = onNavigateBack,
         modifier = modifier

@@ -204,6 +204,7 @@ fun BottomNavItem(
     }
 
     Column(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
 
     ) {

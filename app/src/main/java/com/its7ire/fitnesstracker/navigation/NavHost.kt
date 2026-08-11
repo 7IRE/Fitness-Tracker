@@ -95,7 +95,8 @@ fun FitnessApp(
         bottomBar = {
             Surface(
                 color = MaterialTheme.colorScheme.surface,
-                tonalElevation = 8.dp
+                tonalElevation = 8.dp  ,
+
             ) {
                 Row(
                     modifier = Modifier

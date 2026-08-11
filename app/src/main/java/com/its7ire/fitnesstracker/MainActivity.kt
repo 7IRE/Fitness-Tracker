@@ -12,6 +12,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.its7ire.fitnesstracker.navigation.FitnessApp
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
@@ -24,6 +27,12 @@ class MainActivity : ComponentActivity() {
             var Theme by rememberSaveable {
                 mutableStateOf(1)
             }
+
+            WindowCompat.getInsetsController(window, window.decorView).apply {
+                systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                hide(WindowInsetsCompat.Type.navigationBars())
+            }
+
             AppTheme(value = Theme) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

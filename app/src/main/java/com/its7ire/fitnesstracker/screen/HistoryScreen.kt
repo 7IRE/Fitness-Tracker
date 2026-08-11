@@ -114,7 +114,7 @@ private fun defaultLogEntries(): List<DailyLogEntry> = listOf(
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun PerformanceScreenPreview() {
-    AppTheme(dynamicColor = false) {
+    AppTheme() {
         PerformanceScreen1()
     }
 }

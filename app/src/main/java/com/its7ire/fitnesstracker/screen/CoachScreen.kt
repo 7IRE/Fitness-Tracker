@@ -1,6 +1,7 @@
 
 package com.its7ire.fitnesstracker.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.its7ire.fitnesstracker.composable.coach.CoachChatMessageData
 import com.its7ire.fitnesstracker.composable.coach.ChatInputBar
@@ -29,6 +31,7 @@ import com.its7ire.fitnesstracker.composable.coach.GreetingCard
 import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
 import com.its7ire.fitnesstracker.composable.coach.TypingIndicator
 import com.its7ire.fitnesstracker.composable.coach.UserMessageBubble
+import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
 @Composable
 fun CoachScreen() {
@@ -156,3 +159,12 @@ fun CoachScreen() {
     }
 }
 
+
+@Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+private fun HomeScreenPreview() {
+    AppTheme() {
+        CoachScreen()
+    }
+}

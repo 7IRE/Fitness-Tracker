@@ -1,6 +1,7 @@
 package com.its7ire.fitnesstracker.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.its7ire.fitnesstracker.composable.home.bmi.BmiAgeField
 import com.its7ire.fitnesstracker.composable.home.bmi.BmiHeightField
 import com.its7ire.fitnesstracker.composable.home.bmi.BmiTopBar
 import com.its7ire.fitnesstracker.composable.home.bmi.BmiWeightField
@@ -67,53 +67,59 @@ fun BMIScreenContent(
                 .fillMaxSize()
                 .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
+
         ) {
             Spacer(modifier = Modifier.height(20.dp))
             BmiTopBar(
                 onBackClick = onNavigateBackHome
             )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
 
-            Spacer(modifier = Modifier.height(20.dp))
-            BmiAgeField()
-
-            Spacer(modifier = Modifier.height(60.dp))
-
-            BmiWeightField(
-                weight = uiState.weight,
-                onWeightChange = onWeightChange
-            )
-
-            Spacer(modifier = Modifier.height(60.dp))
-
-            BmiHeightField(
-                height = uiState.height,
-                onHeightChange = onHeightChange
-            )
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            CalculateButton(
-                height = uiState.height,
-                weight = uiState.weight,
             ) {
-                onCalculateBmi()
-            }
+                Spacer(modifier = Modifier.height(60.dp))
 
-            Spacer(modifier = Modifier.height(40.dp))
-
-            val resultText = when {
-                !uiState.isCalculated -> ""
-                uiState.bmi == null -> "Invalid Input"
-                else -> "BMI: %.2f".format(uiState.bmi)
-            }
-
-            if (resultText.isNotEmpty()) {
-                Text(
-                    text = resultText,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold
+                BmiWeightField(
+                    weight = uiState.weight,
+                    onWeightChange = onWeightChange
                 )
+
+                Spacer(modifier = Modifier.height(60.dp))
+
+                BmiHeightField(
+                    height = uiState.height,
+                    onHeightChange = onHeightChange
+                )
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                CalculateButton(
+                    height = uiState.height,
+                    weight = uiState.weight,
+                ) {
+                    onCalculateBmi()
+                }
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                val resultText = when {
+                    !uiState.isCalculated -> ""
+                    uiState.bmi == null -> "Invalid Input"
+                    else -> "BMI: %.2f".format(uiState.bmi)
+                }
+
+                if (resultText.isNotEmpty()) {
+                    Text(
+                        text = resultText,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
@@ -123,7 +129,7 @@ fun BMIScreenContent(
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun BMIScreenPreview() {
-    AppTheme(dynamicColor = false) {
+    AppTheme() {
         BMIScreenContent(
             uiState = BmiUiState(
                 height = "180",

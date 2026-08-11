@@ -30,7 +30,8 @@ fun ProfilePrefItem(
     title: String,
     icon: ImageVector,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+
 ) {
     Row(
         modifier = modifier
@@ -72,7 +73,9 @@ fun ProfilePrefItem(
             imageVector = Icons.Default.ChevronRight,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(21.dp)
+            modifier = Modifier
+                .size(21.dp)
+
         )
     }
 }

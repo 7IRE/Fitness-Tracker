@@ -47,8 +47,6 @@ import com.its7ire.fitnesstracker.composable.home.calories.calculateCaloriesFrom
 import com.its7ire.fitnesstracker.composable.steps.StepSensor
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 import com.its7ire.fitnesstracker.utils.DateUtils
-import com.its7ire.fitnesstracker.utils.DateUtils.getCurrentDate
-import com.its7ire.fitnesstracker.utils.DateUtils.getCurrentDay
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 
@@ -224,7 +222,7 @@ fun BottomNavItem(
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-    AppTheme(dynamicColor = false) {
+    AppTheme() {
         HomeScreenContent(
             steps = 6420,
             bmiIndex = 22.4,
@@ -232,4 +230,5 @@ private fun HomeScreenPreview() {
             onNavigateToBmi = {}
         )
     }
+
 }

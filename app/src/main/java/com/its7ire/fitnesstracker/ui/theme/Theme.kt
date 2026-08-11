@@ -14,7 +14,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-
+import kotlin.random.Random
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -246,6 +246,89 @@ private val highContrastDarkColorScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDarkHighContrast,
 )
 
+val PinkDarkThemeColors = darkColorScheme(
+    primary = PinkPrimary,
+    onPrimary = PinkOnPrimary,
+    primaryContainer = PinkPrimaryContainer,
+    onPrimaryContainer = PinkOnPrimaryContainer,
+    secondary = PinkSecondary,
+    onSecondary = PinkOnSecondary,
+    secondaryContainer = PinkSecondaryContainer,
+    onSecondaryContainer = PinkOnSecondaryContainer,
+    background = PinkBackground,
+    onBackground = PinkOnBackground,
+    surface = PinkSurface,
+    onSurface = PinkOnSurface,
+    surfaceVariant = PinkSurfaceVariant,
+    onSurfaceVariant = PinkOnSurfaceVariant,
+    error = PinkError,
+    onError = PinkOnError,
+    errorContainer = PinkErrorContainer,
+    onErrorContainer = PinkOnErrorContainer
+)
+
+val GreyDarkThemeColors = darkColorScheme(
+    primary = GreyPrimary,
+    onPrimary = GreyOnPrimary,
+    primaryContainer = GreyPrimaryContainer,
+    onPrimaryContainer = GreyOnPrimaryContainer,
+    secondary = GreySecondary,
+    onSecondary = GreyOnSecondary,
+    secondaryContainer = GreySecondaryContainer,
+    onSecondaryContainer = GreyOnSecondaryContainer,
+    background = GreyBackground,
+    onBackground = GreyOnBackground,
+    surface = GreySurface,
+    onSurface = GreyOnSurface,
+    surfaceVariant = GreySurfaceVariant,
+    onSurfaceVariant = GreyOnSurfaceVariant,
+    error = GreyError,
+    onError = GreyOnError,
+    errorContainer = GreyErrorContainer,
+    onErrorContainer = GreyOnErrorContainer
+)
+
+val RedDarkThemeColors = darkColorScheme(
+    primary = RedPrimary,
+    onPrimary = RedOnPrimary,
+    primaryContainer = RedPrimaryContainer,
+    onPrimaryContainer = RedOnPrimaryContainer,
+    secondary = RedSecondary,
+    onSecondary = RedOnSecondary,
+    secondaryContainer = RedSecondaryContainer,
+    onSecondaryContainer = RedOnSecondaryContainer,
+    background = RedBackground,
+    onBackground = RedOnBackground,
+    surface = RedSurface,
+    onSurface = RedOnSurface,
+    surfaceVariant = RedSurfaceVariant,
+    onSurfaceVariant = RedOnSurfaceVariant,
+    error = RedError,
+    onError = RedOnError,
+    errorContainer = RedErrorContainer,
+    onErrorContainer = RedOnErrorContainer
+)
+
+val CyanDarkThemeColors = darkColorScheme(
+    primary = CyanPrimary,
+    onPrimary = CyanOnPrimary,
+    primaryContainer = CyanPrimaryContainer,
+    onPrimaryContainer = CyanOnPrimaryContainer,
+    secondary = CyanSecondary,
+    onSecondary = CyanOnSecondary,
+    secondaryContainer = CyanSecondaryContainer,
+    onSecondaryContainer = CyanOnSecondaryContainer,
+    background = CyanBackground,
+    onBackground = CyanOnBackground,
+    surface = CyanSurface,
+    onSurface = CyanOnSurface,
+    surfaceVariant = CyanSurfaceVariant,
+    onSurfaceVariant = CyanOnSurfaceVariant,
+    error = CyanError,
+    onError = CyanOnError,
+    errorContainer = CyanErrorContainer,
+    onErrorContainer = CyanOnErrorContainer
+)
 @Immutable
 data class ColorFamily(
     val color: Color,
@@ -260,19 +343,34 @@ val unspecified_scheme = ColorFamily(
 
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+//    darkTheme: Boolean = isSystemInDarkTheme(),
+//    dynamicColor: Boolean = true
+    value : Int = Random.nextInt(0,5),
     content: @Composable() () -> Unit
+
 ) {
-  val colorScheme = when {
-      dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-          val context = LocalContext.current
-          if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-      }
-      
-      darkTheme -> darkScheme
-      else -> lightScheme
-  }
+//  val colorScheme = when {
+//      dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+//          val context = LocalContext.current
+//          if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+//      }
+//
+//      darkTheme -> darkScheme
+//      else -> lightScheme
+//  }
+    val Val = value%10
+    val colorScheme = when (Val){
+        0 -> lightScheme
+        1 -> darkScheme
+        2 -> mediumContrastDarkColorScheme
+        3 -> highContrastDarkColorScheme
+        4 -> mediumContrastLightColorScheme
+        5 -> highContrastLightColorScheme
+        6 -> PinkDarkThemeColors
+        7 -> GreyDarkThemeColors
+        8 ->RedDarkThemeColors
+        else -> CyanDarkThemeColors
+    }
 
   MaterialTheme(
     colorScheme = colorScheme,

@@ -46,7 +46,7 @@ fun StepGoalScreenContent() {
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun BMIScreenPreview() {
-    AppTheme(dynamicColor = false) {
+    AppTheme() {
         StepGoalScreenContent()
     }
 }

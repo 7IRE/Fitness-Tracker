@@ -58,7 +58,7 @@ fun ProfileScreen(
             ProfilePrefSec(
                 onAppearanceClick = onAppearanceClick,
                 onNotificationsClick = onNotificationsClick,
-                onPrivacyClick = onPrivacyClick
+                onPrivacyClick = onPrivacyClick,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -76,7 +76,7 @@ fun ProfileScreen(
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun ProfileScreenPreview() {
-    AppTheme(dynamicColor = false) {
+    AppTheme() {
         ProfileScreen()
     }
 }

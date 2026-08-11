@@ -61,24 +61,17 @@ object Routes {
 }
 
 
-fun Context.findActivity(): ComponentActivity? {
-    var context = this
-    while (context is ContextWrapper) {
-        if (context is ComponentActivity) return context
-        context = context.baseContext
-    }
-    return null
-}
+
+
 @Composable
 fun FitnessApp(
     navController: NavHostController = rememberNavController(),
+    onThemeChanged: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route ?: Routes.HOME
     val context = LocalContext.current
-    val activity = context.findActivity()
-        ?: error("FitnessApp must be hosted inside a ComponentActivity")
     val database = AppDatabase.getDatabase(context)
     val stepDatabase = DatabaseProvider.getDatabase(context)
 
@@ -96,6 +89,7 @@ fun FitnessApp(
     val stepViewModel: StepViewModel = viewModel(
         factory = StepViewModelFactory(stepRepository)
     )
+
 
     Scaffold(
         bottomBar = {
@@ -151,7 +145,7 @@ fun FitnessApp(
                 PerformanceScreen1()
             }
             composable(route = Routes.PROFILE) {
-                ProfileScreen()
+                ProfileScreen(onAppearanceClick = onThemeChanged)
             }
             composable(route = Routes.BMI) {
                 BMIScreen(

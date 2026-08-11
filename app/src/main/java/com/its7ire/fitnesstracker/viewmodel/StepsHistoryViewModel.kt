@@ -12,10 +12,8 @@ class StepHistoryViewModel(
     private val repository: StepRepository
 ) : ViewModel() {
 
-    // Observe all step history
     val history: Flow<List<StepsEntity>> = repository.history
 
-    // Save a new sensor update
     fun saveStepUpdate(stepCount: Int) {
         viewModelScope.launch {
             repository.save(

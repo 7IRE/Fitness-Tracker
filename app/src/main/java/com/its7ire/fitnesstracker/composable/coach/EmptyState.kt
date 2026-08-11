@@ -43,19 +43,11 @@ fun EmptyState(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-
-            Icon(
-                imageVector = Icons.Default.FitnessCenter,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
+            
             Text(
                 text = "Fitness Coach",
                 style = MaterialTheme.typography.headlineSmall,
@@ -70,7 +62,7 @@ fun EmptyState(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             EmptyStateItem(
                 icon = Icons.Default.FitnessCenter,

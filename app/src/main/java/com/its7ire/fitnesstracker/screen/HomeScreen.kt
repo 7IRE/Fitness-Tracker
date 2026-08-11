@@ -67,13 +67,13 @@ fun HomeScreen(
 
         StepSensor(context) { sensorValue ->
 
+            stepViewModel.updateSensorValue(sensorValue)
+
             stepViewModel.initializeSteps(sensorValue)
 
-            val todaySteps =
-                stepViewModel.calculateTodaySteps(sensorValue)
+            val todaySteps = stepViewModel.calculateTodaySteps(sensorValue)
 
             stepViewModel.updateSteps(todaySteps)
-
         }
     }
     var hasPermission by remember {
@@ -106,6 +106,7 @@ fun HomeScreen(
     DisposableEffect(Unit) {
         stepSensor.startListening()
         onDispose {
+            stepViewModel.saveTodaySteps()
             stepSensor.stopListening()
         }
     }

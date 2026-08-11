@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class StepViewModel(
     private val repository: StepRepository
 ) : ViewModel() {
-
+    private var latestSensorValue = 0
     private val _steps = MutableStateFlow(0)
     val steps = _steps.asStateFlow()
 
@@ -62,4 +62,26 @@ class StepViewModel(
         return currentSensorValue - startSensorValue
 
     }
+
+    fun saveTodaySteps() {
+
+        val todaySteps = calculateTodaySteps(latestSensorValue)
+
+        viewModelScope.launch {
+
+            val lastRecord = repository.getLastStep()
+
+            if (lastRecord != null) {
+                repository.updateSteps(
+                    lastRecord.id,
+                    todaySteps
+                )
+            }
+        }
+    }
+
+    fun updateSensorValue(sensorValue: Int) {
+        latestSensorValue = sensorValue
+    }
+
 }

@@ -1,4 +1,3 @@
-
 package com.its7ire.fitnesstracker.screen
 
 import android.content.res.Configuration
@@ -30,19 +29,19 @@ import com.its7ire.fitnesstracker.composable.coach.CoachMessageBubble
 import com.its7ire.fitnesstracker.composable.coach.CoachTopBar
 import com.its7ire.fitnesstracker.composable.coach.EmptyState
 import com.its7ire.fitnesstracker.composable.coach.GreetingCard
-import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
+//import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
 import com.its7ire.fitnesstracker.composable.coach.TypingIndicator
 import com.its7ire.fitnesstracker.composable.coach.UserMessageBubble
 import com.its7ire.fitnesstracker.data.stepdata.DatabaseProvider
 import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
-import com.its7ire.fitnesstracker.viewmodel.CoachViewModel
+//import com.its7ire.fitnesstracker.viewmodel.CoachViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
 
 @Composable
 fun CoachScreen(
-    viewModel: CoachViewModel = viewModel()
+//    viewModel: CoachViewModel = viewModel()
 )
 {
     val context = LocalContext.current
@@ -191,10 +190,10 @@ fun CoachScreen(
                     }
                 }
             }
-            SuggestionChips(
-                onChipClick = { suggestion ->
-                    sendMessage(suggestion)
-            })
+//            SuggestionChips(
+//                onChipClick = { suggestion ->
+//                    sendMessage(suggestion)
+//            })
         }
     }
 }

@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FitnessApp(onThemeChanged = { Theme = Theme + 1 })
+                    FitnessApp(onThemeChanged = { Theme += 1 })
                 }
             }
         }

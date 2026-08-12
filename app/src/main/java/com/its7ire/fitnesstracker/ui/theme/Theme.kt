@@ -1,19 +1,11 @@
 
 package com.its7ire.fitnesstracker.ui.theme
-import android.app.Activity
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import kotlin.random.Random
 
 private val lightScheme = lightColorScheme(
@@ -345,7 +337,7 @@ val unspecified_scheme = ColorFamily(
 fun AppTheme(
 //    darkTheme: Boolean = isSystemInDarkTheme(),
 //    dynamicColor: Boolean = true
-    value : Int = Random.nextInt(0,5),
+    value : Int = Random.nextInt(0,8),
     content: @Composable() () -> Unit
 
 ) {
@@ -358,8 +350,8 @@ fun AppTheme(
 //      darkTheme -> darkScheme
 //      else -> lightScheme
 //  }
-    val Val = value%10
-    val colorScheme = when (Val){
+    val color = value%10
+    val colorScheme = when (color){
         0 -> lightScheme
         1 -> darkScheme
         2 -> mediumContrastDarkColorScheme

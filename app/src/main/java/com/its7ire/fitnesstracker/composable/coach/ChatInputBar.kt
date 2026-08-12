@@ -16,17 +16,40 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-
 
 @Composable
 fun ChatInputBar(
     value: String,
     onValueChange: (String) -> Unit,
-    onSend: () -> Unit
+    onSend: () -> Unit,
+    requestFocus: Boolean = false
 ) {
+
+    val focusRequester = remember {
+        FocusRequester()
+    }
+
+    val keyboardController =
+        LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(requestFocus) {
+
+        if (requestFocus) {
+
+            focusRequester.requestFocus()
+
+            keyboardController?.show()
+        }
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,7 +64,11 @@ fun ChatInputBar(
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            modifier = Modifier.weight(1f),
+
+            modifier = Modifier
+                .weight(1f)
+                .focusRequester(focusRequester),
+
             placeholder = {
                 Text(
                     text = "Ask your fitness coach..."

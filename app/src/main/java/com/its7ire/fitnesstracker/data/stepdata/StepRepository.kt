@@ -13,4 +13,13 @@ class StepRepository(
     suspend fun getLastStep(): StepsEntity? {
         return dao.getLastStep()
     }
+
+    suspend fun updateSteps(id: Int, steps: Int) {
+        dao.updateSteps(
+            id = id,
+            steps = steps,
+            timestamp = System.currentTimeMillis()
+        )
+    }
+
 }

@@ -1,4 +1,3 @@
-
 package com.its7ire.fitnesstracker.screen
 
 import android.content.res.Configuration
@@ -20,21 +19,48 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.its7ire.fitnesstracker.composable.coach.CoachChatMessageData
 import com.its7ire.fitnesstracker.composable.coach.ChatInputBar
 import com.its7ire.fitnesstracker.composable.coach.CoachMessageBubble
 import com.its7ire.fitnesstracker.composable.coach.CoachTopBar
 import com.its7ire.fitnesstracker.composable.coach.EmptyState
 import com.its7ire.fitnesstracker.composable.coach.GreetingCard
-import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
+//import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
 import com.its7ire.fitnesstracker.composable.coach.TypingIndicator
 import com.its7ire.fitnesstracker.composable.coach.UserMessageBubble
+import com.its7ire.fitnesstracker.data.stepdata.DatabaseProvider
+import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+//import com.its7ire.fitnesstracker.viewmodel.CoachViewModel
+import com.its7ire.fitnesstracker.viewmodel.StepViewModel
+import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
 
 @Composable
-fun CoachScreen() {
+fun CoachScreen(
+//    viewModel: CoachViewModel = viewModel()
+)
+{
+    val context = LocalContext.current
+
+    val database = remember {
+        DatabaseProvider.getDatabase(context)
+    }
+
+    val repository = remember {
+        StepRepository(database.stepDao())
+    }
+
+    val stepViewModel: StepViewModel = viewModel(
+        factory = StepViewModelFactory(repository)
+    )
+    var focusChat by remember {
+        mutableStateOf(false)
+    }
+
 
     var input by rememberSaveable {
         mutableStateOf("")
@@ -54,6 +80,22 @@ fun CoachScreen() {
         )
     }
 
+    fun sendMessage(suggestion: String) {
+
+        if (input.isNotBlank()) {
+
+            messages.add(
+                CoachChatMessageData(
+                    message = input,
+                    isUser = true,
+                    time = "Now"
+                )
+            )
+
+            input = ""
+        }
+    }
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
 
@@ -67,7 +109,6 @@ fun CoachScreen() {
                 },
 
                 onSend = {
-
                     if (input.isNotBlank()) {
 
                         messages.add(
@@ -80,7 +121,9 @@ fun CoachScreen() {
 
                         input = ""
                     }
-                }
+                },
+
+                requestFocus = focusChat
             )
         }
 
@@ -110,13 +153,15 @@ fun CoachScreen() {
             ) {
 
                 item {
-                    GreetingCard()
+                    GreetingCard(stepViewModel = stepViewModel)
                 }
 
                 if (messages.size == 1) {
 
                     item {
-                        EmptyState()
+                        EmptyState(onStartClick = {
+                            focusChat = true
+                        })
                     }
 
                 } else {
@@ -144,27 +189,23 @@ fun CoachScreen() {
                         }
                     }
                 }
-
-                item {
-
-                    SuggestionChips(
-                        onChipClick = { suggestion ->
-
-                            input = suggestion
-                        }
-                    )
-                }
             }
+//            SuggestionChips(
+//                onChipClick = { suggestion ->
+//                    sendMessage(suggestion)
+//            })
         }
     }
 }
 
 
+
+
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-private fun HomeScreenPreview() {
-    AppTheme() {
+private fun CoachScreenPreview() {
+    AppTheme {
         CoachScreen()
     }
 }

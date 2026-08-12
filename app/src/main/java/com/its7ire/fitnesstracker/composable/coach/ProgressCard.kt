@@ -29,47 +29,32 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ProgressCard(
-
     streak: Int,
-
     workouts: Int,
-
     steps: Int,
-
     improvement: Int
-
 ) {
 
     Card(
-
         modifier = Modifier.fillMaxWidth(),
-
         shape = RoundedCornerShape(24.dp),
-
         colors = CardDefaults.cardColors(
-
             containerColor = MaterialTheme.colorScheme.surfaceContainer
-
         )
 
     ) {
 
         Column(
-
             modifier = Modifier.padding(20.dp)
-
         ) {
-
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Icon(
                     imageVector = Icons.Default.ShowChart,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )
-
                 Spacer(modifier = Modifier.width(10.dp))
 
                 Text(

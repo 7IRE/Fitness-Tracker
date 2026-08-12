@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EmptyState(
-    onStartClick: () -> Unit = {}
+    onStartClick: () -> Unit
 ) {
 
     Card(
@@ -97,9 +97,7 @@ fun EmptyState(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp)
             ) {
-
                 Text("Start Chat")
-
             }
 
         }

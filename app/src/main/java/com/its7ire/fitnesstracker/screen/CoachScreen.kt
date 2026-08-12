@@ -30,19 +30,22 @@ import com.its7ire.fitnesstracker.composable.coach.CoachMessageBubble
 import com.its7ire.fitnesstracker.composable.coach.CoachTopBar
 import com.its7ire.fitnesstracker.composable.coach.EmptyState
 import com.its7ire.fitnesstracker.composable.coach.GreetingCard
+import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
 import com.its7ire.fitnesstracker.composable.coach.TypingIndicator
 import com.its7ire.fitnesstracker.composable.coach.UserMessageBubble
 import com.its7ire.fitnesstracker.data.stepdata.DatabaseProvider
 import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+import com.its7ire.fitnesstracker.viewmodel.CoachViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
 
 @Composable
-fun CoachScreen()
+fun CoachScreen(
+    viewModel: CoachViewModel = viewModel()
+)
 {
     val context = LocalContext.current
-
 
     val database = remember {
         DatabaseProvider.getDatabase(context)
@@ -55,7 +58,9 @@ fun CoachScreen()
     val stepViewModel: StepViewModel = viewModel(
         factory = StepViewModelFactory(repository)
     )
-
+    var focusChat by remember {
+        mutableStateOf(false)
+    }
 
 
     var input by rememberSaveable {
@@ -76,6 +81,22 @@ fun CoachScreen()
         )
     }
 
+    fun sendMessage(suggestion: String) {
+
+        if (input.isNotBlank()) {
+
+            messages.add(
+                CoachChatMessageData(
+                    message = input,
+                    isUser = true,
+                    time = "Now"
+                )
+            )
+
+            input = ""
+        }
+    }
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
 
@@ -89,7 +110,6 @@ fun CoachScreen()
                 },
 
                 onSend = {
-
                     if (input.isNotBlank()) {
 
                         messages.add(
@@ -102,7 +122,9 @@ fun CoachScreen()
 
                         input = ""
                     }
-                }
+                },
+
+                requestFocus = focusChat
             )
         }
 
@@ -138,7 +160,9 @@ fun CoachScreen()
                 if (messages.size == 1) {
 
                     item {
-                        EmptyState()
+                        EmptyState(onStartClick = {
+                            focusChat = true
+                        })
                     }
 
                 } else {
@@ -167,9 +191,15 @@ fun CoachScreen()
                     }
                 }
             }
+            SuggestionChips(
+                onChipClick = { suggestion ->
+                    sendMessage(suggestion)
+            })
         }
     }
 }
+
+
 
 
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)

@@ -13,7 +13,7 @@ class GeminiRepo {
 
     private val conversation = mutableListOf<Content>()
 
-    suspend fun askCoach(question: String,apiKey: String): String {
+    suspend fun askCoach(question: String): String {
 
         val formattedQuestion = """
             You are a professional fitness coach inside a fitness tracking app.
@@ -61,7 +61,7 @@ class GeminiRepo {
         return try {
 
             val response = api.generateContent(
-                apiKey = apiKey,
+                apiKey = BuildConfig.GEMINI_API_KEY,
                 request = request
             )
 

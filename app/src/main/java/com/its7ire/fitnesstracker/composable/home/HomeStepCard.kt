@@ -1,5 +1,8 @@
 package com.its7ire.fitnesstracker.composable.home
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,15 +43,39 @@ fun HomeStepCard(
     modifier: Modifier = Modifier
 ) {
     val progress = if (goal > 0) {
-        (steps.toFloat() / goal.toFloat()).coerceIn(0f, 1f)
+        (steps.toFloat() / goal.toFloat())
     } else {
         0f
     }
+
+    val progress1 = remember { Animatable(0f) }
+    val progress2 = remember { Animatable(0f) }
+
+    LaunchedEffect(progress) {
+        val target1 = progress.coerceIn(0f, 1f)
+        val target2 = (progress - 1f).coerceIn(0f, 1f)
+
+        progress1.animateTo(
+            targetValue = target1,
+            animationSpec = tween(durationMillis = 1500, easing = FastOutSlowInEasing)
+        )
+
+        if (progress > 1f) {
+            progress2.animateTo(
+                targetValue = target2,
+                animationSpec = tween(durationMillis = 1500, easing = FastOutSlowInEasing)
+            )
+        } else {
+            progress2.snapTo(0f)
+        }
+    }
+
 
     val cardStartColor = MaterialTheme.colorScheme.surfaceContainerHigh
     val cardEndColor = MaterialTheme.colorScheme.surfaceContainer
     val primaryColor = MaterialTheme.colorScheme.primary
     val trackColor = MaterialTheme.colorScheme.surfaceContainerHighest
+    val secondaryColor = MaterialTheme.colorScheme.secondary
 
     Box(
         modifier = modifier
@@ -87,11 +116,21 @@ fun HomeStepCard(
                 drawArc(
                     color = primaryColor,
                     startAngle = -90f,
-                    sweepAngle = 360f * progress,
+                    sweepAngle = 360f * progress1.value,
                     useCenter = false,
                     topLeft = topLeft,
                     size = arcSize,
                     style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                )
+
+                drawArc(
+                    color = secondaryColor,
+                    startAngle = -90f,
+                    sweepAngle = 360f * progress2.value,
+                    useCenter = false,
+                    topLeft = topLeft,
+                    size = arcSize,
+                    style = Stroke(width = strokeWidth * 0.75f, cap = StrokeCap.Round)
                 )
             }
 

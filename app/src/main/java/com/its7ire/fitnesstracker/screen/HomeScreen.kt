@@ -64,16 +64,8 @@ fun HomeScreen(
     val bmiUiState by bmiViewModel.uiState.collectAsStateWithLifecycle()
 
     val stepSensor = remember {
-
         StepSensor(context) { sensorValue ->
-
-            stepViewModel.updateSensorValue(sensorValue)
-
-            stepViewModel.initializeSteps(sensorValue)
-
-            val todaySteps = stepViewModel.calculateTodaySteps(sensorValue)
-
-            stepViewModel.updateSteps(todaySteps)
+            stepViewModel.processSensorValue(sensorValue)
         }
     }
     var hasPermission by remember {
@@ -232,7 +224,7 @@ fun BottomNavItem(
 private fun HomeScreenPreview() {
     AppTheme() {
         HomeScreenContent(
-            steps = 6420,
+            steps = 13499,
             bmiIndex = 22.4,
             weight = "68",
             onNavigateToBmi = {}

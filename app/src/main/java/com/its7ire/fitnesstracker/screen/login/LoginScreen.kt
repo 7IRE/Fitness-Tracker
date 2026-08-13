@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,27 +25,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.its7ire.fitnesstracker.screen.InputField
+import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
-@Preview
 @Composable
 fun LoginScreen() {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val pink = Color(0xFFFFA6C1)
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF111111))
+            .background(MaterialTheme.colorScheme.background)
             .padding(36.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -52,8 +50,8 @@ fun LoginScreen() {
         Spacer(Modifier.height(110.dp))
 
         Text(
-            "FitPulse",
-            color = Color.White,
+            text = "FitPulse",
+            color = MaterialTheme.colorScheme.onBackground,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
@@ -63,7 +61,10 @@ fun LoginScreen() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF1B1B1B), RoundedCornerShape(10.dp))
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(10.dp)
+                )
                 .padding(28.dp)
         ) {
 
@@ -86,7 +87,7 @@ fun LoginScreen() {
 
             Text(
                 "Forgot Password?",
-                color = pink,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.align(Alignment.End)
@@ -101,12 +102,12 @@ fun LoginScreen() {
                     .height(52.dp),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = pink
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
                 Text(
                     "Login",
-                    color = Color(0xFF5D1732),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -118,13 +119,19 @@ fun LoginScreen() {
                 Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                HorizontalDivider(Modifier.weight(1f))
+                HorizontalDivider(
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.outline
+                )
                 Text(
                     "  OR  ",
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 10.sp
                 )
-                HorizontalDivider(Modifier.weight(1f))
+                HorizontalDivider(
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.outline
+                )
             }
 
             Spacer(Modifier.height(25.dp))
@@ -135,13 +142,13 @@ fun LoginScreen() {
                     .fillMaxWidth()
                     .height(48.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF111111)
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text(
                     "Sign in with Google",
-                    color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -155,17 +162,25 @@ fun LoginScreen() {
             ) {
                 Text(
                     "Don't have an account? ",
-                    color = Color.LightGray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 13.sp
                 )
 
                 Text(
                     "Sign Up",
-                    color = pink,
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun LoginScreenPreview() {
+    AppTheme {
+        LoginScreen()
     }
 }

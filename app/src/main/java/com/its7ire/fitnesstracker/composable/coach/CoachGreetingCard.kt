@@ -16,16 +16,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 
 @Composable
@@ -34,14 +31,7 @@ fun GreetingCard(
     streak: Int = 6,
     stepViewModel: StepViewModel
 ) {
-    var todaySteps by remember {
-        mutableStateOf(0)
-    }
-
-    LaunchedEffect(Unit) {
-        todaySteps = stepViewModel.getLastStep()?.steps ?: 0
-    }
-
+    val todaySteps by stepViewModel.steps.collectAsStateWithLifecycle()
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -50,11 +40,9 @@ fun GreetingCard(
             containerColor = MaterialTheme.colorScheme.surfaceContainer
         )
     ) {
-
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
-
             Text(
                 text = "Good Evening",
                 style = MaterialTheme.typography.titleMedium,
@@ -80,6 +68,7 @@ fun GreetingCard(
                 Icons.Default.DirectionsWalk,
                 "$todaySteps Steps Today"
             )
+
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
@@ -90,20 +79,16 @@ fun CoachStatRow(
     icon: ImageVector,
     text: String
 ) {
-
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Icon(
             imageVector = icon,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary
         )
 
-        Spacer(
-            modifier = Modifier.width(12.dp)
-        )
+        Spacer(modifier = Modifier.width(12.dp))
 
         Text(
             text = text,

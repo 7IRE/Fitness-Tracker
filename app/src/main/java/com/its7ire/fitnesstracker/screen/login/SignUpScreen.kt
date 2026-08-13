@@ -1,25 +1,45 @@
 package com.its7ire.fitnesstracker.screen
 
-import android.R
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.*
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
-@Preview
 @Composable
 fun SignUpScreen() {
 
@@ -27,12 +47,10 @@ fun SignUpScreen() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val pink = Color(0xFFFF72AA)
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF111111))
+            .background(MaterialTheme.colorScheme.background)
             .padding(18.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -40,8 +58,8 @@ fun SignUpScreen() {
         Spacer(Modifier.height(25.dp))
 
         Text(
-            "FitPulse",
-            color = Color(0xFFE75B9C),
+            text = "FitPulse",
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 43.sp,
             fontWeight = FontWeight.Bold
         )
@@ -51,13 +69,16 @@ fun SignUpScreen() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF202020), RoundedCornerShape(22.dp))
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(22.dp)
+                )
                 .padding(23.dp)
         ) {
 
             Text(
-                "Create Account",
-                color = Color.White,
+                text = "Create Account",
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 23.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -65,27 +86,27 @@ fun SignUpScreen() {
             Spacer(Modifier.height(25.dp))
 
             InputField(
-                "Full name",
-                name,
-                { name = it },
-                Icons.Outlined.Person
+                label = "Full name",
+                value = name,
+                onValueChange = { name = it },
+                icon = Icons.Outlined.Person
             )
 
             InputField(
-                "Email",
-                email,
-                { email = it },
-                Icons.Outlined.Email,
-                KeyboardType.Email
+                label = "Email",
+                value = email,
+                onValueChange = { email = it },
+                icon = Icons.Outlined.Email,
+                keyboard = KeyboardType.Email
             )
 
             InputField(
-                "Password",
-                password,
-                { password = it },
-                Icons.Outlined.Lock,
-                KeyboardType.Password,
-                true
+                label = "Password",
+                value = password,
+                onValueChange = { password = it },
+                icon = Icons.Outlined.Lock,
+                keyboard = KeyboardType.Password,
+                password = true
             )
 
             Spacer(Modifier.height(15.dp))
@@ -97,25 +118,35 @@ fun SignUpScreen() {
                     .height(48.dp),
                 shape = RoundedCornerShape(11.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = pink
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
-                Text("Create Account")
+                Text(
+                    text = "Create Account",
+                    fontWeight = FontWeight.Bold
+                )
             }
 
             Spacer(Modifier.height(25.dp))
 
             Row(
-                Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                HorizontalDivider(Modifier.weight(1f))
+                HorizontalDivider(
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.outline
+                )
                 Text(
-                    "  Or Continue With  ",
-                    color = Color.Gray,
+                    text = "  Or Continue With  ",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 10.sp
                 )
-                HorizontalDivider(Modifier.weight(1f))
+                HorizontalDivider(
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.outline
+                )
             }
 
             Spacer(Modifier.height(25.dp))
@@ -126,31 +157,37 @@ fun SignUpScreen() {
                     .fillMaxWidth()
                     .height(48.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF111111)
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text("G   Google", fontSize = 16.sp)
+                Text(
+                    text = "G   Google",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
 
         Spacer(Modifier.height(20.dp))
 
-        Row(  horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()){
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text(
-                "Already have an account? ",
-                color = Color.White,
+                text = "Already have an account? ",
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 13.sp
             )
             Text(
-                "Login",
-                color = pink,
-                fontSize = 13.sp
+                text = "Login",
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold
             )
         }
-
-
     }
 }
 
@@ -165,7 +202,7 @@ fun InputField(
 ) {
     Text(
         text = label,
-        color = Color(0xFFB7B7A9),
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         fontSize = 12.sp,
         fontWeight = FontWeight.Bold
     )
@@ -175,21 +212,37 @@ fun InputField(
         onValueChange = onValueChange,
         modifier = Modifier
             .fillMaxWidth()
-            .height(55.dp),
+            .padding(top = 4.dp),
         leadingIcon = {
-            Icon(icon, contentDescription = null)
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboard
         ),
-        visualTransformation =
-            if (password)
-                PasswordVisualTransformation()
-            else
-                VisualTransformation.None,
-        shape = RoundedCornerShape(10.dp)
+        visualTransformation = if (password) PasswordVisualTransformation() else VisualTransformation.None,
+        shape = RoundedCornerShape(10.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurface
+        )
     )
 
     Spacer(Modifier.height(10.dp))
+}
+
+@Preview
+@Composable
+fun SignUpScreenPreview() {
+    AppTheme {
+        SignUpScreen()
+    }
 }

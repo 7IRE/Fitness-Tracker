@@ -12,9 +12,9 @@ A modern, sleek, and intuitive Android Fitness Tracker application built nativel
 | :--- |:-----------------:| :--- |
 | **UI Design & Layouts** | 🟢  **Completed** | Single page UI screens completed for Home, History, and Profile. Refactoring to Material 3 design tokens underway. |
 | **Navigation** |   🟢  **Completed**   | Bottom Navigation Bar & Jetpack NavGraph implementation. |
-| **MVVM Architecture** |  🔴 **Planned**   | ViewModels, StateFlow, and UI state management (Unidirectional Data Flow). |
+| **MVVM Architecture** |  🟢  **Completed**   | ViewModels, StateFlow, and UI state management (Unidirectional Data Flow). |
 | **Room Database** |  🔴 **Planned**   | Local offline persistence for step logs, workouts, and user streak data. |
-| **Gemini AI Integration** |  🔴 **Planned**   | AI-driven fitness insights, diet suggestions, and custom workout plans. |
+| **Gemini AI Integration** |  🟢  **Completed**   | AI-driven fitness insights, diet suggestions, and custom workout plans. |
 
 ---
 
@@ -32,9 +32,16 @@ A modern, sleek, and intuitive Android Fitness Tracker application built nativel
 * **UI Framework:** [Jetpack Compose](https://developer.android.com/jetpack/compose)
 * **Design System:** [Material 3](https://m3.material.io/)
 * **Language:** Kotlin
-* **Local Storage (Planned):** Room Database
-* **Architecture (Planned):** MVVM + Repository Pattern
-* **AI Engine (Planned):** Google Gemini AI SDK
+* **Local Storage :** Room Database
+* **Architecture :** MVVM + Repository Pattern
+* **AI Engine :** Google Gemini AI SDK
+
+#🔐 **API Key Configuration**
+
+    The Gemini API key is stored in local.properties and is excluded from version control.
+        GEMINI_API_KEY=your_api_key_here
+    The application accesses the key through BuildConfig.GEMINI_API_KEY.
+    Each developer should use their own Gemini API key in their local local.properties file.
 
 ---
 
@@ -43,7 +50,25 @@ A modern, sleek, and intuitive Android Fitness Tracker application built nativel
 ```text
 com.its7ire.fitnesstracker/
 │
-├── composable/                 # UI Reusable Components
+├── api.coach/
+│   ├── GeminiApi.kt
+│   ├── GeminiModels.kt
+│   ├── GeminiRepo.kt
+│   └── GeminiRetrofit.kt
+│
+├── composable/
+│   ├── coach/
+│   │   ├── ChatInputBar.kt
+│   │   ├── CoachChatMessageData.kt
+│   │   ├── CoachGreetingCard.kt
+│   │   ├── CoachMessageBubble.kt
+│   │   ├── CoachTopBar.kt
+│   │   ├── EmptyState.kt
+│   │   ├── ProgressCard.kt
+│   │   ├── SuggestionChips.kt
+│   │   ├── TypingIndicator.kt
+│   │   └── UserMessageBubble.kt
+│   │
 │   ├── history/
 │   │   ├── HistoryAvgCard.kt
 │   │   ├── HistoryDailyLogCard.kt
@@ -51,38 +76,79 @@ com.its7ire.fitnesstracker/
 │   │   ├── HistoryStepSection.kt
 │   │   └── HistoryTopBar.kt
 │   │
-│   ├── home/
-│   │   ├── HomeCaloriesCard.kt
-│   │   ├── HomeCreateWorkoutButton.kt
-│   │   ├── HomeExerciseCard.kt
-│   │   ├── HomeStatCard.kt
-│   │   ├── HomeStepCard.kt
-│   │   └── HomeTopBar.kt
-│   │
-│   └── profile/
-│       ├── LogoutButton.kt
-│       ├── ProfileInformation.kt
-│       ├── ProfilePrefItem.kt
-│       ├── ProfilePrefSection.kt
-│       ├── ProfileStatCard.kt
-│       ├── ProfileStatSection.kt
-│       └── ProfileTopBar.kt
+│   └── home/
+│       ├── bmi/
+│       │   ├── BMI_Top_Bar.kt
+│       │   ├── BmiHeightField.kt
+│       │   ├── BmiWeightField.kt
+│       │   ├── CalculateBmi.kt
+│       │   └── CalculateButton.kt
+│       │
+│       ├── calories/
+│       │   └── CalorieCalculator.kt
+│       │
+│       ├── HomeBMICard.kt
+│       ├── HomeCaloriesCard.kt
+│       ├── HomeCreateWorkoutButton.kt
+│       ├── HomeStatCard.kt
+│       ├── HomeStepCard.kt
+│       ├── HomeTopBar.kt
+│       └── ProgressArc.kt
 │
-├── screen/                     # Full Screen Composables
+│   ├── profile/
+│   │   ├── LogoutButton.kt
+│   │   ├── ProfileInformation.kt
+│   │   ├── ProfilePrefItem.kt
+│   │   ├── ProfilePrefSection.kt
+│   │   ├── ProfileStatCard.kt
+│   │   ├── ProfileStatSection.kt
+│   │   └── ProfileTopBar.kt
+│   │
+│   ├── stepgoal/
+│   │   └── StepGoalDropDown.kt
+│   │
+│   └── steps/
+│       └── StepSensor.kt
+│
+├── data/
+│   ├── bmidata/
+│   │   ├── AppDatabase.kt
+│   │   ├── BMIDao.kt
+│   │   ├── BMIEntity.kt
+│   │   └── BMIRepository.kt
+│   │
+│   └── stepdata/
+│       ├── DatabaseProvider.kt
+│       ├── StepDao.kt
+│       ├── StepDatabase.kt
+│       ├── StepRepository.kt
+│       └── StepsEntity.kt
+│
+├── navigation/
+│   └── NavHost.kt
+│
+├── screen/
+│   ├── BMIScreen.kt
+│   ├── CoachScreen.kt
 │   ├── HistoryScreen.kt
 │   ├── HomeScreen.kt
-│   └── ProfileScreen.kt
+│   ├── ProfileScreen.kt
+│   └── StepGoalScreen.kt
 │
-├── ui.theme/                   # Design Tokens & Theme Setup
+├── ui.theme/
 │   ├── Color.kt
 │   ├── Theme.kt
 │   └── Type.kt
 │
-├── data/                       # [Planned] Room DB, DAOs, & Repositories
-│   ├── local/
-│   ├── remote/
-│   └── repository/
+├── viewmodel/
+│   ├── BMIViewModel.kt
+│   ├── BMIViewModelFactory.kt
+│   ├── CoachViewModel.kt
+│   ├── StepsHistory/
+│   │   └── ViewModel.kt
+│   ├── StepViewModel.kt
+│   └── StepViewModelFactory.kt
 │
-├── viewmodel/                  # [Planned] ViewModels & UI States
-│
-└── MainActivity.kt
+├── MainActivity.kt
+└── Utils.kt
+

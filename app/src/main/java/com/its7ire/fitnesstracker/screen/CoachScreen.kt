@@ -1,4 +1,3 @@
-
 package com.its7ire.fitnesstracker.screen
 
 import android.content.res.Configuration
@@ -26,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.its7ire.fitnesstracker.composable.coach.ApiKeyPopup
 import com.its7ire.fitnesstracker.composable.coach.CoachChatMessageData
 import com.its7ire.fitnesstracker.composable.coach.ChatInputBar
 import com.its7ire.fitnesstracker.composable.coach.CoachMessageBubble
@@ -41,12 +41,27 @@ import com.its7ire.fitnesstracker.ui.theme.AppTheme
 import com.its7ire.fitnesstracker.viewmodel.CoachViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
+import com.its7ire.fitnesstracker.data.ApiKeyStorage
 
 @Composable
 fun CoachScreen(
     viewModel: CoachViewModel = viewModel()
 ) {
     val context = LocalContext.current
+    val apiKeyStorage = remember { ApiKeyStorage(context) }
+    var showApiPopup by remember { mutableStateOf(apiKeyStorage.getKey().isNullOrBlank()) }
+
+    if (showApiPopup) {
+        ApiKeyPopup(
+            onKeySaved = { newKey ->
+                apiKeyStorage.saveKey(newKey)
+                showApiPopup = false
+            },
+            onDismiss = {
+                showApiPopup = false
+            }
+        )
+    }
 
     val database = remember {
         DatabaseProvider.getDatabase(context)
@@ -85,7 +100,6 @@ fun CoachScreen(
 
     LaunchedEffect(response) {
         if (response.isNotBlank()) {
-
             messages.add(
                 CoachChatMessageData(
                     message = response,
@@ -93,15 +107,12 @@ fun CoachScreen(
                     time = "Now"
                 )
             )
-
             isTyping = false
         }
     }
 
     fun sendMessage(message: String) {
-
-        if (message.isBlank())
-            return
+        if (message.isBlank()) return
 
         messages.add(
             CoachChatMessageData(
@@ -113,30 +124,26 @@ fun CoachScreen(
 
         input = ""
         isTyping = true
-        viewModel.askCoach(message)
+
+        val userKey = apiKeyStorage.getKey()
+        viewModel.askCoach(message, userKey)
     }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
-
         bottomBar = {
-
             ChatInputBar(
                 value = input,
-
                 onValueChange = {
                     input = it
                 },
                 onSend = {
                     sendMessage(input)
                 },
-
                 requestFocus = focusChat
             )
         }
-
     ) { padding ->
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -148,9 +155,7 @@ fun CoachScreen(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-
                 verticalArrangement = Arrangement.spacedBy(12.dp),
-
                 contentPadding = PaddingValues(
                     start = 20.dp,
                     end = 20.dp,
@@ -165,7 +170,6 @@ fun CoachScreen(
                 }
 
                 if (messages.size == 1) {
-
                     item {
                         EmptyState(
                             onStartClick = {
@@ -187,14 +191,12 @@ fun CoachScreen(
                     }
 
                     if (isTyping) {
-
                         item {
                             TypingIndicator()
                         }
                     }
                 }
                 item {
-
                     SuggestionChips(
                         onChipClick = { suggestion ->
                             input = suggestion
@@ -206,9 +208,6 @@ fun CoachScreen(
         }
     }
 }
-
-
-
 
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)

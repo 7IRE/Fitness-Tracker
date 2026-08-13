@@ -17,7 +17,8 @@ class CoachViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    fun askCoach(question: String) {
+    // 👈 Add apiKey as a parameter here instead
+    fun askCoach(question: String, apiKey: String?) {
 
         if (question.isBlank()) return
 
@@ -27,17 +28,18 @@ class CoachViewModel : ViewModel() {
 
             try {
 
-                val answer = repository.askCoach(question)
+                if (apiKey.isNullOrBlank()) {
+                    _response.value = "API Key is missing. Please enter it in settings."
+                    return@launch
+                }
+
+                val answer = repository.askCoach(question, apiKey)
 
                 _response.value = answer
 
             } catch (e: Exception) {
-
-                _response.value =
-                    "Sorry, something went wrong."
-
+                _response.value = "Sorry, something went wrong."
             } finally {
-
                 _isLoading.value = false
             }
         }

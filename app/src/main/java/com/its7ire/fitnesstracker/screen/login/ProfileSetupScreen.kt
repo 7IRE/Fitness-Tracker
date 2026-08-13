@@ -20,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -35,8 +36,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
-@Preview
 @Composable
 fun ProfileSetupScreen() {
 
@@ -45,25 +46,25 @@ fun ProfileSetupScreen() {
     var height by remember { mutableStateOf("") }
     var steps by remember { mutableStateOf("") }
 
-    val pink = Color(0xFFFF80B0)
-    val card = Color(0xFF1B2224)
-    val bg = Color(0xFF111111)
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(bg)
+            .background(MaterialTheme.colorScheme.background)
             .padding(14.dp)
     ) {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
 
-            Text("←", color = Color.White, fontSize = 25.sp)
+            Text(
+                "←",
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 25.sp
+            )
 
             Text(
                 "Set Up Your Profile",
                 modifier = Modifier.padding(start = 35.dp),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -78,29 +79,36 @@ fun ProfileSetupScreen() {
             Box(
                 modifier = Modifier
                     .size(108.dp)
-                    .background(card, CircleShape)
-                    .border(1.dp, Color.DarkGray, CircleShape),
+                    .background(MaterialTheme.colorScheme.surface, CircleShape)
+                    .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Outlined.Person,
                     contentDescription = null,
-                    tint = Color(0xFF9B9B78),
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(35.dp)
                 )
             }
         }
 
+        Spacer(Modifier.height(8.dp))
+
         Text(
             "Upload Avatar",
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = Color(0xFFB7A65F),
-            fontSize = 11.sp
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium
         )
 
         Spacer(Modifier.height(20.dp))
 
-        Text("Physical Stats", color = Color.White, fontWeight = FontWeight.Bold)
+        Text(
+            "Physical Stats",
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Bold
+        )
 
         Spacer(Modifier.height(10.dp))
 
@@ -116,7 +124,11 @@ fun ProfileSetupScreen() {
 
         Spacer(Modifier.height(25.dp))
 
-        Text("Goals", color = Color.White, fontWeight = FontWeight.Bold)
+        Text(
+            "Goals",
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Bold
+        )
 
         Spacer(Modifier.height(10.dp))
 
@@ -129,12 +141,14 @@ fun ProfileSetupScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = pink),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ),
             shape = RoundedCornerShape(10.dp)
         ) {
             Text(
                 "Continue  →",
-                color = Color(0xFF58172F),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -154,7 +168,7 @@ fun StatBox(
         modifier = modifier
             .padding(bottom = 12.dp)
             .background(
-                Color(0xFF1B2224),
+                MaterialTheme.colorScheme.surface,
                 RoundedCornerShape(10.dp)
             )
             .padding(14.dp)
@@ -162,7 +176,7 @@ fun StatBox(
 
         Text(
             label,
-            color = Color.Gray,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 10.sp
         )
 
@@ -181,15 +195,24 @@ fun StatBox(
                 ),
                 textStyle = LocalTextStyle.current.copy(
                     fontSize = 27.sp,
-                    color = Color(0xFF7D8DA8)
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             )
 
             Text(
                 unit,
-                color = Color(0xFFB7A65F),
-                fontSize = 11.sp
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun ProfileSetupScreenPreview() {
+    AppTheme {
+        ProfileSetupScreen()
     }
 }

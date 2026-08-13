@@ -1,3 +1,4 @@
+
 package com.its7ire.fitnesstracker.screen
 
 import android.content.res.Configuration
@@ -12,6 +13,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
@@ -29,21 +32,20 @@ import com.its7ire.fitnesstracker.composable.coach.CoachMessageBubble
 import com.its7ire.fitnesstracker.composable.coach.CoachTopBar
 import com.its7ire.fitnesstracker.composable.coach.EmptyState
 import com.its7ire.fitnesstracker.composable.coach.GreetingCard
-//import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
+import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
 import com.its7ire.fitnesstracker.composable.coach.TypingIndicator
 import com.its7ire.fitnesstracker.composable.coach.UserMessageBubble
 import com.its7ire.fitnesstracker.data.stepdata.DatabaseProvider
 import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
-//import com.its7ire.fitnesstracker.viewmodel.CoachViewModel
+import com.its7ire.fitnesstracker.viewmodel.CoachViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
 
 @Composable
 fun CoachScreen(
-//    viewModel: CoachViewModel = viewModel()
-)
-{
+    viewModel: CoachViewModel = viewModel()
+) {
     val context = LocalContext.current
 
     val database = remember {
@@ -57,11 +59,10 @@ fun CoachScreen(
     val stepViewModel: StepViewModel = viewModel(
         factory = StepViewModelFactory(repository)
     )
+
     var focusChat by remember {
         mutableStateOf(false)
     }
-
-
     var input by rememberSaveable {
         mutableStateOf("")
     }
@@ -69,6 +70,8 @@ fun CoachScreen(
     var isTyping by remember {
         mutableStateOf(false)
     }
+
+    val response by viewModel.response.collectAsState()
 
     val messages = remember {
         mutableStateListOf(
@@ -80,20 +83,37 @@ fun CoachScreen(
         )
     }
 
-    fun sendMessage(suggestion: String) {
-
-        if (input.isNotBlank()) {
+    LaunchedEffect(response) {
+        if (response.isNotBlank()) {
 
             messages.add(
                 CoachChatMessageData(
-                    message = input,
-                    isUser = true,
+                    message = response,
+                    isUser = false,
                     time = "Now"
                 )
             )
 
-            input = ""
+            isTyping = false
         }
+    }
+
+    fun sendMessage(message: String) {
+
+        if (message.isBlank())
+            return
+
+        messages.add(
+            CoachChatMessageData(
+                message = message,
+                isUser = true,
+                time = "Now"
+            )
+        )
+
+        input = ""
+        isTyping = true
+        viewModel.askCoach(message)
     }
 
     Scaffold(
@@ -107,20 +127,8 @@ fun CoachScreen(
                 onValueChange = {
                     input = it
                 },
-
                 onSend = {
-                    if (input.isNotBlank()) {
-
-                        messages.add(
-                            CoachChatMessageData(
-                                message = input,
-                                isUser = true,
-                                time = "Now"
-                            )
-                        )
-
-                        input = ""
-                    }
+                    sendMessage(input)
                 },
 
                 requestFocus = focusChat
@@ -134,7 +142,6 @@ fun CoachScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-
             CoachTopBar()
 
             LazyColumn(
@@ -151,31 +158,28 @@ fun CoachScreen(
                     bottom = 16.dp
                 )
             ) {
-
                 item {
-                    GreetingCard(stepViewModel = stepViewModel)
+                    GreetingCard(
+                        stepViewModel = stepViewModel
+                    )
                 }
 
                 if (messages.size == 1) {
 
                     item {
-                        EmptyState(onStartClick = {
-                            focusChat = true
-                        })
+                        EmptyState(
+                            onStartClick = {
+                                focusChat = true
+                            }
+                        )
                     }
-
                 } else {
-
                     items(messages) { message ->
-
                         if (message.isUser) {
-
                             UserMessageBubble(
                                 message = message
                             )
-
                         } else {
-
                             CoachMessageBubble(
                                 message = message
                             )
@@ -189,11 +193,16 @@ fun CoachScreen(
                         }
                     }
                 }
+                item {
+
+                    SuggestionChips(
+                        onChipClick = { suggestion ->
+                            input = suggestion
+                            sendMessage(suggestion)
+                        }
+                    )
+                }
             }
-//            SuggestionChips(
-//                onChipClick = { suggestion ->
-//                    sendMessage(suggestion)
-//            })
         }
     }
 }

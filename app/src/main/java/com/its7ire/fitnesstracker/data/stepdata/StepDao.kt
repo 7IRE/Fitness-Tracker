@@ -23,4 +23,11 @@ interface StepDao {
         steps: Int,
         timestamp: Long
     )
+
+    @Query("""
+    SELECT * FROM Steps
+    WHERE timestamp BETWEEN :start AND :end
+    ORDER BY timestamp ASC
+""")
+    fun getStepsForWeek(start: Long, end: Long): Flow<List<StepsEntity>>
 }

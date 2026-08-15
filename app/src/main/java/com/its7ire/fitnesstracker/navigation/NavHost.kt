@@ -1,8 +1,5 @@
 package com.its7ire.fitnesstracker.navigation
 
-import android.content.Context
-import android.content.ContextWrapper
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -44,6 +41,8 @@ import com.its7ire.fitnesstracker.data.stepdata.DatabaseProvider
 import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
+import com.its7ire.fitnesstracker.viewmodel.PerformanceViewModel
+import com.its7ire.fitnesstracker.viewmodel.PerformanceViewModelFactory
 
 enum class BottomNavScreen(val route: String, val label: String, val icon: ImageVector) {
     Home("home", "Home", Icons.Default.Home),
@@ -88,6 +87,9 @@ fun FitnessApp(
 
     val stepViewModel: StepViewModel = viewModel(
         factory = StepViewModelFactory(stepRepository)
+    )
+    val performanceViewModel: PerformanceViewModel = viewModel(
+        factory = PerformanceViewModelFactory(stepRepository)
     )
 
 
@@ -143,7 +145,9 @@ fun FitnessApp(
                 CoachScreen()
             }
             composable(route = Routes.HISTORY) {
-                PerformanceScreen1()
+                PerformanceScreen1(
+                    viewModel = performanceViewModel
+                )
             }
             composable(route = Routes.PROFILE) {
                 ProfileScreen(onAppearanceClick = onThemeChanged)

@@ -4,18 +4,13 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
-import android.widget.Space
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
@@ -43,6 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.its7ire.fitnesstracker.composable.home.HomeBMICard
 import com.its7ire.fitnesstracker.composable.home.HomeCaloriesCard
+import com.its7ire.fitnesstracker.composable.home.HomeDistanceCard
 import com.its7ire.fitnesstracker.composable.home.HomeStepCard
 import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.composable.home.calories.calculateCaloriesFromSteps
@@ -157,7 +153,10 @@ fun HomeScreenContent(
 
             item {
                 Spacer(modifier = Modifier.height(20.dp))
-                HomeStepCard(steps = steps, goal = 10000)
+                HomeStepCard(
+                    steps = steps,
+                    goal = 10000
+                )
             }
 
             item {
@@ -176,7 +175,17 @@ fun HomeScreenContent(
                         weightKg = weight.toDoubleOrNull() ?: 0.0
                     )
                 )
-                Spacer(modifier = Modifier.height(20.dp))
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                HomeDistanceCard(
+                    steps = steps
+                )
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
         }

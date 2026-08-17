@@ -16,6 +16,10 @@ class StepRepository(
         return dao.getLastStep()
     }
 
+    suspend fun getStepsForDay(day: String): StepsEntity? {
+        return dao.getStepsForDay(day)
+    }
+
     suspend fun updateSteps(id: Int, steps: Int) {
         dao.updateSteps(
             id = id,
@@ -24,12 +28,7 @@ class StepRepository(
         )
     }
 
-    fun getWeeklySteps(start: Long, end: Long): Flow<List<StepsEntity>> {
-        return dao.getStepsForWeek(start, end)
-
-    }
-
-    fun getStepsForWeek(
+    fun getWeeklySteps(
         start: Long,
         end: Long
     ): Flow<List<StepsEntity>> {

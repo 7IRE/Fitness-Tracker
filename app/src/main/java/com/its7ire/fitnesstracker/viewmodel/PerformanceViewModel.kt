@@ -93,55 +93,101 @@ class PerformanceViewModel(
         data: Map<String, Int>
     ): List<BarData> {
 
-        val labels = listOf(
-            "Mon",
-            "Tue",
-            "Wed",
-            "Thu",
-            "Fri",
-            "Sat",
-            "Sun"
+        val dateFormat = SimpleDateFormat(
+            "yyyy-MM-dd",
+            Locale.getDefault()
         )
+
+        val dayFormat = SimpleDateFormat(
+            "EEE",
+            Locale.getDefault()
+        )
+
+        val calendar = Calendar.getInstance()
+
+        // Monday
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+
+        val dates = mutableListOf<Pair<String, String>>()
+
+        repeat(7) {
+
+            val dateKey = dateFormat.format(calendar.time)
+            val dayName = dayFormat.format(calendar.time)
+
+            dates.add(dateKey to dayName)
+
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
 
         val maxSteps = (data.values.maxOrNull() ?: 1).toFloat()
 
-        return labels.map { day ->
+        return dates.map { (dateKey, dayName) ->
 
-            val steps = data[day] ?: 0
+            val steps = data[dateKey] ?: 0
 
             BarData(
-                label = day.first().toString(),
-                heightFraction = steps / maxSteps,
-                isHighlighted = day == getTodayName()
+                label = dayName.first().toString(),
+                heightFraction = (steps / maxSteps).coerceIn(0f, 1f),
+                isHighlighted = dateKey == dateFormat.format(Date())
             )
         }
     }
-
     private fun createLogs(
         data: Map<String, Int>
     ): List<DailyLogEntry> {
 
         val goal = 10_000
 
-        return data.entries.map { entry ->
+        val dateFormat = SimpleDateFormat(
+            "yyyy-MM-dd",
+            Locale.getDefault()
+        )
 
-            val steps = entry.value
+        val dayFormat = SimpleDateFormat(
+            "EEE",
+            Locale.getDefault()
+        )
 
-            DailyLogEntry(
-                dayLabel = entry.key,
-                date = "",
-                steps = steps,
-                statusText = if (steps >= goal) {
-                    "Goal reached"
-                } else {
-                    "${(steps * 100) / goal}% of goal"
-                },
-                goalReached = steps >= goal,
-                isToday = entry.key == getTodayName()
+        val displayDateFormat = SimpleDateFormat(
+            "dd MMM",
+            Locale.getDefault()
+        )
+
+        val calendar = Calendar.getInstance()
+
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+
+        val logs = mutableListOf<DailyLogEntry>()
+
+        repeat(7) {
+
+            val dateKey = dateFormat.format(calendar.time)
+            val dayLabel = dayFormat.format(calendar.time)
+            val displayDate = displayDateFormat.format(calendar.time)
+
+            val steps = data[dateKey] ?: 0
+
+            logs.add(
+                DailyLogEntry(
+                    dayLabel = dayLabel,
+                    date = displayDate,
+                    steps = steps,
+                    statusText = if (steps >= goal) {
+                        "Goal reached"
+                    } else {
+                        "${(steps * 100) / goal}% of goal"
+                    },
+                    goalReached = steps >= goal,
+                    isToday = dateKey == dateFormat.format(Date())
+                )
             )
-        }
-    }
 
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        return logs
+    }
     private fun getTodayName(): String {
         return SimpleDateFormat(
             "EEE",

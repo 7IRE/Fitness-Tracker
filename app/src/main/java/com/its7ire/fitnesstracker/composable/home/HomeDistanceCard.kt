@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 
 fun calculateDistanceWalked(
     steps: Int,
-    strideLengthMeters: Double = 0.75
+    strideLengthMeters: Double = 0.39
 ): Double {
 
     return (steps * strideLengthMeters) / 1000.0

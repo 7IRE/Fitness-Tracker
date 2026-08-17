@@ -17,7 +17,19 @@ interface StepDao {
     @Query("SELECT * FROM Steps ORDER BY timestamp DESC LIMIT 1")
     suspend fun getLastStep(): StepsEntity?
 
-    @Query(""" UPDATE Steps SET steps = :steps, timestamp = :timestamp WHERE id = :id """)
+    @Query("""
+        SELECT * FROM Steps
+        WHERE day = :day
+        LIMIT 1
+    """)
+    suspend fun getStepsForDay(day: String): StepsEntity?
+
+    @Query("""
+        UPDATE Steps
+        SET steps = :steps,
+            timestamp = :timestamp
+        WHERE id = :id
+    """)
     suspend fun updateSteps(
         id: Int,
         steps: Int,
@@ -25,9 +37,12 @@ interface StepDao {
     )
 
     @Query("""
-    SELECT * FROM Steps
-    WHERE timestamp BETWEEN :start AND :end
-    ORDER BY timestamp ASC
-""")
-    fun getStepsForWeek(start: Long, end: Long): Flow<List<StepsEntity>>
+        SELECT * FROM Steps
+        WHERE timestamp BETWEEN :start AND :end
+        ORDER BY timestamp ASC
+    """)
+    fun getStepsForWeek(
+        start: Long,
+        end: Long
+    ): Flow<List<StepsEntity>>
 }

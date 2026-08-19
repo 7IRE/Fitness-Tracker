@@ -1,15 +1,6 @@
 package com.its7ire.fitnesstracker.navigation
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,8 +23,8 @@ import com.its7ire.fitnesstracker.data.stepdata.DatabaseProvider
 import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 import com.its7ire.fitnesstracker.screen.BMIScreen
 import com.its7ire.fitnesstracker.screen.CoachScreen
-import com.its7ire.fitnesstracker.screen.HistoryScreen
 import com.its7ire.fitnesstracker.screen.HomeScreen
+import com.its7ire.fitnesstracker.screen.PerformanceScreen1
 import com.its7ire.fitnesstracker.screen.ProfileScreen
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModelFactory

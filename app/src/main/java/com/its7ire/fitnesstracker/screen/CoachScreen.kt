@@ -13,20 +13,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.its7ire.fitnesstracker.composable.coach.CoachChatMessageData
 import com.its7ire.fitnesstracker.composable.coach.ChatInputBar
 import com.its7ire.fitnesstracker.composable.coach.CoachMessageBubble
 import com.its7ire.fitnesstracker.composable.coach.CoachTopBar
@@ -35,31 +31,15 @@ import com.its7ire.fitnesstracker.composable.coach.GreetingCard
 import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
 import com.its7ire.fitnesstracker.composable.coach.TypingIndicator
 import com.its7ire.fitnesstracker.composable.coach.UserMessageBubble
-import com.its7ire.fitnesstracker.data.stepdata.DatabaseProvider
-import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 import com.its7ire.fitnesstracker.viewmodel.CoachViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
-import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
 
 @Composable
 fun CoachScreen(
-    viewModel: CoachViewModel = viewModel()
+    viewModel: CoachViewModel = viewModel(),
+    stepViewModel: StepViewModel = viewModel()
 ) {
-    val context = LocalContext.current
-
-    val database = remember {
-        DatabaseProvider.getDatabase(context)
-    }
-
-    val repository = remember {
-        StepRepository(database.stepDao())
-    }
-
-    val stepViewModel: StepViewModel = viewModel(
-        factory = StepViewModelFactory(repository)
-    )
-
     var focusChat by remember {
         mutableStateOf(false)
     }
@@ -67,76 +47,43 @@ fun CoachScreen(
         mutableStateOf("")
     }
 
-    var isTyping by remember {
-        mutableStateOf(false)
-    }
-
-    val response by viewModel.response.collectAsState()
-
-    val messages = remember {
-        mutableStateListOf(
-            CoachChatMessageData(
-                message = "...",
-                isUser = false,
-                time = "09:30"
-            )
-        )
-    }
-
-    LaunchedEffect(response) {
-        if (response.isNotBlank()) {
-
-            messages.add(
-                CoachChatMessageData(
-                    message = response,
-                    isUser = false,
-                    time = "Now"
-                )
-            )
-
-            isTyping = false
-        }
-    }
+    val messages by viewModel.messages.collectAsStateWithLifecycle()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
 
     fun sendMessage(message: String) {
-
-        if (message.isBlank())
-            return
-
-        messages.add(
-            CoachChatMessageData(
-                message = message,
-                isUser = true,
-                time = "Now"
-            )
-        )
-
+        if (message.isBlank()) return
         input = ""
-        isTyping = true
         viewModel.askCoach(message)
     }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
-
         bottomBar = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 76.dp)
+            ) {
+                SuggestionChips(
+                    onChipClick = { suggestion ->
+                        sendMessage(suggestion)
+                    },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
 
-            ChatInputBar(
-                value = input,
-
-                onValueChange = {
-                    input = it
-                },
-                onSend = {
-                    sendMessage(input)
-                },
-
-                requestFocus = focusChat
-            )
+                ChatInputBar(
+                    value = input,
+                    onValueChange = {
+                        input = it
+                    },
+                    onSend = {
+                        sendMessage(input)
+                    },
+                    requestFocus = focusChat
+                )
+            }
         }
-
     ) { padding ->
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -148,14 +95,12 @@ fun CoachScreen(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-
                 verticalArrangement = Arrangement.spacedBy(12.dp),
-
                 contentPadding = PaddingValues(
                     start = 20.dp,
                     end = 20.dp,
                     top = 20.dp,
-                    bottom = 16.dp
+                    bottom = 12.dp
                 )
             ) {
                 item {
@@ -164,8 +109,7 @@ fun CoachScreen(
                     )
                 }
 
-                if (messages.size == 1) {
-
+                if (messages.isEmpty()) {
                     item {
                         EmptyState(
                             onStartClick = {
@@ -186,21 +130,11 @@ fun CoachScreen(
                         }
                     }
 
-                    if (isTyping) {
-
+                    if (isLoading) {
                         item {
                             TypingIndicator()
                         }
                     }
-                }
-                item {
-
-                    SuggestionChips(
-                        onChipClick = { suggestion ->
-                            input = suggestion
-                            sendMessage(suggestion)
-                        }
-                    )
                 }
             }
         }

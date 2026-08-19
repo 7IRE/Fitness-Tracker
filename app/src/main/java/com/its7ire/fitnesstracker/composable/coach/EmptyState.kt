@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 fun EmptyState(
     onStartClick: () -> Unit
 ) {
-
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
@@ -39,22 +38,20 @@ fun EmptyState(
             containerColor = MaterialTheme.colorScheme.surfaceContainer
         )
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            
             Text(
                 text = "Fitness Coach",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             Text(
                 text = "Ask me anything about your fitness journey.",
@@ -62,7 +59,7 @@ fun EmptyState(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             EmptyStateItem(
                 icon = Icons.Default.FitnessCenter,
@@ -90,7 +87,7 @@ fun EmptyState(
                 text = "Fat Loss & Muscle Gain"
             )
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = onStartClick,
@@ -99,11 +96,8 @@ fun EmptyState(
             ) {
                 Text("Start Chat")
             }
-
         }
-
     }
-
 }
 
 @Composable
@@ -111,11 +105,9 @@ fun EmptyStateItem(
     icon: ImageVector,
     text: String
 ) {
-
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Icon(
             imageVector = icon,
             contentDescription = null,
@@ -129,7 +121,5 @@ fun EmptyStateItem(
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface
         )
-
     }
-
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 import com.its7ire.fitnesstracker.data.stepdata.StepsEntity
-import com.its7ire.fitnesstracker.utils.DateUtils.getCurrentDate
+import com.its7ire.fitnesstracker.DateUtils.getCurrentDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 

@@ -17,6 +17,9 @@ interface StepDao {
     @Query("SELECT * FROM Steps ORDER BY timestamp DESC LIMIT 1")
     suspend fun getLastStep(): StepsEntity?
 
+    @Query("SELECT * FROM Steps WHERE day = :day ORDER BY id DESC LIMIT 1")
+    suspend fun getStepForDay(day: String): StepsEntity?
+
     @Query(""" UPDATE Steps SET steps = :steps, timestamp = :timestamp WHERE id = :id """)
     suspend fun updateSteps(
         id: Int,

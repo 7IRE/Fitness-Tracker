@@ -14,25 +14,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.its7ire.fitnesstracker.composable.coach.CoachChatMessageData
 
 @Composable
 fun UserMessageBubble(
-
     message: CoachChatMessageData
-
 ) {
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End
     ) {
-
         Card(
-            modifier = Modifier.fillMaxWidth(0.80f),
+            modifier = Modifier.fillMaxWidth(0.85f),
             shape = RoundedCornerShape(
                 topStart = 20.dp,
-                topEnd = 8.dp,
+                topEnd = 6.dp,
                 bottomStart = 20.dp,
                 bottomEnd = 20.dp
             ),
@@ -40,11 +35,9 @@ fun UserMessageBubble(
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(14.dp)
             ) {
-
                 Text(
                     text = message.message,
                     color = MaterialTheme.colorScheme.onPrimary,
@@ -55,13 +48,10 @@ fun UserMessageBubble(
                     text = message.time,
                     color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
                     style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Light
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.padding(top = 4.dp)
                 )
-
             }
-
         }
-
     }
-
 }

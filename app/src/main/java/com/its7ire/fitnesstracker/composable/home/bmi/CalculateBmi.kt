@@ -1,23 +1,14 @@
 package com.its7ire.fitnesstracker.composable.home.bmi
 
-
-
-
-fun CalculateBmi(
-   height: String,
-   weight: String
+fun calculateBmi(
+    height: String,
+    weight: String
 ): Double? {
+    val h = height.toDoubleOrNull() ?: return null
+    val w = weight.toDoubleOrNull() ?: return null
 
-   val h = height.toDoubleOrNull()
-   val w = weight.toDoubleOrNull()
+    if (h <= 0.0 || w <= 0.0) return null
 
-   if (h == null || w == null) {
-      return null
-   }
-
-   if (h <= 0.0 || w <= 0.0) {
-      return null
-   }
-
-   return w / (h * h)
+    val heightInMeters = h / 100.0
+    return w / (heightInMeters * heightInMeters)
 }

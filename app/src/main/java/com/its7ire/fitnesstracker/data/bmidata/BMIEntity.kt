@@ -5,14 +5,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "BMI_table")
 data class BMI_Data(
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Int = 1,
-
     val age: Int,
-
     val height: Float,
-
     val weight: Float,
-
     val bmi: Float
 )

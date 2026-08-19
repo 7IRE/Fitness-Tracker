@@ -1,5 +1,6 @@
 package com.its7ire.fitnesstracker.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,7 +24,6 @@ import com.its7ire.fitnesstracker.composable.history.HistoryDailyLogCard
 import com.its7ire.fitnesstracker.composable.history.HistoryPrevWeekButton
 import com.its7ire.fitnesstracker.composable.history.HistoryStepSection
 import com.its7ire.fitnesstracker.composable.history.HistoryTopBar
-import android.content.res.Configuration
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
 data class DailyLogEntry(
@@ -39,9 +41,8 @@ data class BarData(
     val isHighlighted: Boolean
 )
 
-
 @Composable
-fun PerformanceScreen1(
+fun HistoryScreen(
     weeklySteps: String = "68,420",
     weeklyChangePercent: String = "+12%",
     dailyAverage: String = "774",
@@ -59,6 +60,7 @@ fun PerformanceScreen1(
                 .background(MaterialTheme.colorScheme.background)
                 .padding(padding)
                 .padding(horizontal = 20.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             Spacer(Modifier.height(12.dp))
             HistoryTopBar()
@@ -87,7 +89,7 @@ fun PerformanceScreen1(
 
             Spacer(Modifier.height(10.dp))
             HistoryPrevWeekButton(onLoadPreviousWeek)
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(90.dp))
         }
     }
 }
@@ -109,12 +111,11 @@ private fun defaultLogEntries(): List<DailyLogEntry> = listOf(
     DailyLogEntry("Wednesday", "Wed, Oct 11", 7840, "78% of goal", goalReached = false)
 )
 
-
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-private fun PerformanceScreenPreview() {
-    AppTheme() {
-        PerformanceScreen1()
+private fun HistoryScreenPreview() {
+    AppTheme {
+        HistoryScreen()
     }
 }

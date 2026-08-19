@@ -1,6 +1,6 @@
 package com.its7ire.fitnesstracker.composable.home
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material3.MaterialTheme
@@ -64,6 +64,6 @@ fun HomeCaloriesCard(
         targetProgress = calculateCalorieProgress(kcal),
         bottomTextColor = status.color,
         bottomTextValue = status.label,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxWidth()
     )
 }

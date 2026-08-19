@@ -19,16 +19,14 @@ import androidx.compose.ui.unit.dp
 fun CoachMessageBubble(
     message: CoachChatMessageData
 ) {
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
     ) {
-
         Card(
-            modifier = Modifier.fillMaxWidth(0.80f),
+            modifier = Modifier.fillMaxWidth(0.85f),
             shape = RoundedCornerShape(
-                topStart = 8.dp,
+                topStart = 6.dp,
                 topEnd = 20.dp,
                 bottomStart = 20.dp,
                 bottomEnd = 20.dp
@@ -37,11 +35,9 @@ fun CoachMessageBubble(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
         ) {
-
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(14.dp)
             ) {
-
                 Text(
                     text = message.message,
                     style = MaterialTheme.typography.bodyLarge
@@ -51,13 +47,10 @@ fun CoachMessageBubble(
                     text = message.time,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Light
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.padding(top = 4.dp)
                 )
-
             }
-
         }
-
     }
-
 }

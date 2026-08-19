@@ -4,13 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -32,20 +33,12 @@ fun ChatInputBar(
     onSend: () -> Unit,
     requestFocus: Boolean = false
 ) {
-
-    val focusRequester = remember {
-        FocusRequester()
-    }
-
-    val keyboardController =
-        LocalSoftwareKeyboardController.current
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(requestFocus) {
-
         if (requestFocus) {
-
             focusRequester.requestFocus()
-
             keyboardController?.show()
         }
     }
@@ -53,53 +46,42 @@ fun ChatInputBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(
-                horizontal = 16.dp,
-                vertical = 12.dp
-            ),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-
             modifier = Modifier
                 .weight(1f)
                 .focusRequester(focusRequester),
-
             placeholder = {
-                Text(
-                    text = "Ask your fitness coach..."
-                )
+                Text(text = "Ask your fitness coach...")
             },
-            shape = RoundedCornerShape(30.dp),
+            shape = RoundedCornerShape(24.dp),
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor =
-                    MaterialTheme.colorScheme.surfaceContainer,
-                unfocusedContainerColor =
-                    MaterialTheme.colorScheme.surfaceContainer,
-                focusedIndicatorColor =
-                    MaterialTheme.colorScheme.primary,
-                unfocusedIndicatorColor =
-                    MaterialTheme.colorScheme.outlineVariant
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant
             )
         )
 
-        Card(
+        FilledIconButton(
             onClick = onSend,
             shape = CircleShape,
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primary
-            )
+            colors = IconButtonDefaults.filledIconButtonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ),
+            modifier = Modifier.size(48.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Send,
+                imageVector = Icons.AutoMirrored.Filled.Send,
                 contentDescription = "Send",
-                modifier = Modifier.padding(16.dp),
-                tint = MaterialTheme.colorScheme.onPrimary
+                modifier = Modifier.size(20.dp)
             )
         }
     }

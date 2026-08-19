@@ -1,6 +1,6 @@
 package com.its7ire.fitnesstracker.composable.home
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material3.MaterialTheme
@@ -62,6 +62,6 @@ fun HomeBMICard(
         targetProgress = calculateBmiProgress(index),
         bottomTextColor = bmiCategory.color,
         bottomTextValue = bmiCategory.label,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxWidth()
     )
 }

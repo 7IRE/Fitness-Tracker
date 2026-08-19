@@ -5,7 +5,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -80,7 +79,6 @@ fun HomeStepCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clickable{}
             .aspectRatio(1.05f)
             .clip(RoundedCornerShape(24.dp))
             .background(
@@ -91,7 +89,7 @@ fun HomeStepCard(
         contentAlignment = Alignment.Center
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(0.62f),
+            modifier = Modifier.fillMaxSize(0.68f),
             contentAlignment = Alignment.Center
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {

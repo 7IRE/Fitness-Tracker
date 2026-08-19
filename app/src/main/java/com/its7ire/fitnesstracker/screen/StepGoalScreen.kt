@@ -17,36 +17,31 @@ import androidx.compose.ui.unit.dp
 import com.its7ire.fitnesstracker.composable.stepgoal.StepGoalField
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
-
 @Composable
 fun StepGoalScreenContent() {
-
     var selectedGoal by remember { mutableIntStateOf(10000) }
 
     Surface {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
             StepGoalField(
                 onGoalSelected = { goal ->
-
                     selectedGoal = goal
-
                 }
             )
         }
     }
 }
+
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-private fun BMIScreenPreview() {
-    AppTheme() {
+private fun StepGoalScreenPreview() {
+    AppTheme {
         StepGoalScreenContent()
     }
 }

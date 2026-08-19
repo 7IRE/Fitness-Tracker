@@ -29,13 +29,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TypingIndicator() {
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.Bottom
     ) {
-
         Icon(
             imageVector = Icons.Default.FitnessCenter,
             contentDescription = null,
@@ -51,68 +49,35 @@ fun TypingIndicator() {
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
         ) {
-
             Row(
-                modifier = Modifier.padding(
-                    horizontal = 18.dp,
-                    vertical = 14.dp
-                ),
+                modifier = Modifier.padding(horizontal = 18.dp, vertical = 14.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-
                 TypingDot(0)
-
                 TypingDot(200)
-
                 TypingDot(400)
-
             }
-
         }
-
     }
-
 }
 
-
 @Composable
-fun TypingDot(
-
-    delay: Int
-
-) {
-
-    val transition = rememberInfiniteTransition(label = "")
-
+fun TypingDot(delay: Int) {
+    val transition = rememberInfiniteTransition(label = "TypingDot")
     val alpha by transition.animateFloat(
-
         initialValue = 0.3f,
-
         targetValue = 1f,
-
         animationSpec = infiniteRepeatable(
-
-            animation = tween(
-                durationMillis = 700,
-                delayMillis = delay
-            ),
-
+            animation = tween(durationMillis = 700, delayMillis = delay),
             repeatMode = RepeatMode.Reverse
-
         ),
-
-        label = ""
-
+        label = "DotAlpha"
     )
 
     Box(
         modifier = Modifier
             .size(8.dp)
             .alpha(alpha)
-            .background(
-                MaterialTheme.colorScheme.primary,
-                CircleShape
-            )
+            .background(MaterialTheme.colorScheme.primary, CircleShape)
     )
-
 }

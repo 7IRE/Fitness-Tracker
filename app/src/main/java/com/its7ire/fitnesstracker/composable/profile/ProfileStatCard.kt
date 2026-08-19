@@ -1,7 +1,6 @@
 package com.its7ire.fitnesstracker.composable.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,18 +30,13 @@ fun ProfileStatCard(
     icon: ImageVector,
     modifier: Modifier = Modifier
 ) {
-    val cardShape = RoundedCornerShape(12.dp)
+    val cardShape = RoundedCornerShape(20.dp)
 
     Column(
         modifier = modifier
             .clip(cardShape)
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant,
-                shape = cardShape
-            )
-            .padding(16.dp),
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            .padding(18.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
@@ -51,41 +45,41 @@ fun ProfileStatCard(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(17.dp)
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(18.dp)
             )
 
             Spacer(modifier = Modifier.width(8.dp))
 
             Text(
                 text = title.uppercase(),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                fontSize = 11.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 0.5.sp
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 0.8.sp
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Row(
             verticalAlignment = Alignment.Bottom
         ) {
             Text(
                 text = value,
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = 36.sp,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 32.sp,
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.width(3.dp))
+            Spacer(modifier = Modifier.width(4.dp))
 
             Text(
                 text = suffix,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
-                modifier = Modifier.padding(bottom = 7.dp)
+                modifier = Modifier.padding(bottom = 5.dp)
             )
         }
     }

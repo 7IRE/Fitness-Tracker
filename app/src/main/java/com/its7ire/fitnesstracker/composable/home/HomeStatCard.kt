@@ -6,15 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.filled.DirectionsRun
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -45,65 +43,79 @@ fun HomeStatCard(
         Color(0xFFFFEA00),
         Color(0xFFFF0000)
     ),
-    bottomTextColor : Color,
+    bottomTextColor: Color,
     bottomTextValue: String,
     onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
-            .clickable{ }
-            .heightIn(min = 160.dp)
+            .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+            .padding(18.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Icon(
                 imageVector = icon,
                 contentDescription = label,
                 tint = iconTint,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(18.dp)
             )
-            Spacer(modifier = Modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = label,
                 color = iconTint,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Medium
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(modifier = Modifier
-            .weight(1f),
-            horizontalArrangement = Arrangement.Center
+        Spacer(modifier = Modifier.height(14.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Column (modifier = Modifier.size(80.dp)){
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(
                     text = value,
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 26.sp,
+                    fontSize = 28.sp,
                     fontWeight = FontWeight.Bold
                 )
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = unit,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 12.sp
+                    fontSize = 13.sp
                 )
             }
-            Spacer(modifier = Modifier.size(40.dp))
-            Column(modifier = Modifier.weight(1f)){
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Column(
+                modifier = Modifier.width(100.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 MultiColorArcProgressBar(
-                    targetProgress,
+                    targetProgress = targetProgress,
                     gradientColors = gradientColors
                 )
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = bottomTextValue,
                     color = bottomTextColor,
-                    fontSize = 14.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -125,7 +137,7 @@ fun HomeStatCardPreview() {
             targetProgress = 0.84f,
             bottomTextColor = Color(0xFF00E676),
             bottomTextValue = "84%",
-            onClick = { /* Preview click action */ }
+            onClick = {}
         )
     }
 }

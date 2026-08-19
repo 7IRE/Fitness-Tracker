@@ -1,6 +1,6 @@
 package com.its7ire.fitnesstracker.composable.profile
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -28,19 +28,15 @@ fun LogoutButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val buttonShape = RoundedCornerShape(10.dp)
+    val buttonShape = RoundedCornerShape(16.dp)
     val logoutColor = MaterialTheme.colorScheme.error
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(52.dp)
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outline,
-                shape = buttonShape
-            )
+            .height(54.dp)
             .clip(buttonShape)
+            .background(logoutColor.copy(alpha = 0.12f))
             .clickable(onClick = onClick),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
@@ -52,12 +48,12 @@ fun LogoutButton(
             modifier = Modifier.size(20.dp)
         )
 
-        Spacer(modifier = Modifier.width(9.dp))
+        Spacer(modifier = Modifier.width(10.dp))
 
         Text(
-            text = "Logout",
+            text = "Log Out",
             color = logoutColor,
-            fontSize = 14.sp,
+            fontSize = 15.sp,
             fontWeight = FontWeight.Bold
         )
     }

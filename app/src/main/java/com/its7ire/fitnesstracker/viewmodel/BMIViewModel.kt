@@ -68,15 +68,10 @@ class BmiViewModel(
         loadBMI()
     }
 
-
     private fun loadBMI() {
-
         viewModelScope.launch {
-
             val savedBMI = repository.getBMI()
-
             if (savedBMI != null) {
-
                 _uiState.update {
                     it.copy(
                         height = savedBMI.height.toString(),

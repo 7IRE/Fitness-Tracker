@@ -335,11 +335,8 @@ val unspecified_scheme = ColorFamily(
 
 @Composable
 fun AppTheme(
-//    darkTheme: Boolean = isSystemInDarkTheme(),
-//    dynamicColor: Boolean = true
-    value : Int = Random.nextInt(0,8),
-    content: @Composable() () -> Unit
-
+    value: Int = 1,
+    content: @Composable () -> Unit
 ) {
 //  val colorScheme = when {
 //      dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {

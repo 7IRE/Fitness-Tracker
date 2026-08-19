@@ -1,6 +1,7 @@
-package com.its7ire.fitnesstracker.utils
+package com.its7ire.fitnesstracker
 
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -63,5 +64,15 @@ object DateUtils {
             "dd MMM yyyy  HH:mm:ss",
             Locale.getDefault()
         ).format(Date(timestamp))
+    }
+
+    fun getGreeting(): String {
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        return when (hour) {
+            in 5..11 -> "Good Morning"
+            in 12..16 -> "Good Afternoon"
+            in 17..21 -> "Good Evening"
+            else -> "Good Night"
+        }
     }
 }

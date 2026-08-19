@@ -16,13 +16,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SuggestionChips(
-
-    onChipClick: (String) -> Unit = {}
-
+    onChipClick: (String) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
-
     val suggestions = listOf(
-
         "Plan Workout",
         "Gain Muscle",
         "Lose Fat",
@@ -31,17 +28,13 @@ fun SuggestionChips(
         "Stretching",
         "Home Workout",
         "Improve Stamina"
-
     )
 
     Row(
-
-        modifier = Modifier
+        modifier = modifier
             .horizontalScroll(rememberScrollState())
-            .padding(vertical = 8.dp),
-
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
         suggestions.forEach { suggestion ->

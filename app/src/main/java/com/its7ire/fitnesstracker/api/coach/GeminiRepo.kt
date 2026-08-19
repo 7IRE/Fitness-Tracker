@@ -1,20 +1,14 @@
-package com.its7ire.fitnesstracker.data.coach
+package com.its7ire.fitnesstracker.api.coach
 
 import android.util.Log
 import com.its7ire.fitnesstracker.BuildConfig
-import com.its7ire.fitnesstracker.api.coach.Content
-import com.its7ire.fitnesstracker.api.coach.GeminiRequest
-import com.its7ire.fitnesstracker.api.coach.GeminiRetrofit
-import com.its7ire.fitnesstracker.api.coach.Part
 
 class GeminiRepo {
 
     private val api = GeminiRetrofit.api
-
     private val conversation = mutableListOf<Content>()
 
     suspend fun askCoach(question: String): String {
-
         val formattedQuestion = """
             You are a professional fitness coach inside a fitness tracking app.
 
@@ -48,18 +42,13 @@ class GeminiRepo {
         conversation.add(
             Content(
                 role = "user",
-                parts = listOf(
-                    Part(text = formattedQuestion)
-                )
+                parts = listOf(Part(text = formattedQuestion))
             )
         )
 
-        val request = GeminiRequest(
-            contents = conversation
-        )
+        val request = GeminiRequest(contents = conversation)
 
         return try {
-
             val response = api.generateContent(
                 apiKey = BuildConfig.GEMINI_API_KEY,
                 request = request
@@ -77,24 +66,14 @@ class GeminiRepo {
             conversation.add(
                 Content(
                     role = "model",
-                    parts = listOf(
-                        Part(text = answer)
-                    )
+                    parts = listOf(Part(text = answer))
                 )
             )
 
             answer
-
         } catch (e: Exception) {
-
-            Log.e(
-                "GEMINI_ERROR",
-                "Gemini request failed",
-                e
-            )
-
+            Log.e("GEMINI_ERROR", "Gemini request failed", e)
             conversation.removeLastOrNull()
-
             "Something went wrong. Please try again."
         }
     }

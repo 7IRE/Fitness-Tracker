@@ -7,13 +7,14 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,18 +25,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.its7ire.fitnesstracker.DateUtils
 import com.its7ire.fitnesstracker.composable.home.HomeBMICard
 import com.its7ire.fitnesstracker.composable.home.HomeCaloriesCard
 import com.its7ire.fitnesstracker.composable.home.HomeDistanceCard
@@ -44,7 +43,6 @@ import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.composable.home.calories.calculateCaloriesFromSteps
 import com.its7ire.fitnesstracker.composable.steps.StepSensor
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
-import com.its7ire.fitnesstracker.utils.DateUtils
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 
@@ -76,11 +74,9 @@ fun HomeScreen(
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { granted ->
-
         hasPermission = granted
     }
     LaunchedEffect(Unit) {
-
         if (
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
             !hasPermission
@@ -91,8 +87,10 @@ fun HomeScreen(
         }
     }
 
-    DisposableEffect(Unit) {
-        stepSensor.startListening()
+    DisposableEffect(hasPermission) {
+        if (hasPermission) {
+            stepSensor.startListening()
+        }
         onDispose {
             stepViewModel.saveTodaySteps()
             stepSensor.stopListening()
@@ -100,9 +98,7 @@ fun HomeScreen(
     }
 
     HomeScreenContent(
-        steps = steps
-
-        ,
+        steps = steps,
         bmiIndex = bmiUiState.bmi,
         weight = bmiUiState.weight,
         onNavigateToBmi = onNavigateToBmi,
@@ -119,17 +115,20 @@ fun HomeScreenContent(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding(),
         color = MaterialTheme.colorScheme.background
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 20.dp),
+            contentPadding = PaddingValues(bottom = 90.dp)
         ) {
 
             item {
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 HomeTopBar()
             }
 
@@ -192,46 +191,11 @@ fun HomeScreenContent(
     }
 }
 
-@Composable
-fun BottomNavItem(
-    icon: ImageVector,
-    label: String,
-    selected: Boolean,
-    modifier: Modifier = Modifier
-) {
-    val tint = if (selected) {
-        MaterialTheme.colorScheme.primary
-    } else {
-        MaterialTheme.colorScheme.onSurfaceVariant
-    }
-
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = label,
-            tint = tint,
-            modifier = Modifier.size(22.dp)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = label,
-            color = tint,
-            fontSize = 11.sp,
-            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-    AppTheme() {
+    AppTheme {
         HomeScreenContent(
             steps = 13499,
             bmiIndex = 22.4,
@@ -239,5 +203,4 @@ private fun HomeScreenPreview() {
             onNavigateToBmi = {}
         )
     }
-
 }

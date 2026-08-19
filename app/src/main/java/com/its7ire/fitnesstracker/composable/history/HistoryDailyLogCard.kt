@@ -31,7 +31,7 @@ fun HistoryDailyLogCard(
     entry: DailyLogEntry,
     modifier: Modifier = Modifier
 ) {
-    val cardBackground = MaterialTheme.colorScheme.surfaceContainerLow
+    val cardBackground = MaterialTheme.colorScheme.surfaceContainerHigh
     val activeColor = MaterialTheme.colorScheme.primary
     val trackColor = MaterialTheme.colorScheme.surfaceContainerHighest
 
@@ -43,7 +43,6 @@ fun HistoryDailyLogCard(
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Step Icon with Progress Ring Indicator
         Box(
             modifier = Modifier
                 .size(44.dp)
@@ -72,7 +71,6 @@ fun HistoryDailyLogCard(
 
         Spacer(Modifier.width(14.dp))
 
-        // Day Label & Date
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = entry.dayLabel,
@@ -87,7 +85,6 @@ fun HistoryDailyLogCard(
             )
         }
 
-        // Step Count & Goal Status
         Column(horizontalAlignment = Alignment.End) {
             Text(
                 text = "%,d".format(entry.steps),

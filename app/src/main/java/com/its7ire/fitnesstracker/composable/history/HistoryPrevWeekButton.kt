@@ -16,26 +16,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.its7ire.fitnesstracker.ui.theme.TextWhite
-import com.its7ire.fitnesstracker.ui.theme.backgroundDark
 
 @Composable
-fun HistoryPrevWeekButton(onClick: () -> Unit,
-                          modifier: Modifier = Modifier) {
+fun HistoryPrevWeekButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .background(backgroundDark)
-            .padding(vertical = 16.dp)
-            .then(Modifier),
+            .clip(RoundedCornerShape(20.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            .clickable(onClick = onClick)
+            .padding(vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = "Load Previous Week",
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center
         )
     }

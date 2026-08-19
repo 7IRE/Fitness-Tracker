@@ -9,9 +9,7 @@ object DatabaseProvider {
     private var INSTANCE: StepDatabase? = null
 
     fun getDatabase(context: Context): StepDatabase {
-
         return INSTANCE ?: synchronized(this) {
-
             val instance = Room.databaseBuilder(
                 context.applicationContext,
                 StepDatabase::class.java,
@@ -21,7 +19,6 @@ object DatabaseProvider {
                 .build()
 
             INSTANCE = instance
-
             instance
         }
     }

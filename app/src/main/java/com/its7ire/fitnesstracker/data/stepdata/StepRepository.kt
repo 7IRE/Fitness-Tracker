@@ -16,8 +16,8 @@ class StepRepository(
         return dao.getLastStep()
     }
 
-    suspend fun getStepsForDay(day: String): StepsEntity? {
-        return dao.getStepsForDay(day)
+    suspend fun getStepForDay(day: String): StepsEntity? {
+        return dao.getStepForDay(day)
     }
 
     suspend fun updateSteps(id: Int, steps: Int) {

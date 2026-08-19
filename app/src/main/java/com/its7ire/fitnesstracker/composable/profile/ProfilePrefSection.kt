@@ -1,7 +1,6 @@
 package com.its7ire.fitnesstracker.composable.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,33 +28,28 @@ fun ProfilePrefSec(
     onPrivacyClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val cardShape = RoundedCornerShape(12.dp)
-    val borderColor = MaterialTheme.colorScheme.outlineVariant
+    val cardShape = RoundedCornerShape(20.dp)
+    val dividerColor = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.6f)
 
     Column(
         modifier = modifier
             .fillMaxWidth()
             .clip(cardShape)
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
-            .border(
-                width = 1.dp,
-                color = borderColor,
-                shape = cardShape
-            )
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(
-                horizontal = 16.dp,
-                vertical = 14.dp
+                horizontal = 18.dp,
+                vertical = 16.dp
             )
     ) {
         Text(
             text = "PREFERENCES",
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 0.5.sp
+            fontWeight = FontWeight.SemiBold,
+            letterSpacing = 0.8.sp
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         ProfilePrefItem(
             title = "Change Appearance",
@@ -64,9 +58,9 @@ fun ProfilePrefSec(
         )
 
         HorizontalDivider(
-            modifier = Modifier.padding(start = 50.dp),
+            modifier = Modifier.padding(start = 36.dp),
             thickness = 1.dp,
-            color = borderColor
+            color = dividerColor
         )
 
         ProfilePrefItem(
@@ -76,9 +70,9 @@ fun ProfilePrefSec(
         )
 
         HorizontalDivider(
-            modifier = Modifier.padding(start = 50.dp),
+            modifier = Modifier.padding(start = 36.dp),
             thickness = 1.dp,
-            color = borderColor
+            color = dividerColor
         )
 
         ProfilePrefItem(

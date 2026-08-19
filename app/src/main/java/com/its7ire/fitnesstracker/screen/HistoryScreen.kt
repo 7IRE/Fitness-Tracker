@@ -1,5 +1,6 @@
 package com.its7ire.fitnesstracker.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,7 +24,6 @@ import com.its7ire.fitnesstracker.composable.history.HistoryDailyLogCard
 import com.its7ire.fitnesstracker.composable.history.HistoryPrevWeekButton
 import com.its7ire.fitnesstracker.composable.history.HistoryStepSection
 import com.its7ire.fitnesstracker.composable.history.HistoryTopBar
-import android.content.res.Configuration
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 import com.its7ire.fitnesstracker.viewmodel.PerformanceUiState
 import com.its7ire.fitnesstracker.viewmodel.PerformanceViewModel
@@ -42,7 +44,6 @@ data class BarData(
     val heightFraction: Float,
     val isHighlighted: Boolean
 )
-
 
 @Composable
 fun PerformanceScreen1(
@@ -96,11 +97,27 @@ fun PerformanceScreen1(
 
             Spacer(Modifier.height(10.dp))
             HistoryPrevWeekButton(onLoadPreviousWeek)
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(90.dp))
         }
     }
 }
 
+private fun defaultBars(): List<BarData> = listOf(
+    BarData("M", 0.35f, false),
+    BarData("T", 0.55f, false),
+    BarData("W", 0.42f, false),
+    BarData("T", 0.30f, false),
+    BarData("F", 0.20f, false),
+    BarData("S", 1.0f, true),
+    BarData("S", 0.05f, false)
+)
+
+private fun defaultLogEntries(): List<DailyLogEntry> = listOf(
+    DailyLogEntry("Today", "Sat, Oct 14", 12450, "Goal reached", goalReached = true, isToday = true),
+    DailyLogEntry("Yesterday", "Fri, Oct 13", 6230, "62% of goal", goalReached = false),
+    DailyLogEntry("Thursday", "Thu, Oct 12", 10500, "Goal reached", goalReached = true),
+    DailyLogEntry("Wednesday", "Wed, Oct 11", 7840, "78% of goal", goalReached = false)
+)
 
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)

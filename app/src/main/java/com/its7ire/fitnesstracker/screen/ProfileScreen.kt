@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -24,36 +25,35 @@ import com.its7ire.fitnesstracker.ui.theme.AppTheme
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    onSettingsClick: () -> Unit = {},
     onAppearanceClick: () -> Unit = {},
     onNotificationsClick: () -> Unit = {},
     onPrivacyClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {},
 ) {
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.statusBarsPadding(),
         containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            ProfileTopBar(
-                onSettingsClick = onSettingsClick
-            )
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(22.dp))
+            ProfileTopBar()
+
+            Spacer(modifier = Modifier.height(20.dp))
 
             ProfileInformation()
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             ProfileStatSection()
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             ProfilePrefSec(
                 onAppearanceClick = onAppearanceClick,
@@ -61,13 +61,13 @@ fun ProfileScreen(
                 onPrivacyClick = onPrivacyClick,
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             LogoutButton(
                 onClick = onLogoutClick
             )
 
-            Spacer(modifier = Modifier.height(18.dp))
+            Spacer(modifier = Modifier.height(90.dp))
         }
     }
 }
@@ -76,7 +76,7 @@ fun ProfileScreen(
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun ProfileScreenPreview() {
-    AppTheme() {
+    AppTheme {
         ProfileScreen()
     }
 }

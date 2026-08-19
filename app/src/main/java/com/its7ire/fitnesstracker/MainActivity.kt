@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -20,28 +20,24 @@ import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            var Theme by rememberSaveable {
-                mutableStateOf(1)
-            }
+            var themeIndex by rememberSaveable { mutableIntStateOf(1) }
 
             WindowCompat.getInsetsController(window, window.decorView).apply {
                 systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
                 hide(WindowInsetsCompat.Type.navigationBars())
             }
 
-            AppTheme(value = Theme) {
+            AppTheme(value = themeIndex) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FitnessApp(onThemeChanged = { Theme += 1 })
+                    FitnessApp(onThemeChanged = { themeIndex += 1 })
                 }
             }
         }
     }
 }
-

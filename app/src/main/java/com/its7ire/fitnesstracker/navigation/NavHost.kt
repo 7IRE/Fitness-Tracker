@@ -1,5 +1,15 @@
 package com.its7ire.fitnesstracker.navigation
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +39,8 @@ import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModelFactory
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
+import com.its7ire.fitnesstracker.viewmodel.PerformanceViewModel
+import com.its7ire.fitnesstracker.viewmodel.PerformanceViewModelFactory
 
 object Routes {
     const val HOME = "home"
@@ -59,6 +71,9 @@ fun FitnessApp(
     val stepViewModel: StepViewModel = viewModel(
         factory = StepViewModelFactory(stepRepository)
     )
+    val performanceViewModel: PerformanceViewModel = viewModel(
+        factory = PerformanceViewModelFactory(stepRepository)
+    )
 
     val showBottomBar = currentRoute in listOf(Routes.HOME, Routes.COACH, Routes.HISTORY, Routes.PROFILE)
 
@@ -83,7 +98,9 @@ fun FitnessApp(
                 CoachScreen(stepViewModel = stepViewModel)
             }
             composable(route = Routes.HISTORY) {
-                HistoryScreen()
+                PerformanceScreen1(
+                    viewModel = performanceViewModel
+                )
             }
             composable(route = Routes.PROFILE) {
                 ProfileScreen(onAppearanceClick = onThemeChanged)

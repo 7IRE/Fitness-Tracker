@@ -25,6 +25,10 @@ import com.its7ire.fitnesstracker.composable.history.HistoryPrevWeekButton
 import com.its7ire.fitnesstracker.composable.history.HistoryStepSection
 import com.its7ire.fitnesstracker.composable.history.HistoryTopBar
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+import com.its7ire.fitnesstracker.viewmodel.PerformanceUiState
+import com.its7ire.fitnesstracker.viewmodel.PerformanceViewModel
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 data class DailyLogEntry(
     val dayLabel: String,
@@ -42,15 +46,12 @@ data class BarData(
 )
 
 @Composable
-fun HistoryScreen(
-    weeklySteps: String = "68,420",
-    weeklyChangePercent: String = "+12%",
-    dailyAverage: String = "774",
-    dailyAverageBadge: String = "12,450",
-    bars: List<BarData> = defaultBars(),
-    logEntries: List<DailyLogEntry> = defaultLogEntries(),
+fun PerformanceScreen1(
+    viewModel: PerformanceViewModel,
     onLoadPreviousWeek: () -> Unit = {}
 ) {
+    val uiState = viewModel.uiState
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
@@ -66,10 +67,17 @@ fun HistoryScreen(
             HistoryTopBar()
 
             Spacer(Modifier.height(24.dp))
-            HistoryStepSection(weeklySteps, weeklyChangePercent)
+            HistoryStepSection(
+                uiState.weeklySteps.toString(),
+                uiState.changePercent
+            )
 
             Spacer(Modifier.height(20.dp))
-            HistoryAvgCard(dailyAverage, dailyAverageBadge, bars)
+            HistoryAvgCard(
+                uiState.dailyAverage.toString(),
+                uiState.weeklySteps.toString(),
+                uiState.bars
+            )
 
             Spacer(Modifier.height(28.dp))
             Text(
@@ -82,7 +90,7 @@ fun HistoryScreen(
 
             Spacer(Modifier.height(12.dp))
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                logEntries.forEach { entry ->
+                uiState.logs.forEach { entry ->
                     HistoryDailyLogCard(entry)
                 }
             }
@@ -114,8 +122,28 @@ private fun defaultLogEntries(): List<DailyLogEntry> = listOf(
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-private fun HistoryScreenPreview() {
+private fun PerformanceScreenPreview() {
     AppTheme {
-        HistoryScreen()
+        PerformanceScreenPreviewContent()
     }
+}
+
+@Composable
+private fun PerformanceScreenPreviewContent() {
+
+    val previewState = PerformanceUiState(
+        weeklySteps = 68420,
+        dailyAverage = 9774,
+        changePercent = "+12%",
+        bars = listOf(
+            BarData("M", 0.35f, false),
+            BarData("T", 0.55f, false),
+            BarData("W", 0.42f, false),
+            BarData("T", 0.30f, false),
+            BarData("F", 0.20f, false),
+            BarData("S", 1.0f, true),
+            BarData("S", 0.05f, false)
+        ),
+        logs = emptyList()
+    )
 }

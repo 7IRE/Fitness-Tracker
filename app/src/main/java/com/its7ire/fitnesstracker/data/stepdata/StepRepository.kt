@@ -1,5 +1,7 @@
 package com.its7ire.fitnesstracker.data.stepdata
 
+import kotlinx.coroutines.flow.Flow
+
 class StepRepository(
     private val dao: StepDao
 ) {
@@ -26,4 +28,10 @@ class StepRepository(
         )
     }
 
+    fun getWeeklySteps(
+        start: Long,
+        end: Long
+    ): Flow<List<StepsEntity>> {
+        return dao.getStepsForWeek(start, end)
+    }
 }

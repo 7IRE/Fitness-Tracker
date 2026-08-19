@@ -6,11 +6,13 @@ import android.content.res.Configuration
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.its7ire.fitnesstracker.DateUtils
 import com.its7ire.fitnesstracker.composable.home.HomeBMICard
 import com.its7ire.fitnesstracker.composable.home.HomeCaloriesCard
+import com.its7ire.fitnesstracker.composable.home.HomeDistanceCard
 import com.its7ire.fitnesstracker.composable.home.HomeStepCard
 import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.composable.home.calories.calculateCaloriesFromSteps
@@ -149,7 +152,10 @@ fun HomeScreenContent(
 
             item {
                 Spacer(modifier = Modifier.height(20.dp))
-                HomeStepCard(steps = steps, goal = 10000)
+                HomeStepCard(
+                    steps = steps,
+                    goal = 10000
+                )
             }
 
             item {
@@ -168,7 +174,17 @@ fun HomeScreenContent(
                         weightKg = weight.toDoubleOrNull() ?: 0.0
                     )
                 )
-                Spacer(modifier = Modifier.height(20.dp))
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                HomeDistanceCard(
+                    steps = steps
+                )
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
         }

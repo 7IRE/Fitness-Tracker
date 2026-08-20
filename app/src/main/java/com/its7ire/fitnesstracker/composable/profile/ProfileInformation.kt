@@ -26,7 +26,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ProfileInformation(
     modifier: Modifier = Modifier,
-    name: String = "Alex Mercer"
+    name: String = "Alex Mercer",
+    email: String = ""
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -61,5 +62,14 @@ fun ProfileInformation(
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
+
+        if (email.isNotBlank()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = email,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 14.sp
+            )
+        }
     }
 }

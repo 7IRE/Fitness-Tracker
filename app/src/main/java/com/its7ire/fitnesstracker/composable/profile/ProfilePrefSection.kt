@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -23,9 +24,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ProfilePrefSec(
-    onAppearanceClick: () -> Unit,
-    onNotificationsClick: () -> Unit,
-    onPrivacyClick: () -> Unit,
+    onUserInfoClick: () -> Unit = {},
+    onAppearanceClick: () -> Unit = {},
+    onNotificationsClick: () -> Unit = {},
+    onPrivacyClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val cardShape = RoundedCornerShape(20.dp)
@@ -52,9 +54,9 @@ fun ProfilePrefSec(
         Spacer(modifier = Modifier.height(10.dp))
 
         ProfilePrefItem(
-            title = "Change Appearance",
-            icon = Icons.Default.DarkMode,
-            onClick = onAppearanceClick
+            title = "User Info",
+            icon = Icons.Default.Person,
+            onClick = onUserInfoClick
         )
 
         HorizontalDivider(
@@ -64,9 +66,9 @@ fun ProfilePrefSec(
         )
 
         ProfilePrefItem(
-            title = "Notifications",
-            icon = Icons.Default.Notifications,
-            onClick = onNotificationsClick
+            title = "Change Appearance",
+            icon = Icons.Default.DarkMode,
+            onClick = onAppearanceClick
         )
 
         HorizontalDivider(

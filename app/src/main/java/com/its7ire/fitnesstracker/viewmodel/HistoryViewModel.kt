@@ -116,7 +116,20 @@ class HistoryViewModel(
         val dbDateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         val dayNameFormat = SimpleDateFormat("EEEE", Locale.getDefault())
         val displayDateFormat = SimpleDateFormat("EEE, MMM d", Locale.getDefault())
-        val todayStr = dbDateFormat.format(Date())
+
+        val now = Calendar.getInstance()
+        val todayEndCalendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 23)
+            set(Calendar.MINUTE, 59)
+            set(Calendar.SECOND, 59)
+            set(Calendar.MILLISECOND, 999)
+        }
+        val todayStr = dbDateFormat.format(now.time)
+
+        val yesterdayCalendar = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_MONTH, -1)
+        }
+        val yesterdayStr = dbDateFormat.format(yesterdayCalendar.time)
 
         val calendar = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 0)
@@ -132,25 +145,29 @@ class HistoryViewModel(
         val totalDays = weeksCount * 7
         val logs = mutableListOf<DailyLogEntry>()
         repeat(totalDays) {
-            val dateKey = dbDateFormat.format(calendar.time)
-            val isToday = (dateKey == todayStr)
-            val dayLabel = when {
-                isToday -> "Today"
-                else -> dayNameFormat.format(calendar.time)
-            }
-            val displayDate = displayDateFormat.format(calendar.time)
-            val steps = data[dateKey] ?: 0
+            if (!calendar.after(todayEndCalendar)) {
+                val dateKey = dbDateFormat.format(calendar.time)
+                val isToday = (dateKey == todayStr)
+                val isYesterday = (dateKey == yesterdayStr)
+                val dayLabel = when {
+                    isToday -> "Today"
+                    isYesterday -> "Yesterday"
+                    else -> dayNameFormat.format(calendar.time)
+                }
+                val displayDate = displayDateFormat.format(calendar.time)
+                val steps = data[dateKey] ?: 0
 
-            logs.add(
-                DailyLogEntry(
-                    dayLabel = dayLabel,
-                    date = displayDate,
-                    steps = steps,
-                    statusText = if (steps >= goal) "Goal reached" else "${(steps * 100) / goal}% of goal",
-                    goalReached = steps >= goal,
-                    isToday = isToday
+                logs.add(
+                    DailyLogEntry(
+                        dayLabel = dayLabel,
+                        date = displayDate,
+                        steps = steps,
+                        statusText = if (steps >= goal) "Goal reached" else "${(steps * 100) / goal}% of goal",
+                        goalReached = steps >= goal,
+                        isToday = isToday
+                    )
                 )
-            )
+            }
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
 

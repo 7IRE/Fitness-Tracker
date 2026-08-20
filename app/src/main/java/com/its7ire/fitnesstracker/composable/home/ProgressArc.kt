@@ -41,12 +41,15 @@ fun MultiColorArcProgressBar(
     Canvas(
         modifier = modifier
             .fillMaxWidth()
-            .height(44.dp)
+            .height(52.dp)
     ) {
         val strokeWidthPx = strokeWidth.toPx()
-        val diameter = size.width - strokeWidthPx
+        val availableWidth = size.width - strokeWidthPx
+        val availableHeight = size.height - strokeWidthPx
+        val diameter = minOf(availableWidth, availableHeight * 2f).coerceAtLeast(0f)
+        val radius = diameter / 2f
         val left = (size.width - diameter) / 2f
-        val top = strokeWidthPx / 2f
+        val top = (size.height - radius - strokeWidthPx / 2f).coerceAtLeast(strokeWidthPx / 2f)
 
         val startAngle = 180f
         val sweepAngle = 180f
@@ -65,9 +68,10 @@ fun MultiColorArcProgressBar(
         // Progress Arc
         if (animatedProgress > 0f) {
             drawArc(
-                brush = Brush.sweepGradient(
+                brush = Brush.horizontalGradient(
                     colors = gradientColors,
-                    center = Offset(size.width / 2f, top + diameter / 2f)
+                    startX = left,
+                    endX = left + diameter
                 ),
                 startAngle = startAngle,
                 sweepAngle = sweepAngle * animatedProgress,

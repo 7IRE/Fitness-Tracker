@@ -48,7 +48,9 @@ import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
 @Composable
 fun ProfileSetupScreen(
-    onNavigateBack: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    onNavigateBack: () -> Unit = {},
+    onContinueClick: (age: String, weight: String, height: String, steps: String) -> Unit = { _, _, _, _ -> }
 ) {
     var age by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
@@ -56,7 +58,7 @@ fun ProfileSetupScreen(
     var steps by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
@@ -97,31 +99,31 @@ fun ProfileSetupScreen(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .size(108.dp)
-                    .background(MaterialTheme.colorScheme.surface, CircleShape)
-                    .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    Icons.Outlined.Person,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(35.dp)
-                )
-            }
+//            Box(
+//                modifier = Modifier
+//                    .size(108.dp)
+//                    .background(MaterialTheme.colorScheme.surfaceContainerHigh, CircleShape)
+//                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Icon(
+//                    Icons.Outlined.Person,
+//                    contentDescription = null,
+//                    tint = MaterialTheme.colorScheme.primary,
+//                    modifier = Modifier.size(35.dp)
+//                )
+//            }
         }
 
         Spacer(Modifier.height(8.dp))
 
-        Text(
-            "Upload Avatar",
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = MaterialTheme.colorScheme.primary,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Medium
-        )
+//        Text(
+//            "Upload Avatar",
+//            modifier = Modifier.align(Alignment.CenterHorizontally),
+//            color = MaterialTheme.colorScheme.primary,
+//            fontSize = 12.sp,
+//            fontWeight = FontWeight.Medium
+//        )
 
         Spacer(Modifier.height(20.dp))
 
@@ -155,10 +157,17 @@ fun ProfileSetupScreen(
 
         StatBox("Daily Step Goal", steps, { steps = it }, "STEPS")
 
-        Spacer(Modifier.weight(1f))
+        Spacer(Modifier.height(25.dp))
 
         Button(
-            onClick = {},
+            onClick = {
+                onContinueClick(
+                    age.ifBlank { "25" },
+                    weight.ifBlank { "70" },
+                    height.ifBlank { "175" },
+                    steps.ifBlank { "10000" }
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -188,17 +197,17 @@ fun StatBox(
     Column(
         modifier = modifier
             .padding(bottom = 12.dp)
-            .background(
-                MaterialTheme.colorScheme.surface,
-                RoundedCornerShape(10.dp)
-            )
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(14.dp)
     ) {
 
         Text(
-            label,
+            text = label.uppercase(),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontSize = 10.sp
+            fontSize = 11.sp,
+            fontWeight = FontWeight.SemiBold,
+            letterSpacing = 0.5.sp
         )
 
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -215,18 +224,22 @@ fun StatBox(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
                     focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent
+                    unfocusedBorderColor = Color.Transparent,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 textStyle = LocalTextStyle.current.copy(
-                    fontSize = 27.sp,
+                    fontSize = 26.sp,
+                    fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             )
 
             Text(
-                unit,
+                text = unit,
                 color = MaterialTheme.colorScheme.primary,
-                fontSize = 11.sp,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Bold
             )
         }

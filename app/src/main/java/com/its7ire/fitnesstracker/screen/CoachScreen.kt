@@ -31,12 +31,14 @@ import com.its7ire.fitnesstracker.composable.coach.GreetingCard
 import com.its7ire.fitnesstracker.composable.coach.SuggestionChips
 import com.its7ire.fitnesstracker.composable.coach.TypingIndicator
 import com.its7ire.fitnesstracker.composable.coach.UserMessageBubble
+import com.its7ire.fitnesstracker.data.userdata.UserProfile
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 import com.its7ire.fitnesstracker.viewmodel.CoachViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 
 @Composable
 fun CoachScreen(
+    user: UserProfile? = null,
     viewModel: CoachViewModel = viewModel(),
     stepViewModel: StepViewModel = viewModel()
 ) {
@@ -105,6 +107,7 @@ fun CoachScreen(
             ) {
                 item {
                     GreetingCard(
+                        userName = user?.name ?: "User",
                         stepViewModel = stepViewModel
                     )
                 }

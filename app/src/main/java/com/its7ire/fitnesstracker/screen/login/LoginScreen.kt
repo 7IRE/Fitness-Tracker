@@ -1,6 +1,7 @@
 package com.its7ire.fitnesstracker.screen.login
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +18,6 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,13 +35,23 @@ import androidx.compose.ui.unit.sp
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    errorMessage: String? = null,
+    onLoginClick: (email: String, pass: String) -> Unit = { _, _ -> },
+    onSignUpClick: () -> Unit = {},
+    onForgotPasswordClick: () -> Unit = {},
+    onClearError: () -> Unit = {}
+) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var localError by remember { mutableStateOf<String?>(null) }
+
+    val displayError = localError ?: errorMessage
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(24.dp)
@@ -73,7 +83,11 @@ fun LoginScreen() {
             InputField(
                 "Email",
                 email,
-                { email = it },
+                {
+                    email = it
+                    localError = null
+                    onClearError()
+                },
                 Icons.Outlined.Email,
                 KeyboardType.Email
             )
@@ -81,7 +95,11 @@ fun LoginScreen() {
             InputField(
                 "Password",
                 password,
-                { password = it },
+                {
+                    password = it
+                    localError = null
+                    onClearError()
+                },
                 Icons.Outlined.Lock,
                 KeyboardType.Password,
                 true
@@ -92,13 +110,30 @@ fun LoginScreen() {
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.End)
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .clickable { onForgotPasswordClick() }
             )
+
+            displayError?.let { error ->
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = error,
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 12.sp
+                )
+            }
 
             Spacer(Modifier.height(25.dp))
 
             Button(
-                onClick = {},
+                onClick = {
+                    when {
+                        email.isBlank() -> localError = "Please enter your email"
+                        password.isBlank() -> localError = "Please enter your password"
+                        else -> onLoginClick(email.trim(), password)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -115,48 +150,7 @@ fun LoginScreen() {
                 )
             }
 
-            Spacer(Modifier.height(25.dp))
-
-            Row(
-                Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    color = MaterialTheme.colorScheme.outline
-                )
-                Text(
-                    "  OR  ",
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 10.sp
-                )
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    color = MaterialTheme.colorScheme.outline
-                )
-            }
-
-            Spacer(Modifier.height(25.dp))
-
-            Button(
-                onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text(
-                    "Sign in with Google",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            Spacer(Modifier.height(18.dp))
+            Spacer(Modifier.height(20.dp))
 
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -172,7 +166,8 @@ fun LoginScreen() {
                     "Sign Up",
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable { onSignUpClick() }
                 )
             }
         }

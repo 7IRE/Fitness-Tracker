@@ -40,6 +40,7 @@ import com.its7ire.fitnesstracker.composable.home.HomeStepCard
 import com.its7ire.fitnesstracker.composable.home.HomeTopBar
 import com.its7ire.fitnesstracker.composable.home.calories.calculateCaloriesFromSteps
 import com.its7ire.fitnesstracker.composable.steps.StepSensor
+import com.its7ire.fitnesstracker.data.userdata.UserProfile
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
@@ -48,6 +49,7 @@ import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 fun HomeScreen(
     onNavigateToBmi: () -> Unit,
     modifier: Modifier = Modifier,
+    user: UserProfile? = null,
     stepViewModel: StepViewModel = viewModel(),
     bmiViewModel: BmiViewModel = viewModel()
 ) {
@@ -99,6 +101,7 @@ fun HomeScreen(
         steps = steps,
         bmiIndex = bmiUiState.bmi,
         weight = bmiUiState.weight,
+        user = user,
         onNavigateToBmi = onNavigateToBmi,
         modifier = modifier
     )
@@ -109,6 +112,7 @@ fun HomeScreenContent(
     steps: Int,
     bmiIndex: Double?,
     weight: String,
+    user: UserProfile? = null,
     onNavigateToBmi: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -152,7 +156,7 @@ fun HomeScreenContent(
                 Spacer(modifier = Modifier.height(20.dp))
                 HomeStepCard(
                     steps = steps,
-                    goal = 10000
+                    goal = user?.stepGoal ?: 10000
                 )
             }
 
@@ -166,10 +170,12 @@ fun HomeScreenContent(
 
             item {
                 Spacer(modifier = Modifier.height(16.dp))
+                val effectiveWeightKg = user?.weight?.toDouble()
+                    ?: (weight.toDoubleOrNull() ?: 70.0)
                 HomeCaloriesCard(
                     kcal = calculateCaloriesFromSteps(
                         steps = steps,
-                        weightKg = weight.toDoubleOrNull() ?: 0.0
+                        weightKg = effectiveWeightKg
                     )
                 )
             }

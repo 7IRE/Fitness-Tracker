@@ -15,15 +15,28 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.its7ire.fitnesstracker.data.bmidata.AppDatabase
+import com.its7ire.fitnesstracker.data.settings.ThemeRepository
 import com.its7ire.fitnesstracker.navigation.FitnessApp
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
+import com.its7ire.fitnesstracker.viewmodel.ThemeViewModel
+import com.its7ire.fitnesstracker.viewmodel.ThemeViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val database = AppDatabase.getDatabase(applicationContext)
+        val themeRepository = ThemeRepository(database.settingsDao())
+
         setContent {
-            var themeIndex by rememberSaveable { mutableIntStateOf(1) }
+            val themeViewModel: ThemeViewModel = viewModel(
+                factory = ThemeViewModelFactory(themeRepository)
+            )
+            val themeIndex by themeViewModel.themeIndex.collectAsStateWithLifecycle()
 
             WindowCompat.getInsetsController(window, window.decorView).apply {
                 systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -35,7 +48,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FitnessApp(onThemeChanged = { themeIndex += 1 })
+                    FitnessApp(onThemeChanged = { themeViewModel.changeTheme() })
                 }
             }
         }

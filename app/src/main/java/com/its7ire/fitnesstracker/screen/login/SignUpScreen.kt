@@ -42,15 +42,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
+import androidx.compose.foundation.clickable
+
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    onSignUpSuccess: (name: String, email: String, pass: String) -> Unit = { _, _, _ -> },
+    onNavigateToLogin: () -> Unit = {}
+) {
 
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(18.dp)
@@ -91,14 +98,20 @@ fun SignUpScreen() {
             InputField(
                 label = "Full name",
                 value = name,
-                onValueChange = { name = it },
+                onValueChange = {
+                    name = it
+                    errorMessage = null
+                },
                 icon = Icons.Outlined.Person
             )
 
             InputField(
                 label = "Email",
                 value = email,
-                onValueChange = { email = it },
+                onValueChange = {
+                    email = it
+                    errorMessage = null
+                },
                 icon = Icons.Outlined.Email,
                 keyboard = KeyboardType.Email
             )
@@ -106,16 +119,35 @@ fun SignUpScreen() {
             InputField(
                 label = "Password",
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = {
+                    password = it
+                    errorMessage = null
+                },
                 icon = Icons.Outlined.Lock,
                 keyboard = KeyboardType.Password,
                 password = true
             )
 
+            errorMessage?.let { error ->
+                Text(
+                    text = error,
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
+
             Spacer(Modifier.height(15.dp))
 
             Button(
-                onClick = {},
+                onClick = {
+                    when {
+                        name.isBlank() -> errorMessage = "Please enter your name"
+                        email.isBlank() -> errorMessage = "Please enter your email"
+                        password.isBlank() -> errorMessage = "Please enter a password"
+                        else -> onSignUpSuccess(name.trim(), email.trim(), password)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
@@ -127,47 +159,6 @@ fun SignUpScreen() {
             ) {
                 Text(
                     text = "Create Account",
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            Spacer(Modifier.height(25.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    color = MaterialTheme.colorScheme.outline
-                )
-                Text(
-                    text = "  Or Continue With  ",
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 10.sp
-                )
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    color = MaterialTheme.colorScheme.outline
-                )
-            }
-
-            Spacer(Modifier.height(25.dp))
-
-            Button(
-                onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text(
-                    text = "G   Google",
-                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -188,7 +179,8 @@ fun SignUpScreen() {
                 text = "Login",
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 13.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.clickable { onNavigateToLogin() }
             )
         }
     }

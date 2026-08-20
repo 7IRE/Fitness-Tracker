@@ -30,7 +30,6 @@ import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 @Composable
 fun GreetingCard(
     userName: String = "Piyush",
-    streak: Int = 6,
     stepViewModel: StepViewModel
 ) {
     val todaySteps by stepViewModel.steps.collectAsStateWithLifecycle()
@@ -58,14 +57,7 @@ fun GreetingCard(
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            CoachStatRow(
-                Icons.Default.LocalFireDepartment,
-                "$streak Day Streak"
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             CoachStatRow(
                 Icons.Default.DirectionsWalk,

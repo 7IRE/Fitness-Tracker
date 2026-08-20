@@ -20,11 +20,14 @@ import com.its7ire.fitnesstracker.composable.profile.ProfileInformation
 import com.its7ire.fitnesstracker.composable.profile.ProfilePrefSec
 import com.its7ire.fitnesstracker.composable.profile.ProfileStatSection
 import com.its7ire.fitnesstracker.composable.profile.ProfileTopBar
+import com.its7ire.fitnesstracker.data.userdata.UserProfile
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
+    user: UserProfile? = null,
+    onUserInfoClick: () -> Unit = {},
     onAppearanceClick: () -> Unit = {},
     onNotificationsClick: () -> Unit = {},
     onPrivacyClick: () -> Unit = {},
@@ -47,15 +50,18 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            ProfileInformation()
+            ProfileInformation(
+                name = user?.name ?: "Alex Mercer",
+                email = user?.email ?: ""
+            )
 
-            Spacer(modifier = Modifier.height(24.dp))
 
-            ProfileStatSection()
+//            ProfileStatSection()
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(45.dp))
 
             ProfilePrefSec(
+                onUserInfoClick = onUserInfoClick,
                 onAppearanceClick = onAppearanceClick,
                 onNotificationsClick = onNotificationsClick,
                 onPrivacyClick = onPrivacyClick,

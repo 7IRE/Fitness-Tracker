@@ -50,7 +50,7 @@ fun HistoryTopBar(
         Spacer(modifier = Modifier.width(14.dp))
 
         Text(
-            text = "Performance",
+            text = "History",
             color = MaterialTheme.colorScheme.onBackground,
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold

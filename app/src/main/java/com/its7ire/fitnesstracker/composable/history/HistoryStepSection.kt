@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 fun HistoryStepSection(
     steps: String,
     changePercent: String,
+    title: String = "THIS WEEK",
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -34,7 +35,7 @@ fun HistoryStepSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "THIS WEEK",
+            text = title,
             color = MaterialTheme.colorScheme.secondary,
             fontSize = 12.sp,
             letterSpacing = 1.sp,
@@ -58,26 +59,6 @@ fun HistoryStepSection(
             )
         }
         Spacer(Modifier.height(8.dp))
-        Row(
-            modifier = Modifier
-                .clip(RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                .padding(horizontal = 14.dp, vertical = 6.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Filled.TrendingUp,
-                contentDescription = "Trending up icon",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(14.dp)
-            )
-            Spacer(Modifier.width(4.dp))
-            Text(
-                text = "$changePercent vs last week",
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Medium
-            )
-        }
+
     }
 }

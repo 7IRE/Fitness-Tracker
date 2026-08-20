@@ -53,7 +53,7 @@ fun LoginScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(androidx.compose.ui.graphics.Color.Transparent)
             .padding(24.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally

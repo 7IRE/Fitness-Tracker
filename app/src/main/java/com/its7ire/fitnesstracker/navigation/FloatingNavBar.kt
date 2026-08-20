@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -83,20 +84,12 @@ fun FloatingBottomNavBar(
     onNavigateToRoute: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Surface(
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .navigationBarsPadding()
             .padding(horizontal = 24.dp, vertical = 8.dp)
-            .shadow(
-                elevation = 12.dp,
-                shape = RoundedCornerShape(30.dp),
-                spotColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.35f),
-                ambientColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.2f)
-            ),
-        shape = RoundedCornerShape(30.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        tonalElevation = 4.dp
+            .neumorphic(cornerRadius = 30.dp, elevation = 6.dp)
     ) {
         Row(
             modifier = Modifier

@@ -35,7 +35,7 @@ fun ProfileScreen(
 ) {
     Scaffold(
         modifier = modifier.statusBarsPadding(),
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = androidx.compose.ui.graphics.Color.Transparent
     ) { innerPadding ->
         Column(
             modifier = Modifier

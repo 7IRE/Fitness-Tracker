@@ -66,12 +66,11 @@ fun HistoryScreenContent(
 ) {
     Scaffold(
         modifier = modifier,
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = androidx.compose.ui.graphics.Color.Transparent
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
                 .padding(padding)
                 .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState())

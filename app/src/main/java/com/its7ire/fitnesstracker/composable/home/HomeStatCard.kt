@@ -3,6 +3,7 @@ package com.its7ire.fitnesstracker.composable.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -51,8 +52,7 @@ fun HomeStatCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            .neumorphic(cornerRadius = 20.dp)
             .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
             .padding(18.dp)
     ) {

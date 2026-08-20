@@ -59,7 +59,7 @@ fun SignUpScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(androidx.compose.ui.graphics.Color.Transparent)
             .padding(18.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally

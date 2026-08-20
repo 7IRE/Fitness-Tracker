@@ -59,7 +59,7 @@ fun CoachScreen(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         bottomBar = {
             Column(
                 modifier = Modifier

@@ -7,6 +7,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,11 +44,8 @@ fun TypingIndicator() {
                 .size(24.dp)
         )
 
-        Card(
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer
-            )
+        androidx.compose.foundation.layout.Box(
+            modifier = Modifier.neumorphic(cornerRadius = 20.dp)
         ) {
             Row(
                 modifier = Modifier.padding(horizontal = 18.dp, vertical = 14.dp),

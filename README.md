@@ -8,16 +8,16 @@ A modern, sleek, and intuitive Android Fitness Tracker application built nativel
 
 All core modules, on-device database persistence, authentication flows, Gemini AI coaching, and UI features have been fully implemented and verified.
 
-| Module | Status | Description |
-| :--- | :---: | :--- |
-| **UI Design & Layouts** | 🟢 **Completed** | Full Material 3 Compose interface with dynamic palettes, animations, and custom progress arcs. |
-| **Authentication & Profile Setup** | 🟢 **Completed** | Sign Up, Profile Setup, Login validation, session persistence, and editable User Info in Room DB. |
-| **Navigation** | 🟢 **Completed** | Jetpack Navigation Compose with session-aware start destination and floating bottom navigation bar. |
-| **MVVM Architecture** | 🟢 **Completed** | Unidirectional Data Flow (UDF) with Kotlin StateFlow, Coroutines, and ViewModel Factories. |
-| **Room Database Persistence** | 🟢 **Completed** | Complete offline SQLite storage for user profiles, credentials, step logs, BMI records, and app theme settings. |
-| **Hardware Step Tracking** | 🟢 **Completed** | Real-time step counter sensor integration (`Sensor.TYPE_STEP_COUNTER`) with persistent step logging. |
-| **Gemini AI Coaching** | 🟢 **Completed** | AI-driven fitness chat assistant with workout recommendations, diet tips, and quick suggestion chips. |
-| **Data & Privacy** | 🟢 **Completed** | 100% on-device architecture with zero cloud tracking and dedicated privacy breakdown screen. |
+| Module                             |      Status      | Description                                                                                                     |
+|:-----------------------------------|:----------------:|:----------------------------------------------------------------------------------------------------------------|
+| **UI Design & Layouts**            | 🟢 **Completed** | Full Material 3 Compose interface with dynamic palettes, animations, and custom progress arcs.                  |
+| **Authentication & Profile Setup** | 🟢 **Completed** | Sign Up, Profile Setup, Login validation, session persistence, and editable User Info in Room DB.               |
+| **Navigation**                     | 🟢 **Completed** | Jetpack Navigation Compose with session-aware start destination and floating bottom navigation bar.             |
+| **MVVM Architecture**              | 🟢 **Completed** | Unidirectional Data Flow (UDF) with Kotlin StateFlow, Coroutines, and ViewModel Factories.                      |
+| **Room Database Persistence**      | 🟢 **Completed** | Complete offline SQLite storage for user profiles, credentials, step logs, BMI records, and app theme settings. |
+| **Hardware Step Tracking**         | 🟢 **Completed** | Real-time step counter sensor integration (`Sensor.TYPE_STEP_COUNTER`) with persistent step logging.            |
+| **Gemini AI Coaching**             | 🟢 **Completed** | AI-driven fitness chat assistant with workout recommendations, diet tips, and quick suggestion chips.           |
+| **Data & Privacy**                 | 🟢 **Completed** | 100% on-device architecture with zero cloud tracking and dedicated privacy breakdown screen.                    |
 
 ---
 

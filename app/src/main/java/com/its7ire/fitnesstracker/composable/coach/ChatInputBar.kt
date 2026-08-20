@@ -2,6 +2,7 @@ package com.its7ire.fitnesstracker.composable.coach
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -50,24 +51,30 @@ fun ChatInputBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
+        androidx.compose.foundation.layout.Box(
             modifier = Modifier
                 .weight(1f)
-                .focusRequester(focusRequester),
-            placeholder = {
-                Text(text = "Ask your fitness coach...")
-            },
-            shape = RoundedCornerShape(24.dp),
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-                focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant
+                .neumorphic(cornerRadius = 24.dp)
+        ) {
+            OutlinedTextField(
+                value = value,
+                onValueChange = onValueChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
+                placeholder = {
+                    Text(text = "Ask your fitness coach...")
+                },
+                shape = RoundedCornerShape(24.dp),
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = androidx.compose.ui.graphics.Color.Transparent,
+                    unfocusedContainerColor = androidx.compose.ui.graphics.Color.Transparent,
+                    focusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
+                    unfocusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent
+                )
             )
-        )
+        }
 
         FilledIconButton(
             onClick = onSend,

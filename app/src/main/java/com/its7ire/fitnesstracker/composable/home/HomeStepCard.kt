@@ -5,6 +5,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -80,12 +81,7 @@ fun HomeStepCard(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(1.05f)
-            .clip(RoundedCornerShape(24.dp))
-            .background(
-                Brush.verticalGradient(
-                    listOf(cardStartColor, cardEndColor)
-                )
-            ),
+            .neumorphic(cornerRadius = 24.dp),
         contentAlignment = Alignment.Center
     ) {
         Box(

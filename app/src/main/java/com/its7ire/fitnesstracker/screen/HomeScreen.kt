@@ -120,7 +120,7 @@ fun HomeScreenContent(
         modifier = modifier
             .fillMaxSize()
             .statusBarsPadding(),
-        color = MaterialTheme.colorScheme.background
+        color = androidx.compose.ui.graphics.Color.Transparent
     ) {
         LazyColumn(
             modifier = Modifier

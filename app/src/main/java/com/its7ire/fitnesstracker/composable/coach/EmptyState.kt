@@ -3,6 +3,7 @@ package com.its7ire.fitnesstracker.composable.coach
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,12 +32,10 @@ import androidx.compose.ui.unit.dp
 fun EmptyState(
     onStartClick: () -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
-        )
+    androidx.compose.foundation.layout.Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .neumorphic(cornerRadius = 24.dp)
     ) {
         Column(
             modifier = Modifier

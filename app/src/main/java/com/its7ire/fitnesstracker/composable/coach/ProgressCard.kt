@@ -1,7 +1,9 @@
 package com.its7ire.fitnesstracker.composable.coach
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,12 +37,10 @@ fun ProgressCard(
     improvement: Int
 ) {
 
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
-        )
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .neumorphic(cornerRadius = 24.dp)
 
     ) {
 

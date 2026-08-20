@@ -68,7 +68,7 @@ fun BMIScreenContent(
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = androidx.compose.ui.graphics.Color.Transparent
     ) {
         Column(
             modifier = Modifier

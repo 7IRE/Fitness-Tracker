@@ -3,6 +3,7 @@ package com.its7ire.fitnesstracker.composable.coach
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,17 +24,10 @@ fun CoachMessageBubble(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
     ) {
-        Card(
-            modifier = Modifier.fillMaxWidth(0.85f),
-            shape = RoundedCornerShape(
-                topStart = 6.dp,
-                topEnd = 20.dp,
-                bottomStart = 20.dp,
-                bottomEnd = 20.dp
-            ),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer
-            )
+        androidx.compose.foundation.layout.Box(
+            modifier = Modifier
+                .fillMaxWidth(0.85f)
+                .neumorphic(cornerRadius = 20.dp)
         ) {
             Column(
                 modifier = Modifier.padding(14.dp)

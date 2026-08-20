@@ -1,7 +1,9 @@
 package com.its7ire.fitnesstracker.composable.coach
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,12 +37,10 @@ fun GreetingCard(
     val todaySteps by stepViewModel.steps.collectAsStateWithLifecycle()
     val greeting = remember { DateUtils.getGreeting() }
 
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.extraLarge,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
-        )
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .neumorphic(cornerRadius = 28.dp)
     ) {
         Column(
             modifier = Modifier.padding(20.dp)

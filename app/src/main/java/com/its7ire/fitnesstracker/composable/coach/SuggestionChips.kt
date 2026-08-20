@@ -1,8 +1,11 @@
 package com.its7ire.fitnesstracker.composable.coach
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,33 +42,18 @@ fun SuggestionChips(
 
         suggestions.forEach { suggestion ->
 
-            AssistChip(
-
-                onClick = {
-
-                    onChipClick(suggestion)
-
-                },
-
-                label = {
-
-                    Text(
-                        text = suggestion
-                    )
-
-                },
-
-                shape = RoundedCornerShape(50),
-
-                colors = AssistChipDefaults.assistChipColors(
-
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-
-                    labelColor = MaterialTheme.colorScheme.onSurface
-
+            Box(
+                modifier = Modifier
+                    .neumorphic(cornerRadius = 50.dp)
+                    .clickable { onChipClick(suggestion) }
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                contentAlignment = androidx.compose.ui.Alignment.Center
+            ) {
+                Text(
+                    text = suggestion,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-
-            )
+            }
 
         }
 

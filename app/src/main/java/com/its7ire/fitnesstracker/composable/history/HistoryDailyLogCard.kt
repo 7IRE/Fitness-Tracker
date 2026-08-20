@@ -3,6 +3,7 @@ package com.its7ire.fitnesstracker.composable.history
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.its7ire.fitnesstracker.ui.theme.neumorphic
 import com.its7ire.fitnesstracker.screen.DailyLogEntry
 
 @Composable
@@ -35,11 +37,12 @@ fun HistoryDailyLogCard(
     val activeColor = MaterialTheme.colorScheme.primary
     val trackColor = MaterialTheme.colorScheme.surfaceContainerHighest
 
+
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(18.dp))
-            .background(cardBackground)
+            .neumorphic(cornerRadius = 18.dp)
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ProfileInformation(
     modifier: Modifier = Modifier,
-    name: String = "Alex Mercer"
+    name: String = "Rewant Rai"
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),

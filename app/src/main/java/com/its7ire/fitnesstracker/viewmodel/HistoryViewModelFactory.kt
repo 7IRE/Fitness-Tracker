@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 
-class PerformanceViewModelFactory(
+class HistoryViewModelFactory(
     private val repository: StepRepository
 ) : ViewModelProvider.Factory {
 
@@ -12,9 +12,9 @@ class PerformanceViewModelFactory(
         modelClass: Class<T>
     ): T {
 
-        if (modelClass.isAssignableFrom(PerformanceViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(HistoryViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return PerformanceViewModel(repository) as T
+            return HistoryViewModel(repository) as T
         }
 
         throw IllegalArgumentException(

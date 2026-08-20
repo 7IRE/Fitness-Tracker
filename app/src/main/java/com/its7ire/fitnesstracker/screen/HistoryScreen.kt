@@ -25,10 +25,8 @@ import com.its7ire.fitnesstracker.composable.history.HistoryPrevWeekButton
 import com.its7ire.fitnesstracker.composable.history.HistoryStepSection
 import com.its7ire.fitnesstracker.composable.history.HistoryTopBar
 import com.its7ire.fitnesstracker.ui.theme.AppTheme
-import com.its7ire.fitnesstracker.viewmodel.PerformanceUiState
-import com.its7ire.fitnesstracker.viewmodel.PerformanceViewModel
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import com.its7ire.fitnesstracker.viewmodel.HistoryUiState
+import com.its7ire.fitnesstracker.viewmodel.HistoryViewModel
 
 data class DailyLogEntry(
     val dayLabel: String,
@@ -41,18 +39,33 @@ data class DailyLogEntry(
 
 data class BarData(
     val label: String,
+    val dayNumber: String = "",
+    val steps: Int = 0,
     val heightFraction: Float,
-    val isHighlighted: Boolean
+    val isHighlighted: Boolean,
+    val dateKey: String = ""
 )
 
 @Composable
-fun PerformanceScreen1(
-    viewModel: PerformanceViewModel,
-    onLoadPreviousWeek: () -> Unit = {}
+fun HistoryScreen(
+    viewModel: HistoryViewModel,
+    modifier: Modifier = Modifier
 ) {
-    val uiState = viewModel.uiState
+    HistoryScreenContent(
+        uiState = viewModel.uiState,
+        onLoadPreviousWeek = { viewModel.loadPreviousWeek() },
+        modifier = modifier
+    )
+}
 
+@Composable
+fun HistoryScreenContent(
+    uiState: HistoryUiState,
+    onLoadPreviousWeek: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
     Scaffold(
+        modifier = modifier,
         containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         Column(
@@ -68,15 +81,14 @@ fun PerformanceScreen1(
 
             Spacer(Modifier.height(24.dp))
             HistoryStepSection(
-                uiState.weeklySteps.toString(),
-                uiState.changePercent
+                steps = "%,d".format(uiState.weeklySteps),
+                changePercent = uiState.changePercent
             )
 
             Spacer(Modifier.height(20.dp))
             HistoryAvgCard(
-                uiState.dailyAverage.toString(),
-                uiState.weeklySteps.toString(),
-                uiState.bars
+                average = "%,d".format(uiState.dailyAverage),
+                bars = uiState.bars
             )
 
             Spacer(Modifier.height(28.dp))
@@ -95,55 +107,39 @@ fun PerformanceScreen1(
                 }
             }
 
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(14.dp))
             HistoryPrevWeekButton(onLoadPreviousWeek)
             Spacer(Modifier.height(90.dp))
         }
     }
 }
 
-private fun defaultBars(): List<BarData> = listOf(
-    BarData("M", 0.35f, false),
-    BarData("T", 0.55f, false),
-    BarData("W", 0.42f, false),
-    BarData("T", 0.30f, false),
-    BarData("F", 0.20f, false),
-    BarData("S", 1.0f, true),
-    BarData("S", 0.05f, false)
-)
-
-private fun defaultLogEntries(): List<DailyLogEntry> = listOf(
-    DailyLogEntry("Today", "Sat, Oct 14", 12450, "Goal reached", goalReached = true, isToday = true),
-    DailyLogEntry("Yesterday", "Fri, Oct 13", 6230, "62% of goal", goalReached = false),
-    DailyLogEntry("Thursday", "Thu, Oct 12", 10500, "Goal reached", goalReached = true),
-    DailyLogEntry("Wednesday", "Wed, Oct 11", 7840, "78% of goal", goalReached = false)
-)
-
 @Preview(name = "Light Mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-private fun PerformanceScreenPreview() {
+private fun HistoryScreenPreview() {
     AppTheme {
-        PerformanceScreenPreviewContent()
+        HistoryScreenContent(
+            uiState = HistoryUiState(
+                weeklySteps = 68420,
+                dailyAverage = 9774,
+                changePercent = "+12%",
+                bars = listOf(
+                    BarData("M", "14", 3500, 0.35f, false),
+                    BarData("T", "15", 5500, 0.55f, false),
+                    BarData("W", "16", 4200, 0.42f, false),
+                    BarData("T", "17", 3000, 0.30f, false),
+                    BarData("F", "18", 2000, 0.20f, false),
+                    BarData("S", "19", 12450, 1.0f, true),
+                    BarData("S", "20", 500, 0.05f, false)
+                ),
+                logs = listOf(
+                    DailyLogEntry("Today", "Sat, Oct 14", 12450, "Goal reached", goalReached = true, isToday = true),
+                    DailyLogEntry("Yesterday", "Fri, Oct 13", 6230, "62% of goal", goalReached = false),
+                    DailyLogEntry("Thursday", "Thu, Oct 12", 10500, "Goal reached", goalReached = true),
+                    DailyLogEntry("Wednesday", "Wed, Oct 11", 7840, "78% of goal", goalReached = false)
+                )
+            )
+        )
     }
-}
-
-@Composable
-private fun PerformanceScreenPreviewContent() {
-
-    val previewState = PerformanceUiState(
-        weeklySteps = 68420,
-        dailyAverage = 9774,
-        changePercent = "+12%",
-        bars = listOf(
-            BarData("M", 0.35f, false),
-            BarData("T", 0.55f, false),
-            BarData("W", 0.42f, false),
-            BarData("T", 0.30f, false),
-            BarData("F", 0.20f, false),
-            BarData("S", 1.0f, true),
-            BarData("S", 0.05f, false)
-        ),
-        logs = emptyList()
-    )
 }

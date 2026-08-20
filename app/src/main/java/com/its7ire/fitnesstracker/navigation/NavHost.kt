@@ -24,14 +24,14 @@ import com.its7ire.fitnesstracker.data.stepdata.StepRepository
 import com.its7ire.fitnesstracker.screen.BMIScreen
 import com.its7ire.fitnesstracker.screen.CoachScreen
 import com.its7ire.fitnesstracker.screen.HomeScreen
-import com.its7ire.fitnesstracker.screen.PerformanceScreen1
+import com.its7ire.fitnesstracker.screen.HistoryScreen
 import com.its7ire.fitnesstracker.screen.ProfileScreen
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModel
 import com.its7ire.fitnesstracker.viewmodel.BmiViewModelFactory
 import com.its7ire.fitnesstracker.viewmodel.StepViewModel
 import com.its7ire.fitnesstracker.viewmodel.StepViewModelFactory
-import com.its7ire.fitnesstracker.viewmodel.PerformanceViewModel
-import com.its7ire.fitnesstracker.viewmodel.PerformanceViewModelFactory
+import com.its7ire.fitnesstracker.viewmodel.HistoryViewModel
+import com.its7ire.fitnesstracker.viewmodel.HistoryViewModelFactory
 
 object Routes {
     const val HOME = "home"
@@ -62,8 +62,8 @@ fun FitnessApp(
     val stepViewModel: StepViewModel = viewModel(
         factory = StepViewModelFactory(stepRepository)
     )
-    val performanceViewModel: PerformanceViewModel = viewModel(
-        factory = PerformanceViewModelFactory(stepRepository)
+    val historyViewModel: HistoryViewModel = viewModel(
+        factory = HistoryViewModelFactory(stepRepository)
     )
 
     val showBottomBar = currentRoute in listOf(Routes.HOME, Routes.COACH, Routes.HISTORY, Routes.PROFILE)
@@ -89,8 +89,8 @@ fun FitnessApp(
                 CoachScreen(stepViewModel = stepViewModel)
             }
             composable(route = Routes.HISTORY) {
-                PerformanceScreen1(
-                    viewModel = performanceViewModel
+                HistoryScreen(
+                    viewModel = historyViewModel
                 )
             }
             composable(route = Routes.PROFILE) {
